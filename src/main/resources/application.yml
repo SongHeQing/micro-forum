@@ -1,0 +1,18 @@
+#数据源配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/micro-forum
+    username: root
+    password: 123456
+
+#Mybatis的相关配置
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #开启驼峰命名映射开关
+    map-underscore-to-camel-case: true
+
+##Swagger和
+#springdoc:
+#  packages-to-scan: com.songheqing.microforum.controller  # 关键：只扫描控制器
