@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**") // 匹配所有接口
-        .allowedOriginPatterns("http://localhost:5174") // 明确允许的域名
+        .allowedOriginPatterns("http://localhost:*") // 明确允许的域名 1
         .allowedMethods("*") // 允许所有HTTP方法
         .allowedHeaders("Content-Type", "Authorization", "X-Requested-With") // 限制请求头
         .allowCredentials(true) // 允许凭证
