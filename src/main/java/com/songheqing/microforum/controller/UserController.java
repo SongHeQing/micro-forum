@@ -16,9 +16,10 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/login")
-    public Result<Object> login(User user){
+    public Result<Object> login(User user) {
         User login = userService.login(user);
-        if (login == null) return Result.error("用户名或密码错误");
+        if (login == null)
+            return Result.error("用户名或密码错误");
         return Result.success();
     }
 }

@@ -1,17 +1,14 @@
 package com.songheqing.microforum.pojo;
 
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data
-public class Article {
+public class Channel {
     private Integer id;
-    private Integer userId;
-    private String title;
-    private String contentPreview;
+    private String channelname;
     private String image;
-    private Integer channelId; // 新增字段
+    private Integer userConut;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

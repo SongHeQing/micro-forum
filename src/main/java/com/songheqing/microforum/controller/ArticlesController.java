@@ -20,8 +20,16 @@ public class ArticlesController {
     private ArticlesService articlesService;
 
     @GetMapping
-    public Result<List<Article>> list(){
+    public Result<List<Article>> list() {
         List<Article> articles = articlesService.list();
         return Result.success(articles);
+    }
+
+    // 添加文章
+    @PostMapping
+    public Result<Void> add(@RequestBody Article article) {
+        log.info("添加文章：{}", article);
+        articlesService.add(article);
+        return Result.success();
     }
 }
