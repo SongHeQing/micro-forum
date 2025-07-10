@@ -6,28 +6,30 @@
     <insert id="insert" parameterType="com.songheqing.microforum.pojo.Article">
         INSERT INTO article (
             user_id,
-            title,
             channel_id,
-            create_time,
-            update_time
+            title
             <if test="contentPreview != null and contentPreview != ''">
                 , content_preview
             </if>
-            <if test="image != null and image != ''">
-                , image
+            <if test="content != null and content != ''">
+                , content
             </if>
+            , cover_type <!-- 移除判空，直接插入 -->
+            , create_time
+            , update_time
         ) VALUES (
             #{userId},
-            #{title},
             #{channelId},
-            #{createTime},
-            #{updateTime}
+            #{title}
             <if test="contentPreview != null and contentPreview != ''">
                 , #{contentPreview}
             </if>
-            <if test="image != null and image != ''">
-                , #{image}
+            <if test="content != null and content != ''">
+                , #{content}
             </if>
+            , #{coverType} <!-- 移除判空，直接插入 -->
+            , #{createTime}
+            , #{updateTime}
         )
     </insert>
 

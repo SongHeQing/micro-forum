@@ -8,10 +8,11 @@ import java.time.LocalDateTime;
 public class Article {
     private Integer id;
     private Integer userId;
+    private Integer channelId;
     private String title;
     private String contentPreview;
-    private String image;
-    private Integer channelId; // 新增字段
+    private String content;
+    private Integer coverType;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

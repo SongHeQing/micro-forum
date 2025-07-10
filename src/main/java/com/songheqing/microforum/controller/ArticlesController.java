@@ -2,9 +2,7 @@ package com.songheqing.microforum.controller;
 
 import com.songheqing.microforum.pojo.Article;
 import com.songheqing.microforum.pojo.Result;
-import com.songheqing.microforum.pojo.User;
 import com.songheqing.microforum.service.ArticlesService;
-import com.songheqing.microforum.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +17,7 @@ public class ArticlesController {
     @Autowired
     private ArticlesService articlesService;
 
+    // 查询文章列表
     @GetMapping
     public Result<List<Article>> list() {
         List<Article> articles = articlesService.list();
