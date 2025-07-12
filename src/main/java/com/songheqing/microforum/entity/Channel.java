@@ -1,4 +1,4 @@
-package com.songheqing.microforum.pojo;
+package com.songheqing.microforum.entity;
 
 import lombok.Data;
 import java.time.LocalDateTime;

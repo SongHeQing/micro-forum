@@ -3,7 +3,7 @@
 <mapper namespace="com.songheqing.microforum.mapper.ArticlesMapper">
 
     <!-- 动态插入文章 -->
-    <insert id="insert" parameterType="com.songheqing.microforum.pojo.Article">
+    <insert id="insert" parameterType="com.songheqing.microforum.entity.Article">
         INSERT INTO article (
             user_id,
             channel_id,
@@ -15,8 +15,6 @@
                 , content
             </if>
             , cover_type <!-- 移除判空，直接插入 -->
-            , create_time
-            , update_time
         ) VALUES (
             #{userId},
             #{channelId},
@@ -28,8 +26,6 @@
                 , #{content}
             </if>
             , #{coverType} <!-- 移除判空，直接插入 -->
-            , #{createTime}
-            , #{updateTime}
         )
     </insert>
 

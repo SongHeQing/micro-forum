@@ -1,11 +1,13 @@
 package com.songheqing.microforum.service;
 
-import com.songheqing.microforum.pojo.Article;
 import java.util.List;
+
+import com.songheqing.microforum.entity.Article;
+import com.songheqing.microforum.request.PublishArticleRequest;
 
 public interface ArticlesService {
     List<Article> list();
 
-    // 添加文章
-    void add(Article article);
+    // 发布文章
+    void publish(PublishArticleRequest publishArticleRequest);
 }

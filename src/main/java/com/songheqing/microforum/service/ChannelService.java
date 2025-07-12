@@ -1,7 +1,8 @@
 package com.songheqing.microforum.service;
 
-import com.songheqing.microforum.pojo.Channel;
 import java.util.List;
+
+import com.songheqing.microforum.entity.Channel;
 
 public interface ChannelService {
     List<Channel> list();

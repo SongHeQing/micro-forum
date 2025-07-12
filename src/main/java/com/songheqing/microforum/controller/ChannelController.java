@@ -1,8 +1,9 @@
 package com.songheqing.microforum.controller;
 
-import com.songheqing.microforum.pojo.Channel;
-import com.songheqing.microforum.pojo.Result;
+import com.songheqing.microforum.entity.Channel;
 import com.songheqing.microforum.service.ChannelService;
+import com.songheqing.microforum.vo.Result;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

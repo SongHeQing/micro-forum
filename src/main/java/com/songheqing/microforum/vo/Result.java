@@ -1,4 +1,4 @@
-package com.songheqing.microforum.pojo;
+package com.songheqing.microforum.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
