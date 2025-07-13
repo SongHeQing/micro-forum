@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 public class Result<T> {
 
     private Integer code; // 编码：1成功，0为失败
-    private String msg; // 错误信息
+    private String message; // 错误信息
     private T data; // 数据
 
     public static <T> Result<T> success() {
         Result<T> result = new Result<>();
         result.code = 200;
-        result.msg = "success";
+        result.message = "success";
         return result;
     }
 
@@ -27,13 +27,13 @@ public class Result<T> {
         Result<T> result = new Result<>();
         result.data = object;
         result.code = 200;
-        result.msg = "success";
+        result.message = "success";
         return result;
     }
 
-    public static <T> Result<T> error(String msg) {
+    public static <T> Result<T> error(String message) {
         Result<T> result = new Result<>();
-        result.msg = msg;
+        result.message = message;
         result.code = 404;
         return result;
     }

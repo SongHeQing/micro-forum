@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotNull;
 public class PublishArticleRequest {
 
     /** 作者用户ID，必填 */
-    @NotNull(message = "作者用户ID不能为空")
+    @NotNull(message = "用户ID不能为空")
     private Integer userId;
 
     /** 频道ID，必填 */
@@ -24,11 +24,11 @@ public class PublishArticleRequest {
 
     /** 文章标题，必填，长度限制 */
     @NotBlank(message = "文章标题不能为空")
-    @UnicodeSizeValidation(min = 1, max = 31, message = "文章标题长度必须在1-31个字符之间")
+    @UnicodeSizeValidation(min = 5, max = 31, message = "文章标题长度必须在5-31个字符之间")
     private String title;
 
     /** 文章完整内容，可选, 长度限制 */
-    @UnicodeSizeValidation(min = 0, max = 3000, message = "文章内容长度必须在0-3000个字符之间")
+    @UnicodeSizeValidation(min = 0, max = 2000, message = "文章内容长度必须在0-2000个字符之间")
     private String content;
 
     /** 封面类型：0-无封面，1-图片封面，2-视频封面等 */

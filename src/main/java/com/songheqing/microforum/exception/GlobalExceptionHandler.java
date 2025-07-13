@@ -25,9 +25,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @Hidden
-    public Result<Object> handleException(Exception e) {
+    public ResponseEntity<Result<Object>> handleException(Exception e) {
         log.error("操作失败：{}", e.getMessage());
-        return Result.error("操作失败");
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Result.error("服务器内部发生未知错误，请联系管理员"));
     }
 
     /**
