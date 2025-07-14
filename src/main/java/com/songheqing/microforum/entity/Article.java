@@ -27,7 +27,7 @@ public class Article {
     /** 文章完整内容 */
     private String content;
 
-    /** 封面类型：0-无封面，1-图片封面，2-视频封面等 */
+    /** 封面类型：null-无封面，1-图片封面，2-视频封面等 */
     private Integer coverType;
 
     /** 创建时间 */

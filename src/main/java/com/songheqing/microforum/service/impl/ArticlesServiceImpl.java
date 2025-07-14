@@ -3,6 +3,7 @@ package com.songheqing.microforum.service.impl;
 import com.songheqing.microforum.entity.Article;
 import com.songheqing.microforum.mapper.ArticlesMapper;
 import com.songheqing.microforum.service.ArticlesService;
+import com.songheqing.microforum.utils.CurrentHolder;
 import com.songheqing.microforum.request.PublishArticleRequest;
 
 import org.springframework.beans.BeanUtils;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ArticlesServiceImpl implements ArticlesService {
 
@@ -18,8 +22,10 @@ public class ArticlesServiceImpl implements ArticlesService {
     private ArticlesMapper articlesMapper;
 
     @Override
-    public List<Article> list() {
-        return articlesMapper.selectAll();
+    public List<Article> list(Integer pageNumber) {
+        int pageSize = 14;
+        int offset = (pageNumber - 1) * pageSize;
+        return articlesMapper.selectAll(offset, pageSize);
     }
 
     @Override
@@ -32,6 +38,8 @@ public class ArticlesServiceImpl implements ArticlesService {
         Article article = new Article();
         // 将请求参数复制到文章对象中，忽略content属性
         BeanUtils.copyProperties(publishArticleRequest, article, "content");
+        // 设置文章作者ID
+        article.setUserId(CurrentHolder.getCurrentId());
         // 如果文章内容不为空则校验文章内容字符数量是否大于300，如果小于300则赋值给内容预览属性，如果大于300则截取前300个字符作为内容预览属性，将文章内容赋值给内容属性
         // 考虑到string.length()方法只能计算char数量，有的字符需要多个char表示，按照unicode码点计算字符数量
         String publishArticleRequestContent = publishArticleRequest.getContent();

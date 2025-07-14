@@ -13,11 +13,6 @@ import jakarta.validation.constraints.NotNull;
  */
 @Data
 public class PublishArticleRequest {
-
-    /** 作者用户ID，必填 */
-    @NotNull(message = "用户ID不能为空")
-    private Integer userId;
-
     /** 频道ID，必填 */
     @NotNull(message = "频道ID不能为空")
     private Integer channelId;
@@ -30,7 +25,4 @@ public class PublishArticleRequest {
     /** 文章完整内容，可选, 长度限制 */
     @UnicodeSizeValidation(min = 0, max = 2000, message = "文章内容长度必须在0-2000个字符之间")
     private String content;
-
-    /** 封面类型：0-无封面，1-图片封面，2-视频封面等 */
-    private Integer coverType = 0;
 }

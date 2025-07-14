@@ -11,8 +11,8 @@ import java.util.List;
 public interface ArticlesMapper {
 
     // 查询所有文章，按更新时间降序排序
-    @Select("select id, user_id, channel_id, title, content_preview, cover_type, create_time, update_time from article order by update_time desc")
-    List<Article> selectAll();
+    @Select("select id, user_id, channel_id, title, content_preview, cover_type, create_time, update_time from article order by update_time desc limit #{offset}, #{pageSize}")
+    List<Article> selectAll(Integer offset, Integer pageSize);
 
     // 插入文章
     void insert(Article article);

@@ -22,8 +22,8 @@ public class ArticlesController {
 
     // 查询文章列表
     @GetMapping
-    public Result<List<Article>> list() {
-        List<Article> articles = articlesService.list();
+    public Result<List<Article>> list(@RequestParam Integer pageNumber) {
+        List<Article> articles = articlesService.list(pageNumber);
         return Result.success(articles);
     }
 
