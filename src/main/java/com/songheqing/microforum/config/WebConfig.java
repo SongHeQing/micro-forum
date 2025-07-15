@@ -30,7 +30,18 @@ public class WebConfig implements WebMvcConfigurer {
         // 注册自定义拦截器对象
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**") // 拦截所有请求
-                .excludePathPatterns("/login"); // 排除登录请求
-        // .excludePathPatterns("/articles"); // 排除文章请求
+                .excludePathPatterns(
+                        "/login", // 排除登录请求
+                        "/swagger-ui/**", // 排除Swagger请求
+                        "/v3/api-docs/**", // 排除Swagger请求
+                        // "/swagger-resources/**", // 排除Swagger请求
+                        // "/webjars/**", // 排除Swagger请求
+                        // "/v3/api-docs-ext/**", // 排除Swagger请求
+                        // "/configuration/ui", // 排除Swagger请求
+                        // "/configuration/security", // 排除Swagger请求
+                        // "/swagger-ui.html", // 排除Swagger请求
+                        "/favicon.ico" // <--- 新增，放行网站图标
+                // "/articles" // 排除文章请求
+                );
     }
 }
