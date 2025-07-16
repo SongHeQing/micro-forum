@@ -3,7 +3,8 @@
 <mapper namespace="com.songheqing.microforum.mapper.ArticlesMapper">
 
     <!-- 动态插入文章 -->
-    <insert id="insert" parameterType="com.songheqing.microforum.entity.Article">
+    <insert id="insert" parameterType="com.songheqing.microforum.entity.Article"
+            useGeneratedKeys="true" keyProperty="id">
         INSERT INTO article (
             user_id,
             channel_id,
@@ -14,7 +15,6 @@
             <if test="content != null and content != ''">
                 , content
             </if>
-            , cover_type <!-- 移除判空，直接插入 -->
         ) VALUES (
             #{userId},
             #{channelId},
@@ -25,8 +25,41 @@
             <if test="content != null and content != ''">
                 , #{content}
             </if>
-            , #{coverType} <!-- 移除判空，直接插入 -->
         )
     </insert>
+
+    <resultMap id="ArticleListMap" type="com.songheqing.microforum.dto.ArticleListDTO">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="channelId" column="channel_id"/>
+        <result property="title" column="title"/>
+        <result property="contentPreview" column="content_preview"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <collection property="coverImageUrl" ofType="com.songheqing.microforum.dto.ImageDTO">
+            <result property="imageUrl" column="image_url"/>
+            <result property="orderNum" column="order_num"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAll" resultMap="ArticleListMap">
+        SELECT
+            a.id,
+            a.user_id,
+            a.channel_id,
+            a.title,
+            a.content_preview,
+            a.create_time,
+            a.update_time,
+            i.image_url,
+            i.order_num
+        FROM
+            article a
+        LEFT JOIN images i
+            ON i.entity_type = 'ARTICLE'
+            AND i.entity_id = a.id
+        ORDER BY a.create_time DESC, i.order_num ASC
+        LIMIT #{offset}, #{pageSize}
+    </select>
 
 </mapper> 

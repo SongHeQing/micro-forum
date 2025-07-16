@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import com.songheqing.microforum.vo.Result;
 import com.songheqing.microforum.vo.ValidationErrorVO;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,5 +68,13 @@ public class GlobalExceptionHandler {
 
         ValidationErrorVO validationError = new ValidationErrorVO(errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationError);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<Result<Object>> handleIOException(IOException e) {
+        log.error("文件操作失败：{}", e.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Result.error("文件操作失败"));
     }
 }

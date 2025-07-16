@@ -34,3 +34,5 @@ build/
 
 ### Custom Exclusions ###
 .trae/
+# 上传的图片
+uploads/

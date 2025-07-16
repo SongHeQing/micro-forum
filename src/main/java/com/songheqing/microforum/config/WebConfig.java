@@ -1,15 +1,20 @@
 package com.songheqing.microforum.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.songheqing.microforum.interceptor.TokenInterceptor;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+    @Value("${app.upload-dir}")
+    private String uploadDir;
 
     // 拦截器对象
     @Autowired
@@ -23,6 +28,13 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("Content-Type", "Authorization", "X-Requested-With") // 限制请求头
                 .allowCredentials(true) // 允许凭证
                 .maxAge(3600); // 预检请求缓存时间（秒），减少OPTIONS请求频率
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 静态资源映射：/uploads/** 映射到本地文件夹
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:" + uploadDir + "/");
     }
 
     @Override
@@ -40,7 +52,8 @@ public class WebConfig implements WebMvcConfigurer {
                         // "/configuration/ui", // 排除Swagger请求
                         // "/configuration/security", // 排除Swagger请求
                         // "/swagger-ui.html", // 排除Swagger请求
-                        "/favicon.ico" // <--- 新增，放行网站图标
+                        "/favicon.ico", // <--- 新增，放行网站图标
+                        "/uploads/**" // <--- 这里加上，放行图片静态资源
                 // "/articles" // 排除文章请求
                 );
     }

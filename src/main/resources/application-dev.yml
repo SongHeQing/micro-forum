@@ -1,0 +1,33 @@
+# 数据源配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/micro-forum
+    username: root
+    password: 123456
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 5MB      # 单个文件最大5MB，默认10MB
+      max-request-size: 10MB   # 单次请求最大10MB
+
+#Mybatis的相关配置
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #开启驼峰命名映射开关
+    map-underscore-to-camel-case: true
+
+# JWT 配置
+jwt:
+  secret: your-256-bit-secret-key-here-make-it-long-enough-for-security
+  expiration: 604800000  # 7天，单位：毫秒
+
+##Swagger和
+#springdoc:
+#  packages-to-scan: com.songheqing.microforum.controller  # 关键：只扫描控制器
+# 配置Swagger的请求头
+
+
+app:
+  upload-dir: D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\uploads

@@ -1,0 +1,11 @@
+# 生产环境配置
+# 上传文件目录
+app:
+  upload-dir: /opt/app-data/microforum/uploads/ 
+
+# 禁用Swagger，生产环境不使用Swagger
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
