@@ -16,4 +16,16 @@
             </if>
         </where>
     </select>
+
+    <select id="findByUsername" resultType="com.songheqing.microforum.entity.User">
+        select 1 from user where username = #{username} limit 1
+    </select>
+
+    <select id="findByEmail" resultType="com.songheqing.microforum.entity.User">
+        select 1 from user where email = #{email} limit 1
+    </select>
+
+    <insert id="insert" parameterType="com.songheqing.microforum.entity.User">
+        insert into user (username, email, password) values (#{username}, #{email}, #{password})
+    </insert>
 </mapper>

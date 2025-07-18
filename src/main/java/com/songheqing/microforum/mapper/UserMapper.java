@@ -8,4 +8,10 @@ import com.songheqing.microforum.entity.User;
 public interface UserMapper {
 
     User login(User user);
+
+    Integer findByUsername(String username);
+
+    Integer findByEmail(String email);
+
+    void insert(User user);
 }

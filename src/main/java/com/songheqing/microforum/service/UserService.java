@@ -5,4 +5,8 @@ import com.songheqing.microforum.vo.LoginInfo;
 
 public interface UserService {
     LoginInfo login(User user);
+
+    void register(User user);
+
+    void verifyRegisterCode(User user, String email, String code);
 }

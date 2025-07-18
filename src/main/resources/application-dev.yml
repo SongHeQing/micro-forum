@@ -10,6 +10,47 @@ spring:
     multipart:
       max-file-size: 5MB      # 单个文件最大5MB，默认10MB
       max-request-size: 10MB   # 单次请求最大10MB
+  # Email Configuration for Netease (163.com)
+  mail:
+    host: smtp.163.com
+    port: 465  # 推荐使用SSL端口465，或者TLS端口587
+    username: microforum@163.com # 例如：yourname@163.com
+    password: PRUR2KS6fyWzzj9V   # 这里填写你上面获取到的授权码，不是你的邮箱登录密码
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true # 启用SSL加密
+          timeout: 10000 # 连接超时时间 (毫秒)
+          connectiontimeout: 10000 # 连接超时时间 (毫秒)
+          writetimeout: 10000 # 写入超时时间 (毫秒)
+  # Redis 配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 123456 # 如果有密码
+      database: 0 # 数据库索引，默认为0
+      lettuce:
+        pool:
+          max-active: 8 # 最大连接数
+          max-wait: -1ms # 最大等待时间
+          max-idle: 8 # 最大空闲连接数
+          min-idle: 0 # 最小空闲连接数
+
+# 如果你使用的是 587 端口 (STARTTLS)，配置略有不同
+# spring.mail.host=smtp.163.com
+# spring.mail.port=587
+# spring.mail.username=你的完整网易邮箱地址@163.com
+# spring.mail.password=你的16位授权码
+# spring.mail.properties.mail.smtp.auth=true
+# spring.mail.properties.mail.smtp.starttls.enable=true # 启用STARTTLS加密
+# spring.mail.properties.mail.smtp.starttls.required=true # 要求必须使用STARTTLS
+# spring.mail.properties.mail.smtp.timeout=10000
+# spring.mail.properties.mail.smtp.connectiontimeout=10000
+# spring.mail.properties.mail.smtp.writetimeout=10000
+
 
 #Mybatis的相关配置
 mybatis:

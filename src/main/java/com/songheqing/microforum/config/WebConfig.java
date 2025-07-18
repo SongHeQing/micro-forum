@@ -44,6 +44,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**") // 拦截所有请求
                 .excludePathPatterns(
                         "/login", // 排除登录请求
+                        "/register", // 排除注册请求
+                        "/verifyRegisterCode", // 排除校验注册验证码请求
                         "/swagger-ui/**", // 排除Swagger请求
                         "/v3/api-docs/**", // 排除Swagger请求
                         // "/swagger-resources/**", // 排除Swagger请求

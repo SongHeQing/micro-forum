@@ -1,22 +1,12 @@
 package com.songheqing.microforum.config;
 
-import io.swagger.v3.oas.models.parameters.Parameter;
-import org.springdoc.core.customizers.OpenApiCustomizer;
-import org.springframework.context.annotation.Bean;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@SecurityScheme(name = "Authorization", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER, description = "JWT令牌，直接输入token，不要加Bearer前缀")
 public class SwaggerConfig {
-
-    @Bean
-    public OpenApiCustomizer globalHeaderOpenApiCustomizer() {
-        return openApi -> openApi.getPaths().values().forEach(pathItem -> pathItem.readOperations()
-                .forEach(operation -> operation.addParametersItem(new Parameter()
-                        .in("header")
-                        .required(false)
-                        .name("Authorization")
-                        .description("JWT令牌，格式：直接填token或Bearer token")
-                        .example(
-                                "eyJhbGciOiJIUzM4NCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VybmFtZTEiLCJleHAiOjE3NTMxODYyMjJ9.6e5LVCQJsGwlBjK_mNoaSBXi3MbR3BKAXv3hKTL_iKReiLHvuKUhWFBmEgiws2rD"))));
-    }
+    // 无需再添加OpenApiCustomizer
 }
