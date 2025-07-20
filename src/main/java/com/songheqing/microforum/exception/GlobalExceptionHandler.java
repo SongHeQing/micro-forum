@@ -24,10 +24,21 @@ import java.util.Map;
 @RestControllerAdvice()
 public class GlobalExceptionHandler {
 
+    /**
+     * 处理业务异常
+     */
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<Result<Object>> handleBusinessException(BusinessException e) {
+        log.warn("业务异常：{}", e.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Result.error(e.getCode(), e.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     @Hidden
     public ResponseEntity<Result<Object>> handleException(Exception e) {
-        log.error("操作失败：{}", e.getMessage());
+        log.error("系统异常", e);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Result.error("服务器内部发生未知错误，请联系管理员"));

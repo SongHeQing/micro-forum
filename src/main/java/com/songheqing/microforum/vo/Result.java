@@ -38,4 +38,16 @@ public class Result<T> {
         return result;
     }
 
+    public static <T> Result<T> error(String code, String message) {
+        Result<T> result = new Result<>();
+        result.message = message;
+        // 如果 code 是数字字符串，转换为整数；否则使用默认错误码
+        try {
+            result.code = Integer.parseInt(code);
+        } catch (NumberFormatException e) {
+            result.code = 400; // 默认业务错误码
+        }
+        return result;
+    }
+
 }

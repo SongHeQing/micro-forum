@@ -1,7 +1,7 @@
 package com.songheqing.microforum.controller;
 
 import com.songheqing.microforum.dto.ArticleListDTO;
-import com.songheqing.microforum.request.PublishArticleRequest;
+import com.songheqing.microforum.request.ArticlePublishRequest;
 import com.songheqing.microforum.service.ArticlesService;
 import com.songheqing.microforum.vo.Result;
 
@@ -35,7 +35,7 @@ public class ArticlesController {
     @PostMapping
     // 现在使用 @ModelAttribute 来绑定表单字段到一个 DTO，并配合 @Valid
     // 注意：@ModelAttribute 默认也会绑定 @RequestParam 的字段
-    public Result<Void> publish(@Valid @ModelAttribute PublishArticleRequest publishArticleRequest,
+    public Result<Void> publish(@Valid @ModelAttribute ArticlePublishRequest publishArticleRequest,
             @RequestPart(value = "images", required = false) List<MultipartFile> images) {
         log.info("发布文章：{}，图片：{}", publishArticleRequest, (images != null ? images.size() : 0));
         try {

@@ -2,7 +2,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/micro-forum
+    url: jdbc:mysql://localhost:3307/micro-forum
     username: root
     password: 123456
   # 文件上传配置
@@ -51,6 +51,25 @@ spring:
 # spring.mail.properties.mail.smtp.connectiontimeout=10000
 # spring.mail.properties.mail.smtp.writetimeout=10000
 
+# 设置全局编码为UTF-8
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+# 设置日志编码为UTF-8
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+  file:
+    name: logs/micro-forum.log
+  level:
+    com.songheqing.microforum: DEBUG
+  charset:
+    console: UTF-8
+    file: UTF-8
 
 #Mybatis的相关配置
 mybatis:

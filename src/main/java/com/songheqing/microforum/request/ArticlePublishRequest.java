@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotNull;
  * 用于接收前端提交的文章创建/编辑表单数据
  */
 @Data
-public class PublishArticleRequest {
+public class ArticlePublishRequest {
     /** 频道ID，必填 */
     @NotNull(message = "频道ID不能为空")
     private Integer channelId;

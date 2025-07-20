@@ -2,6 +2,8 @@ package com.songheqing.microforum.service.impl;
 
 import com.songheqing.microforum.entity.User;
 import com.songheqing.microforum.mapper.UserMapper;
+import com.songheqing.microforum.exception.UserException;
+import com.songheqing.microforum.request.UserRegisterRequest;
 import com.songheqing.microforum.service.UserService;
 import com.songheqing.microforum.service.VerificationCodeService;
 import com.songheqing.microforum.utils.JwtUtil;
@@ -10,6 +12,7 @@ import com.songheqing.microforum.vo.LoginInfo;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -48,10 +51,10 @@ public class UserServiceImpl implements UserService {
         // 1. 生成JWT令牌
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("id", userLogin.getId());
-        dataMap.put("username", userLogin.getUsername());
+        dataMap.put("username", userLogin.getNickname());
 
         String jwt = jwtUtil.generateToken(dataMap);
-        LoginInfo loginInfo = new LoginInfo(userLogin.getId(), userLogin.getUsername(), userLogin.getEmail(), jwt);
+        LoginInfo loginInfo = new LoginInfo(userLogin.getId(), userLogin.getNickname(), userLogin.getEmail(), jwt);
         return loginInfo;
     }
 
@@ -61,28 +64,27 @@ public class UserServiceImpl implements UserService {
      * @param user 用户信息
      */
     @Override
-    public void register(User user) {
-        // 校验是否获取过验证码
-        String redisKey = "email_verify_code:register:" + user.getEmail();
+    public void register(UserRegisterRequest userRegisterRequest) {
+        // 1校验是否获取过验证码
+        String redisKey = "email_verify_code:register:" + userRegisterRequest.getEmail();
         String redisValue = stringRedisTemplate.opsForValue().get(redisKey);
         if (redisValue != null) {
-            throw new RuntimeException("请勿重复获取验证码");
-        }
-
-        // 1. 检查用户是否存在
-        Integer userCheck = userMapper.findByUsername(user.getUsername());
-        if (userCheck != null) {
-            throw new RuntimeException("用户已存在");
+            throw new UserException("请勿重复获取验证码");
         }
 
         // 2. 检查邮箱是否存在
-        Integer userCheckEmail = userMapper.findByEmail(user.getEmail());
+        Integer userCheckEmail = userMapper.findByEmail(userRegisterRequest.getEmail());
         if (userCheckEmail != null) {
-            throw new RuntimeException("邮箱已存在");
+            throw UserException.emailAlreadyExists();
         }
 
-        // 4. 发送验证码
-        verificationCodeService.sendVerificationCode(user.getEmail(), "register");
+        // 3. 发送验证码
+        try {
+            verificationCodeService.sendVerificationCode(userRegisterRequest.getEmail(), "register");
+        } catch (Exception e) {
+            log.error("验证码发送失败：{}", e.getMessage(), e);
+            throw UserException.verificationCodeSendFailed(e);
+        }
     }
 
     /**
@@ -93,13 +95,15 @@ public class UserServiceImpl implements UserService {
      * @param type  类型
      */
     @Override
-    public void verifyRegisterCode(User user, String email, String code) {
+    public void verifyRegisterCode(UserRegisterRequest userRegisterRequest, String code) {
         // 1. 校验验证码
-        boolean isVerify = verificationCodeService.verifyCode(email, code, "register");
+        boolean isVerify = verificationCodeService.verifyCode(userRegisterRequest.getEmail(), code, "register");
         if (!isVerify) {
-            throw new RuntimeException("验证码错误或已过期");
+            throw UserException.invalidVerificationCode();
         }
         // 2. 创建用户
+        User user = new User();
+        BeanUtils.copyProperties(userRegisterRequest, user);
         userMapper.insert(user);
     }
 }

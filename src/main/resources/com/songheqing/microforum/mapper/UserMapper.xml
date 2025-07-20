@@ -26,6 +26,6 @@
     </select>
 
     <insert id="insert" parameterType="com.songheqing.microforum.entity.User">
-        insert into user (username, email, password) values (#{username}, #{email}, #{password})
+        insert into user (email, password) values (#{email}, #{password})
     </insert>
 </mapper>

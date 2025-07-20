@@ -1,17 +1,23 @@
 package com.songheqing.microforum.controller;
 
 import com.songheqing.microforum.entity.User;
+import com.songheqing.microforum.request.UserRegisterRequest;
 import com.songheqing.microforum.service.UserService;
-import com.songheqing.microforum.service.VerificationCodeService;
 import com.songheqing.microforum.vo.Result;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.Valid;
+
 import com.songheqing.microforum.vo.LoginInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("")
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
@@ -24,12 +30,8 @@ public class UserController {
      * @return 登录信息
      */
     @GetMapping("/login")
-    public Result<Object> login(User user) {
+    public Result<LoginInfo> login(User user) {
         LoginInfo loginInfo = userService.login(user);
-        if (loginInfo == null) {
-            log.error("用户名或密码错误");
-            return Result.error("用户名或密码错误");
-        }
         return Result.success(loginInfo);
     }
 
@@ -40,12 +42,9 @@ public class UserController {
      * @return 注册信息
      */
     @PostMapping("/register")
-    public Result<Object> register(User user) {
-        try {
-            userService.register(user);
-        } catch (Exception e) {
-            return Result.error(e.getMessage());
-        }
+    public Result<Object> register(@RequestBody @Valid UserRegisterRequest userRegisterRequest) {
+        log.info("收到注册请求: email={}, password={}", userRegisterRequest.getEmail(), userRegisterRequest.getPassword());
+        userService.register(userRegisterRequest);
         return Result.success("验证码发送成功");
     }
 
@@ -57,12 +56,10 @@ public class UserController {
      * @return 校验结果
      */
     @PostMapping("/verifyRegisterCode")
-    public Result<Object> verifyRegisterCode(User user, String email, String code) {
-        try {
-            userService.verifyRegisterCode(user, email, code);
-        } catch (Exception e) {
-            return Result.error(e.getMessage());
-        }
+    public Result<Object> verifyRegisterCode(@RequestBody @Valid UserRegisterRequest userRegisterRequest,
+            @Validated @NotBlank(message = "验证码不能为空") @Pattern(regexp = "^[0-9]{6}$", message = "验证码长度6位，只能包含数字") // 验证码长度6位，只能包含数字
+            String code) {
+        userService.verifyRegisterCode(userRegisterRequest, code);
         return Result.success("验证码验证成功");
     }
 }

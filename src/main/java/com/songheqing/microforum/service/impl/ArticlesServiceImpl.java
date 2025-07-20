@@ -5,7 +5,7 @@ import com.songheqing.microforum.entity.Article;
 import com.songheqing.microforum.mapper.ArticlesMapper;
 import com.songheqing.microforum.service.ArticlesService;
 import com.songheqing.microforum.utils.CurrentHolder;
-import com.songheqing.microforum.request.PublishArticleRequest;
+import com.songheqing.microforum.request.ArticlePublishRequest;
 import com.songheqing.microforum.service.ImageService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class ArticlesServiceImpl implements ArticlesService {
      * @throws IOException 文件操作失败
      */
     @Override
-    public void publish(PublishArticleRequest publishArticleRequest, List<MultipartFile> images) throws IOException {
+    public void publish(ArticlePublishRequest publishArticleRequest, List<MultipartFile> images) throws IOException {
         // 清除文章标题的空白字符，包括空格、换行符、制表符等，并赋值给文章标题属性
         publishArticleRequest.setTitle(publishArticleRequest.getTitle().trim());
         // 清除文章内容的空白字符，包括空格、换行符、制表符等，并赋值给文章内容属性

@@ -1,0 +1,285 @@
+2025-07-20 18:34:32.170 [main] INFO  com.songheqing.microforum.MicroForumApplication - Starting MicroForumApplication using Java 21.0.6 with PID 28076 (D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\target\classes started by HP in D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum)
+2025-07-20 18:34:32.173 [main] DEBUG com.songheqing.microforum.MicroForumApplication - Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-20 18:34:32.173 [main] INFO  com.songheqing.microforum.MicroForumApplication - The following 1 profile is active: "dev"
+2025-07-20 18:34:32.887 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-20 18:34:32.891 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-20 18:34:32.936 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 0 Redis repository interfaces.
+2025-07-20 18:34:33.597 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-20 18:34:33.608 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-20 18:34:33.608 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-20 18:34:33.719 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-20 18:34:33.720 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1498 ms
+2025-07-20 18:34:35.204 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-20 18:34:35.221 [main] INFO  com.songheqing.microforum.MicroForumApplication - Started MicroForumApplication in 3.546 seconds (process running for 3.869)
+2025-07-20 18:34:43.595 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-20 18:34:43.595 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-20 18:34:43.597 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-07-20 18:34:43.712 [http-nio-8080-exec-1] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码不能为空, email=邮箱不能为空}
+2025-07-20 18:37:18.208 [main] INFO  com.songheqing.microforum.MicroForumApplication - Starting MicroForumApplication using Java 21.0.6 with PID 13632 (D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\target\classes started by HP in D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum)
+2025-07-20 18:37:18.211 [main] DEBUG com.songheqing.microforum.MicroForumApplication - Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-20 18:37:18.212 [main] INFO  com.songheqing.microforum.MicroForumApplication - The following 1 profile is active: "dev"
+2025-07-20 18:37:19.055 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-20 18:37:19.057 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-20 18:37:19.089 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 0 Redis repository interfaces.
+2025-07-20 18:37:19.735 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-20 18:37:19.749 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-20 18:37:19.750 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-20 18:37:19.806 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-20 18:37:19.806 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1517 ms
+2025-07-20 18:37:20.971 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-07-20 18:37:20.990 [main] INFO  o.s.b.a.logging.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-07-20 18:37:21.012 [main] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2025-07-20 18:38:51.148 [main] INFO  com.songheqing.microforum.MicroForumApplication - Starting MicroForumApplication using Java 21.0.6 with PID 20628 (D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\target\classes started by HP in D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum)
+2025-07-20 18:38:51.150 [main] DEBUG com.songheqing.microforum.MicroForumApplication - Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-20 18:38:51.150 [main] INFO  com.songheqing.microforum.MicroForumApplication - The following 1 profile is active: "dev"
+2025-07-20 18:38:51.910 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-20 18:38:51.921 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-20 18:38:51.945 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 0 Redis repository interfaces.
+2025-07-20 18:38:52.504 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-20 18:38:52.518 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-20 18:38:52.519 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-20 18:38:52.589 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-20 18:38:52.589 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1392 ms
+2025-07-20 18:38:53.716 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-20 18:38:53.736 [main] INFO  com.songheqing.microforum.MicroForumApplication - Started MicroForumApplication in 3.058 seconds (process running for 3.335)
+2025-07-20 18:39:00.449 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-20 18:39:00.450 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-20 18:39:00.451 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-07-20 18:39:00.553 [http-nio-8080-exec-1] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码不能为空, email=邮箱不能为空}
+2025-07-20 18:41:41.251 [main] INFO  com.songheqing.microforum.MicroForumApplication - Starting MicroForumApplication using Java 21.0.6 with PID 27108 (D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\target\classes started by HP in D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum)
+2025-07-20 18:41:41.264 [main] DEBUG com.songheqing.microforum.MicroForumApplication - Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-20 18:41:41.264 [main] INFO  com.songheqing.microforum.MicroForumApplication - The following 1 profile is active: "dev"
+2025-07-20 18:41:41.971 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-20 18:41:41.971 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-20 18:41:42.005 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2025-07-20 18:41:42.583 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-20 18:41:42.599 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-20 18:41:42.599 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-20 18:41:42.698 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-20 18:41:42.699 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1393 ms
+2025-07-20 18:41:43.841 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-07-20 18:41:43.847 [main] INFO  o.s.b.a.logging.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-07-20 18:41:43.866 [main] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2025-07-20 18:41:50.875 [SpringApplicationShutdownHook] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-20 18:41:50.909 [tomcat-shutdown] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-20 18:42:24.705 [main] INFO  com.songheqing.microforum.MicroForumApplication - Starting MicroForumApplication using Java 21.0.6 with PID 22112 (D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\target\classes started by HP in D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum)
+2025-07-20 18:42:24.707 [main] DEBUG com.songheqing.microforum.MicroForumApplication - Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-20 18:42:24.707 [main] INFO  com.songheqing.microforum.MicroForumApplication - The following 1 profile is active: "dev"
+2025-07-20 18:42:25.299 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-20 18:42:25.299 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-20 18:42:25.335 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 11 ms. Found 0 Redis repository interfaces.
+2025-07-20 18:42:25.831 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-20 18:42:25.859 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-20 18:42:25.860 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-20 18:42:25.913 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-20 18:42:25.913 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1170 ms
+2025-07-20 18:42:27.059 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-20 18:42:27.075 [main] INFO  com.songheqing.microforum.MicroForumApplication - Started MicroForumApplication in 2.941 seconds (process running for 3.186)
+2025-07-20 18:42:29.873 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-20 18:42:29.874 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-20 18:42:29.875 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-07-20 18:42:29.962 [http-nio-8080-exec-1] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码不能为空, email=邮箱不能为空}
+2025-07-20 18:42:42.465 [SpringApplicationShutdownHook] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-20 18:42:42.484 [tomcat-shutdown] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-20 18:42:50.616 [main] INFO  com.songheqing.microforum.MicroForumApplication - Starting MicroForumApplication using Java 21.0.6 with PID 1152 (D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\target\classes started by HP in D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum)
+2025-07-20 18:42:50.620 [main] DEBUG com.songheqing.microforum.MicroForumApplication - Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-20 18:42:50.620 [main] INFO  com.songheqing.microforum.MicroForumApplication - The following 1 profile is active: "dev"
+2025-07-20 18:42:51.239 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-20 18:42:51.242 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-20 18:42:51.263 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 14 ms. Found 0 Redis repository interfaces.
+2025-07-20 18:42:51.927 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-20 18:42:51.962 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-20 18:42:51.962 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-20 18:42:52.018 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-20 18:42:52.018 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1368 ms
+2025-07-20 18:42:53.181 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-20 18:42:53.188 [main] INFO  com.songheqing.microforum.MicroForumApplication - Started MicroForumApplication in 3.081 seconds (process running for 3.326)
+2025-07-20 18:42:57.969 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-20 18:42:57.970 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-20 18:42:57.972 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-07-20 18:42:58.075 [http-nio-8080-exec-1] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码不能为空, email=邮箱不能为空}
+2025-07-20 18:43:01.601 [SpringApplicationShutdownHook] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-20 18:43:01.617 [tomcat-shutdown] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-20 18:43:15.014 [main] INFO  com.songheqing.microforum.MicroForumApplication - Starting MicroForumApplication using Java 21.0.6 with PID 7376 (D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\target\classes started by HP in D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum)
+2025-07-20 18:43:15.014 [main] DEBUG com.songheqing.microforum.MicroForumApplication - Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-20 18:43:15.019 [main] INFO  com.songheqing.microforum.MicroForumApplication - The following 1 profile is active: "dev"
+2025-07-20 18:43:15.825 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-20 18:43:15.828 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-20 18:43:15.847 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 11 ms. Found 0 Redis repository interfaces.
+2025-07-20 18:43:16.559 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-20 18:43:16.576 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-20 18:43:16.576 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-20 18:43:16.635 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-20 18:43:16.642 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1583 ms
+2025-07-20 18:43:17.871 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-20 18:43:17.886 [main] INFO  com.songheqing.microforum.MicroForumApplication - Started MicroForumApplication in 3.275 seconds (process running for 3.515)
+2025-07-20 18:43:22.130 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-20 18:43:22.130 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-20 18:43:22.131 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-07-20 18:43:22.237 [http-nio-8080-exec-1] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码不能为空, email=邮箱不能为空}
+2025-07-20 18:52:02.068 [http-nio-8080-exec-5] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码不能为空, email=邮箱不能为空}
+2025-07-20 18:55:49.338 [SpringApplicationShutdownHook] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-20 18:55:49.362 [tomcat-shutdown] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-20 18:55:58.138 [main] INFO  com.songheqing.microforum.MicroForumApplication - Starting MicroForumApplication using Java 21.0.6 with PID 9352 (D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\target\classes started by HP in D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum)
+2025-07-20 18:55:58.138 [main] DEBUG com.songheqing.microforum.MicroForumApplication - Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-20 18:55:58.138 [main] INFO  com.songheqing.microforum.MicroForumApplication - The following 1 profile is active: "dev"
+2025-07-20 18:55:58.848 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-20 18:55:58.848 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-20 18:55:58.890 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 14 ms. Found 0 Redis repository interfaces.
+2025-07-20 18:55:59.481 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-20 18:55:59.500 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-20 18:55:59.500 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-20 18:55:59.581 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-20 18:55:59.582 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1393 ms
+2025-07-20 18:56:00.668 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-20 18:56:00.673 [main] INFO  com.songheqing.microforum.MicroForumApplication - Started MicroForumApplication in 2.955 seconds (process running for 3.201)
+2025-07-20 18:56:03.505 [http-nio-8080-exec-3] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-20 18:56:03.506 [http-nio-8080-exec-3] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-20 18:56:03.507 [http-nio-8080-exec-3] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-07-20 18:56:03.640 [http-nio-8080-exec-3] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码不能为空, email=邮箱不能为空}
+2025-07-20 18:56:21.748 [SpringApplicationShutdownHook] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-20 18:56:21.767 [tomcat-shutdown] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-20 18:57:29.665 [main] INFO  com.songheqing.microforum.MicroForumApplication - Starting MicroForumApplication using Java 21.0.6 with PID 10532 (D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\target\classes started by HP in D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum)
+2025-07-20 18:57:29.674 [main] DEBUG com.songheqing.microforum.MicroForumApplication - Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-20 18:57:29.679 [main] INFO  com.songheqing.microforum.MicroForumApplication - The following 1 profile is active: "dev"
+2025-07-20 18:57:31.507 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-20 18:57:31.510 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-20 18:57:31.552 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 18 ms. Found 0 Redis repository interfaces.
+2025-07-20 18:57:32.125 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-20 18:57:32.144 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-20 18:57:32.146 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-20 18:57:32.223 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-20 18:57:32.224 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2368 ms
+2025-07-20 18:57:33.480 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-20 18:57:33.486 [main] INFO  com.songheqing.microforum.MicroForumApplication - Started MicroForumApplication in 5.257 seconds (process running for 5.639)
+2025-07-20 18:57:37.489 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-20 18:57:37.490 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-20 18:57:37.491 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-07-20 18:57:37.647 [http-nio-8080-exec-1] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码不能为空, email=邮箱不能为空}
+2025-07-20 19:01:04.794 [SpringApplicationShutdownHook] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-20 19:01:04.814 [tomcat-shutdown] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-20 19:01:12.139 [main] INFO  com.songheqing.microforum.MicroForumApplication - Starting MicroForumApplication using Java 21.0.6 with PID 10092 (D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\target\classes started by HP in D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum)
+2025-07-20 19:01:12.139 [main] DEBUG com.songheqing.microforum.MicroForumApplication - Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-20 19:01:12.139 [main] INFO  com.songheqing.microforum.MicroForumApplication - The following 1 profile is active: "dev"
+2025-07-20 19:01:12.869 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-20 19:01:12.869 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-20 19:01:12.898 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2025-07-20 19:01:13.547 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-20 19:01:13.563 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-20 19:01:13.563 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-20 19:01:13.640 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-20 19:01:13.641 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1455 ms
+2025-07-20 19:01:14.734 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-20 19:01:14.734 [main] INFO  com.songheqing.microforum.MicroForumApplication - Started MicroForumApplication in 3.038 seconds (process running for 3.32)
+2025-07-20 19:01:25.757 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-20 19:01:25.757 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-20 19:01:25.759 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-07-20 19:01:25.906 [http-nio-8080-exec-1] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码不能为空, email=邮箱不能为空}
+2025-07-20 19:03:10.063 [http-nio-8080-exec-4] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=需要匹配正则表达式"(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};:'"\\|,.<>/?~])(?=\S+$)[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};:'"\\|,.<>/?~]{8,16}", email=邮箱格式不正确}
+2025-07-20 19:03:24.510 [http-nio-8080-exec-9] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=需要匹配正则表达式"(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};:'"\\|,.<>/?~])(?=\S+$)[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};:'"\\|,.<>/?~]{8,16}", email=邮箱格式不正确}
+2025-07-20 19:05:23.588 [SpringApplicationShutdownHook] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-20 19:05:23.605 [tomcat-shutdown] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-20 19:05:29.271 [main] INFO  com.songheqing.microforum.MicroForumApplication - Starting MicroForumApplication using Java 21.0.6 with PID 25260 (D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\target\classes started by HP in D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum)
+2025-07-20 19:05:29.272 [main] DEBUG com.songheqing.microforum.MicroForumApplication - Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-20 19:05:29.273 [main] INFO  com.songheqing.microforum.MicroForumApplication - The following 1 profile is active: "dev"
+2025-07-20 19:05:30.014 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-20 19:05:30.016 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-20 19:05:30.037 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2025-07-20 19:05:30.673 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-20 19:05:30.689 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-20 19:05:30.689 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-20 19:05:30.760 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-20 19:05:30.761 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1451 ms
+2025-07-20 19:05:31.811 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-20 19:05:31.816 [main] INFO  com.songheqing.microforum.MicroForumApplication - Started MicroForumApplication in 2.96 seconds (process running for 3.243)
+2025-07-20 19:05:46.322 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-20 19:05:46.323 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-20 19:05:46.324 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-07-20 19:05:46.477 [http-nio-8080-exec-1] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 19:06:00.400 [http-nio-8080-exec-3] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 19:06:09.402 [http-nio-8080-exec-2] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 19:25:57.652 [http-nio-8080-exec-4] INFO  org.apache.coyote.http11.Http11Processor - Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in method name [PING0x0d0x0a...]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:403)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:271)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-07-20 21:10:18.255 [http-nio-8080-exec-6] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:11:51.237 [http-nio-8080-exec-7] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:14:11.546 [http-nio-8080-exec-8] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:14:49.727 [http-nio-8080-exec-9] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 1, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格}
+2025-07-20 21:15:40.388 [http-nio-8080-exec-10] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:16:39.686 [http-nio-8080-exec-1] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:16:49.958 [http-nio-8080-exec-3] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:16:55.323 [http-nio-8080-exec-2] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:16:58.857 [http-nio-8080-exec-4] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:17:01.955 [http-nio-8080-exec-5] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:17:04.976 [http-nio-8080-exec-6] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:17:08.495 [http-nio-8080-exec-7] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:17:12.253 [http-nio-8080-exec-8] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:17:16.801 [http-nio-8080-exec-9] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 2, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格, email=邮箱格式不正确}
+2025-07-20 21:18:49.582 [http-nio-8080-exec-10] WARN  c.s.microforum.exception.GlobalExceptionHandler - 参数校验失败，错误数量: 1, 错误详情: {password=密码必须包含大小写字母、数字和特殊字符，长度8-16位，不能有空格}
+2025-07-20 21:19:09.633 [SpringApplicationShutdownHook] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-20 21:19:09.664 [tomcat-shutdown] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-20 21:19:17.976 [main] INFO  com.songheqing.microforum.MicroForumApplication - Starting MicroForumApplication using Java 21.0.6 with PID 7148 (D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\target\classes started by HP in D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum)
+2025-07-20 21:19:17.986 [main] DEBUG com.songheqing.microforum.MicroForumApplication - Running with Spring Boot v3.4.7, Spring v6.2.8
+2025-07-20 21:19:17.986 [main] INFO  com.songheqing.microforum.MicroForumApplication - The following 1 profile is active: "dev"
+2025-07-20 21:19:19.183 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-20 21:19:19.183 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-20 21:19:19.252 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 15 ms. Found 0 Redis repository interfaces.
+2025-07-20 21:19:20.181 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-20 21:19:20.200 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-20 21:19:20.200 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-20 21:19:20.306 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-20 21:19:20.309 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2280 ms
+2025-07-20 21:19:21.568 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-20 21:19:21.581 [main] INFO  com.songheqing.microforum.MicroForumApplication - Started MicroForumApplication in 4.042 seconds (process running for 4.311)
+2025-07-20 21:19:27.125 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-20 21:19:27.125 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-20 21:19:27.125 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-07-20 21:19:27.372 [http-nio-8080-exec-1] INFO  c.songheqing.microforum.controller.UserController - 收到注册请求: email=2063298305@qq.com, password=123abcABC
+2025-07-20 21:19:28.143 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-07-20 21:19:28.597 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@f4c69ee
+2025-07-20 21:19:28.597 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-07-20 21:19:31.450 [http-nio-8080-exec-1] INFO  c.s.microforum.service.impl.EmailServiceImpl - Email sent successfully to: 2063298305@qq.com
+2025-07-20 22:31:53.910 [SpringApplicationShutdownHook] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-20 22:31:53.941 [tomcat-shutdown] INFO  o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-20 22:31:53.991 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-07-20 22:31:53.996 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
