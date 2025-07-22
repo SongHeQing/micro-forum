@@ -43,8 +43,7 @@
     </resultMap>
 
     <select id="selectAll" resultMap="ArticleListMap">
-        SELECT
-            a.id,
+        SELECT a.id,
             a.user_id,
             a.channel_id,
             a.title,
@@ -53,13 +52,60 @@
             a.update_time,
             i.image_url,
             i.order_num
-        FROM
-            article a
-        LEFT JOIN images i
-            ON i.entity_type = 'ARTICLE'
-            AND i.entity_id = a.id
+        FROM article a
+                INNER JOIN (SELECT id
+                            FROM article
+                            ORDER BY create_time DESC
+                            LIMIT #{offset}, #{pageSize}) AS page_ids
+                            ON a.id = page_ids.id
+                LEFT JOIN images i
+                        ON i.entity_type = 'ARTICLE' AND a.id = i.entity_id
         ORDER BY a.create_time DESC, i.order_num ASC
-        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <resultMap id="ArticleDetailMap" type="com.songheqing.microforum.dto.ArticleDetailDTO">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="coverType" column="cover_type"/>
+        <result property="likeCount" column="like_count"/>
+        <result property="collectCount" column="collect_count"/>
+        <result property="commentCount" column="comment_count"/>
+        <result property="viewCount" column="view_count"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <association property="user" javaType="com.songheqing.microforum.dto.UserSimpleDTO">
+            <id property="id" column="user_id"/>
+            <result property="nickname" column="nickname"/>
+            <result property="image" column="image"/>
+        </association>
+        <association property="channel" javaType="com.songheqing.microforum.dto.ChannelSimpleDTO">
+            <id property="id" column="channel_id"/>
+            <result property="channelname" column="channelname"/>
+        </association>
+        <collection property="coverImageUrl" ofType="com.songheqing.microforum.dto.ImageDTO">
+            <result property="imageUrl" column="image_url"/>
+            <result property="orderNum" column="order_num"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectDetailById" resultMap="ArticleDetailMap">
+        SELECT
+            a.id, a.user_id, a.channel_id, a.title, a.content, a.cover_type,
+            a.like_count, a.collect_count, a.comment_count, a.view_count,
+            a.create_time, a.update_time,
+            u.nickname, u.image,
+            i.image_url, i.order_num,
+            c.id, c.channelname
+        FROM article a
+        LEFT JOIN user u 
+                ON a.user_id = u.id
+        LEFT JOIN images i
+                ON i.entity_type = 'ARTICLE' AND a.id = i.entity_id
+        LEFT JOIN channel c
+                ON a.channel_id = c.id
+        WHERE a.id = #{id}
+        ORDER BY i.order_num ASC
     </select>
 
 </mapper> 

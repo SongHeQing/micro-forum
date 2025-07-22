@@ -9,7 +9,7 @@ public interface UserMapper {
 
     User login(User user);
 
-    Integer findByUsername(String username);
+    Integer findByNickname(String nickname);
 
     Integer findByEmail(String email);
 

@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.TimeUnit;
 
 /**
  * 验证码服务实现类
  */
 @Service
+@Slf4j
 public class VerificationCodeServiceImpl implements VerificationCodeService {
 
     // 注入邮件服务
@@ -57,7 +60,8 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         }
 
         // 4. 发送邮件
-        emailService.sendSimpleEmail(email, subject, text);
+        // emailService.sendSimpleEmail(email, subject, text);
+        log.info("发送验证码: email={}, code={}, type={}", email, code, type);
 
         return code;
     }

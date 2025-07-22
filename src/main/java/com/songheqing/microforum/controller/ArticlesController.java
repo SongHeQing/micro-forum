@@ -3,7 +3,9 @@ package com.songheqing.microforum.controller;
 import com.songheqing.microforum.dto.ArticleListDTO;
 import com.songheqing.microforum.request.ArticlePublishRequest;
 import com.songheqing.microforum.service.ArticlesService;
+import com.songheqing.microforum.utils.CurrentHolder;
 import com.songheqing.microforum.vo.Result;
+import com.songheqing.microforum.dto.ArticleDetailDTO;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -45,5 +47,15 @@ public class ArticlesController {
             return Result.error("发布文章失败，文件上传失败");
         }
         return Result.success();
+    }
+
+    // 获取文章详情
+    @GetMapping("/{id}")
+    public Result<ArticleDetailDTO> detail(@PathVariable Integer id) {
+        ArticleDetailDTO detail = articlesService.getDetail(id);
+        if (detail == null) {
+            return Result.error("文章不存在");
+        }
+        return Result.success(detail);
     }
 }

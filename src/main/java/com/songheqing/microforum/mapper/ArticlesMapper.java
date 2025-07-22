@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.songheqing.microforum.dto.ArticleListDTO;
 import com.songheqing.microforum.entity.Article;
+import com.songheqing.microforum.dto.ArticleDetailDTO;
 
 import java.util.List;
 
@@ -16,4 +17,7 @@ public interface ArticlesMapper {
 
     // 插入文章
     void insert(Article article);
+
+    // 查询文章详情
+    ArticleDetailDTO selectDetailById(@Param("id") Integer id);
 }

@@ -3,11 +3,8 @@
 <mapper namespace="com.songheqing.microforum.mapper.UserMapper">
 
     <select id="login" resultType="com.songheqing.microforum.entity.User">
-        select id, username, email from user 
+        select id, email from user 
         <where>
-            <if test="username != null and username != ''">
-                and username = #{username}
-            </if>
             <if test="email != null and email != ''">
                 and email = #{email}
             </if>
@@ -17,8 +14,8 @@
         </where>
     </select>
 
-    <select id="findByUsername" resultType="com.songheqing.microforum.entity.User">
-        select 1 from user where username = #{username} limit 1
+    <select id="findByNickname" resultType="com.songheqing.microforum.entity.User">
+        select 1 from user where nickname = #{nickname} limit 1
     </select>
 
     <select id="findByEmail" resultType="com.songheqing.microforum.entity.User">
@@ -26,6 +23,6 @@
     </select>
 
     <insert id="insert" parameterType="com.songheqing.microforum.entity.User">
-        insert into user (email, password) values (#{email}, #{password})
+        insert into user (email, password, nickname) values (#{email}, #{password}, #{nickname})
     </insert>
 </mapper>

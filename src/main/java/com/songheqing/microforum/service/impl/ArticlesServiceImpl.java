@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.List;
+import com.songheqing.microforum.dto.ArticleDetailDTO;
 
 @Slf4j
 @Service
@@ -86,5 +87,10 @@ public class ArticlesServiceImpl implements ArticlesService {
         article.setCoverType(1);
         imageService.saveImages(images, "ARTICLE", articleId);
 
+    }
+
+    @Override
+    public ArticleDetailDTO getDetail(Integer id) {
+        return articlesMapper.selectDetailById(id);
     }
 }

@@ -30,7 +30,14 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
 
         // 放行GET /articles（文章列表查询）
-        if ("GET".equalsIgnoreCase(request.getMethod()) && "/articles".equals(request.getRequestURI())) {
+        if ("GET".equalsIgnoreCase(request.getMethod()) &&
+                "/articles".equals(request.getRequestURI())) {
+            return true;
+        }
+
+        // 放行GET /articles/{id}（文章详情查询）
+        if ("GET".equalsIgnoreCase(request.getMethod()) &&
+                "/articles/{id}".equals(request.getRequestURI())) {
             return true;
         }
 

@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
         // 1. 生成JWT令牌
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("id", userLogin.getId());
-        dataMap.put("username", userLogin.getNickname());
+        dataMap.put("email", userLogin.getEmail());
 
         String jwt = jwtUtil.generateToken(dataMap);
         LoginInfo loginInfo = new LoginInfo(userLogin.getId(), userLogin.getNickname(), userLogin.getEmail(), jwt);
@@ -104,6 +104,9 @@ public class UserServiceImpl implements UserService {
         // 2. 创建用户
         User user = new User();
         BeanUtils.copyProperties(userRegisterRequest, user);
+        // 设置默认昵称（使用邮箱前缀）
+        String emailPrefix = userRegisterRequest.getEmail().split("@")[0];
+        user.setNickname(emailPrefix);
         userMapper.insert(user);
     }
 }
