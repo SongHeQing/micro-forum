@@ -1,14 +1,16 @@
 package com.songheqing.microforum.entity;
 
-import lombok.Data;
 import java.time.LocalDateTime;
+import lombok.Data;
 
 @Data
-public class Channel {
+public class UserEntity {
     private Integer id;
-    private String channelname;
+    private String phone;
+    private String password;
+    private String email;
+    private String nickname;
     private String image;
-    private Integer userConut;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

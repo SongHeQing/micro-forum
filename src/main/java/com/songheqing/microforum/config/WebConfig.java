@@ -23,7 +23,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 匹配所有接口
-                .allowedOriginPatterns("http://localhost:*") // 明确允许的域名 1
+                .allowedOriginPatterns(
+                        "http://localhost:*", // 本地开发
+                        "http://192.168.101.35:*" // 你的实际IP地址
+                ) // 明确允许的域名
                 .allowedMethods("*") // 允许所有HTTP方法
                 .allowedHeaders("Content-Type", "Authorization", "X-Requested-With") // 限制请求头
                 .allowCredentials(true) // 允许凭证
@@ -45,7 +48,9 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/user/login", // 排除登录请求
                         "/user/register", // 排除注册请求
-                        "/verifyRegisterCode", // 排除校验注册验证码请求
+                        "/user/verifyRegisterCode", // 排除校验注册验证码请求
+                        "/comment/list", // 排除评论列表请求
+                        "/comment/replies", // 排除评论回复请求
                         "/swagger-ui/**", // 排除Swagger请求
                         "/v3/api-docs/**", // 排除Swagger请求
                         // "/swagger-resources/**", // 排除Swagger请求

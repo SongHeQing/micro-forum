@@ -1,11 +1,11 @@
-package com.songheqing.microforum.dto;
+package com.songheqing.microforum.vo;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Data;
 
 @Data
-public class ArticleDetailDTO {
+public class ArticleDetailVO {
     private Integer id;
     private String title;
     private String content;
@@ -14,9 +14,9 @@ public class ArticleDetailDTO {
     private Integer collectCount;
     private Integer commentCount;
     private Integer viewCount;
-    private List<ImageDTO> coverImageUrl;
+    private List<ImageVO> coverImageUrl;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    private UserSimpleDTO user;
-    private ChannelSimpleDTO channel;
+    private UserSimpleVO user;
+    private ChannelSimpleVO channel;
 }

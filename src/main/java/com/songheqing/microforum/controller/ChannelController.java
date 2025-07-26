@@ -1,6 +1,6 @@
 package com.songheqing.microforum.controller;
 
-import com.songheqing.microforum.entity.Channel;
+import com.songheqing.microforum.entity.ChannelEntity;
 import com.songheqing.microforum.service.ChannelService;
 import com.songheqing.microforum.vo.Result;
 
@@ -19,8 +19,8 @@ public class ChannelController {
     private ChannelService channelService;
 
     @GetMapping
-    public Result<List<Channel>> list() {
-        List<Channel> channels = channelService.list();
+    public Result<List<ChannelEntity>> list() {
+        List<ChannelEntity> channels = channelService.list();
         return Result.success(channels);
     }
 }

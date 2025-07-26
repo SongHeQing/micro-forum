@@ -1,9 +1,9 @@
-package com.songheqing.microforum.dto;
+package com.songheqing.microforum.vo;
 
 import lombok.Data;
 
 @Data
-public class ChannelSimpleDTO {
+public class ChannelSimpleVO {
     private Integer id;
     private String channelname;
 }

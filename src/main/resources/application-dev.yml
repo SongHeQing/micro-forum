@@ -53,6 +53,7 @@ spring:
 
 # 设置全局编码为UTF-8
 server:
+  address: 192.168.101.35
   servlet:
     encoding:
       charset: UTF-8

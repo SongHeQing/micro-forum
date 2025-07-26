@@ -1,6 +1,6 @@
 package com.songheqing.microforum.service.impl;
 
-import com.songheqing.microforum.entity.User;
+import com.songheqing.microforum.entity.UserEntity;
 import com.songheqing.microforum.mapper.UserMapper;
 import com.songheqing.microforum.exception.UserException;
 import com.songheqing.microforum.request.UserRegisterRequest;
@@ -42,8 +42,8 @@ public class UserServiceImpl implements UserService {
      * @return 登录信息
      */
     @Override
-    public LoginInfo login(User user) {
-        User userLogin = userMapper.login(user);
+    public LoginInfo login(UserEntity user) {
+        UserEntity userLogin = userMapper.login(user);
         if (userLogin == null) {
             log.error("用户名或密码错误:{}", user);
             return null;
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
             throw UserException.invalidVerificationCode();
         }
         // 2. 创建用户
-        User user = new User();
+        UserEntity user = new UserEntity();
         BeanUtils.copyProperties(userRegisterRequest, user);
         // 设置默认昵称（使用邮箱前缀）
         String emailPrefix = userRegisterRequest.getEmail().split("@")[0];

@@ -1,6 +1,6 @@
 package com.songheqing.microforum.service.impl;
 
-import com.songheqing.microforum.entity.Image;
+import com.songheqing.microforum.entity.ImageEntity;
 import com.songheqing.microforum.mapper.ImageMapper;
 import com.songheqing.microforum.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class ImageServiceImpl implements ImageService {
     private String UPLOAD_DIR;
 
     @Override
-    public void saveImage(Image image) {
+    public void saveImage(ImageEntity image) {
         imageMapper.insertImage(image);
     }
 
@@ -38,7 +38,7 @@ public class ImageServiceImpl implements ImageService {
      * @return 图片URL列表
      */
     @Override
-    public List<String> saveImages(List<MultipartFile> images, String entityType, Integer entityId) throws IOException {
+    public List<String> saveImages(List<MultipartFile> images, String entityType, Long entityId) throws IOException {
         // 如果图片列表为空，则返回空列表
         List<String> imgUrls = new ArrayList<>();
         if (images == null || images.isEmpty()) {
@@ -74,11 +74,11 @@ public class ImageServiceImpl implements ImageService {
             imgUrls.add(imgUrl);
 
             // 插入图片表
-            Image img = new Image();
+            ImageEntity img = new ImageEntity();
             img.setImageUrl(imgUrl);
             img.setEntityType(entityType);
             img.setEntityId(entityId);
-            img.setOrderNum(i);
+            img.setOrderNum((short) i);
             imageMapper.insertImage(img);
         }
         return imgUrls;

@@ -5,11 +5,10 @@ import org.springframework.stereotype.Component;
 
 /**
  * JWT 配置类
- * 
+ *
  * <p>
  * 从 application.yml 中读取 JWT 相关配置
- * </p>
- * 
+ *
  * @author 宋和清
  * @version 1.0
  * @since 2024-07-14
@@ -18,14 +17,10 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "jwt")
 public class JwtConfig {
 
-    /**
-     * JWT 密钥
-     */
+    /** JWT 密钥 */
     private String secret;
 
-    /**
-     * JWT 过期时间（毫秒）
-     */
+    /** JWT 过期时间（毫秒） */
     private Long expiration;
 
     // Getter 和 Setter 方法

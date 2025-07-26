@@ -1,10 +1,11 @@
 package com.songheqing.microforum.service.impl;
 
-import com.songheqing.microforum.dto.ArticleListDTO;
-import com.songheqing.microforum.entity.Article;
+import com.songheqing.microforum.entity.ArticleEntity;
 import com.songheqing.microforum.mapper.ArticlesMapper;
 import com.songheqing.microforum.service.ArticlesService;
 import com.songheqing.microforum.utils.CurrentHolder;
+import com.songheqing.microforum.vo.ArticleDetailVO;
+import com.songheqing.microforum.vo.ArticleListVO;
 import com.songheqing.microforum.request.ArticlePublishRequest;
 import com.songheqing.microforum.service.ImageService;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.List;
-import com.songheqing.microforum.dto.ArticleDetailDTO;
 
 @Slf4j
 @Service
@@ -37,7 +37,7 @@ public class ArticlesServiceImpl implements ArticlesService {
      * @return 文章列表
      */
     @Override
-    public List<ArticleListDTO> list(Integer pageNumber) {
+    public List<ArticleListVO> list(Integer pageNumber) {
         int pageSize = 14;
         int offset = (pageNumber - 1) * pageSize;
         return articlesMapper.selectAll(offset, pageSize);
@@ -63,9 +63,9 @@ public class ArticlesServiceImpl implements ArticlesService {
         // 清除文章内容的空白字符，包括空格、换行符、制表符等，并赋值给文章内容属性
         publishArticleRequest.setContent(publishArticleRequest.getContent().trim());
 
-        Article article = new Article();
+        ArticleEntity article = new ArticleEntity();
         BeanUtils.copyProperties(publishArticleRequest, article, "content");
-        Integer userId = CurrentHolder.getCurrentId();
+        Long userId = CurrentHolder.getCurrentId();
         article.setUserId(userId);
         String publishArticleRequestContent = publishArticleRequest.getContent();
         if (publishArticleRequestContent != null) {
@@ -81,7 +81,7 @@ public class ArticlesServiceImpl implements ArticlesService {
 
         // 插入文章，主键回填
         articlesMapper.insert(article);
-        Integer articleId = article.getId();
+        Long articleId = article.getId();
 
         // 图片相关操作交给 ImageService
         article.setCoverType(1);
@@ -90,7 +90,7 @@ public class ArticlesServiceImpl implements ArticlesService {
     }
 
     @Override
-    public ArticleDetailDTO getDetail(Integer id) {
+    public ArticleDetailVO getDetail(Long id) {
         return articlesMapper.selectDetailById(id);
     }
 }

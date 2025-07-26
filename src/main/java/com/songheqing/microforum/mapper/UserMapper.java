@@ -2,16 +2,16 @@ package com.songheqing.microforum.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.songheqing.microforum.entity.User;
+import com.songheqing.microforum.entity.UserEntity;
 
 @Mapper
 public interface UserMapper {
 
-    User login(User user);
+    UserEntity login(UserEntity user);
 
     Integer findByNickname(String nickname);
 
     Integer findByEmail(String email);
 
-    void insert(User user);
+    void insert(UserEntity user);
 }

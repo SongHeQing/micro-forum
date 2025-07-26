@@ -1,11 +1,10 @@
 package com.songheqing.microforum.controller;
 
-import com.songheqing.microforum.dto.ArticleListDTO;
 import com.songheqing.microforum.request.ArticlePublishRequest;
 import com.songheqing.microforum.service.ArticlesService;
-import com.songheqing.microforum.utils.CurrentHolder;
+import com.songheqing.microforum.vo.ArticleDetailVO;
+import com.songheqing.microforum.vo.ArticleListVO;
 import com.songheqing.microforum.vo.Result;
-import com.songheqing.microforum.dto.ArticleDetailDTO;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +27,8 @@ public class ArticlesController {
 
     // 查询文章列表
     @GetMapping
-    public Result<List<ArticleListDTO>> list(@RequestParam Integer pageNumber) {
-        List<ArticleListDTO> articles = articlesService.list(pageNumber);
+    public Result<List<ArticleListVO>> list(@RequestParam Integer pageNumber) {
+        List<ArticleListVO> articles = articlesService.list(pageNumber);
         return Result.success(articles);
     }
 
@@ -51,8 +50,8 @@ public class ArticlesController {
 
     // 获取文章详情
     @GetMapping("/{id}")
-    public Result<ArticleDetailDTO> detail(@PathVariable Integer id) {
-        ArticleDetailDTO detail = articlesService.getDetail(id);
+    public Result<ArticleDetailVO> detail(@PathVariable Long id) {
+        ArticleDetailVO detail = articlesService.getDetail(id);
         if (detail == null) {
             return Result.error("文章不存在");
         }

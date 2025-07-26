@@ -3,7 +3,7 @@
 <mapper namespace="com.songheqing.microforum.mapper.ArticlesMapper">
 
     <!-- 动态插入文章 -->
-    <insert id="insert" parameterType="com.songheqing.microforum.entity.Article"
+    <insert id="insert" parameterType="com.songheqing.microforum.entity.ArticleEntity"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO article (
             user_id,
@@ -28,42 +28,58 @@
         )
     </insert>
 
-    <resultMap id="ArticleListMap" type="com.songheqing.microforum.dto.ArticleListDTO">
+    <resultMap id="ArticleListMap" type="com.songheqing.microforum.vo.ArticleListVO">
         <id property="id" column="id"/>
-        <result property="userId" column="user_id"/>
-        <result property="channelId" column="channel_id"/>
         <result property="title" column="title"/>
         <result property="contentPreview" column="content_preview"/>
+        <result property="likeCount" column="like_count"/>
+        <result property="commentCount" column="comment_count"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
-        <collection property="coverImageUrl" ofType="com.songheqing.microforum.dto.ImageDTO">
+        <association property="channelCard" javaType="com.songheqing.microforum.vo.ChannelCardVO">
+            <result property="id" column="channel_id"/>
+            <result property="channelName" column="channelname"/>
+            <result property="userCount" column="user_count"/>
+            <result property="articleCount" column="article_count"/>
+            <result property="image" column="image"/>
+        </association>
+        <collection property="coverImageUrl" ofType="com.songheqing.microforum.vo.ImageVO">
             <result property="imageUrl" column="image_url"/>
             <result property="orderNum" column="order_num"/>
         </collection>
     </resultMap>
 
+    <!-- 文章列表 -->
     <select id="selectAll" resultMap="ArticleListMap">
-        SELECT a.id,
-            a.user_id,
+        SELECT 
+            a.id,
             a.channel_id,
             a.title,
             a.content_preview,
+            a.like_count,
+            a.comment_count,
             a.create_time,
             a.update_time,
             i.image_url,
-            i.order_num
+            i.order_num,
+            c.channelname,
+            c.image,
+            c.user_count,
+            c.article_count
         FROM article a
-                INNER JOIN (SELECT id
-                            FROM article
-                            ORDER BY create_time DESC
-                            LIMIT #{offset}, #{pageSize}) AS page_ids
-                            ON a.id = page_ids.id
-                LEFT JOIN images i
-                        ON i.entity_type = 'ARTICLE' AND a.id = i.entity_id
+        INNER JOIN (
+            SELECT id
+            FROM article
+            ORDER BY create_time DESC
+            LIMIT #{offset}, #{pageSize}
+        ) AS page_ids ON a.id = page_ids.id
+        LEFT JOIN images i ON i.entity_type = 'ARTICLE' AND a.id = i.entity_id
+        LEFT JOIN channel c ON a.channel_id = c.id
         ORDER BY a.create_time DESC, i.order_num ASC
     </select>
 
-    <resultMap id="ArticleDetailMap" type="com.songheqing.microforum.dto.ArticleDetailDTO">
+    <!-- 文章详情 -->
+    <resultMap id="ArticleDetailMap" type="com.songheqing.microforum.vo.ArticleDetailVO">
         <id property="id" column="id"/>
         <result property="title" column="title"/>
         <result property="content" column="content"/>
@@ -74,16 +90,16 @@
         <result property="viewCount" column="view_count"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
-        <association property="user" javaType="com.songheqing.microforum.dto.UserSimpleDTO">
+        <association property="user" javaType="com.songheqing.microforum.vo.UserSimpleVO">
             <id property="id" column="user_id"/>
             <result property="nickname" column="nickname"/>
             <result property="image" column="image"/>
         </association>
-        <association property="channel" javaType="com.songheqing.microforum.dto.ChannelSimpleDTO">
+        <association property="channel" javaType="com.songheqing.microforum.vo.ChannelSimpleVO">
             <id property="id" column="channel_id"/>
             <result property="channelname" column="channelname"/>
         </association>
-        <collection property="coverImageUrl" ofType="com.songheqing.microforum.dto.ImageDTO">
+        <collection property="coverImageUrl" ofType="com.songheqing.microforum.vo.ImageVO">
             <result property="imageUrl" column="image_url"/>
             <result property="orderNum" column="order_num"/>
         </collection>

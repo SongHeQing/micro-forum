@@ -1,6 +1,6 @@
 package com.songheqing.microforum.service.impl;
 
-import com.songheqing.microforum.entity.Channel;
+import com.songheqing.microforum.entity.ChannelEntity;
 import com.songheqing.microforum.mapper.ChannelMapper;
 import com.songheqing.microforum.service.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ public class ChannelServiceImpl implements ChannelService {
     private ChannelMapper channelMapper;
 
     @Override
-    public List<Channel> list() {
+    public List<ChannelEntity> list() {
         return channelMapper.selectAll();
     }
 }

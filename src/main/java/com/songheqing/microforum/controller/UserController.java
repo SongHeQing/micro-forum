@@ -1,6 +1,6 @@
 package com.songheqing.microforum.controller;
 
-import com.songheqing.microforum.entity.User;
+import com.songheqing.microforum.entity.UserEntity;
 import com.songheqing.microforum.request.UserRegisterRequest;
 import com.songheqing.microforum.service.UserService;
 import com.songheqing.microforum.vo.Result;
@@ -30,7 +30,7 @@ public class UserController {
      * @return 登录信息
      */
     @GetMapping("/login")
-    public Result<LoginInfo> login(User user) {
+    public Result<LoginInfo> login(UserEntity user) {
         LoginInfo loginInfo = userService.login(user);
         return Result.success(loginInfo);
     }

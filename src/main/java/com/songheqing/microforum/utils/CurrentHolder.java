@@ -2,13 +2,13 @@ package com.songheqing.microforum.utils;
 
 public class CurrentHolder {
 
-    private static final ThreadLocal<Integer> CURRENT_LOCAL = new ThreadLocal<>();
+    private static final ThreadLocal<Long> CURRENT_LOCAL = new ThreadLocal<>();
 
-    public static void setCurrentId(Integer employeeId) {
+    public static void setCurrentId(Long employeeId) {
         CURRENT_LOCAL.set(employeeId);
     }
 
-    public static Integer getCurrentId() {
+    public static Long getCurrentId() {
         return CURRENT_LOCAL.get();
     }
 

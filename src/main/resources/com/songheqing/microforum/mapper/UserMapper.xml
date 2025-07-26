@@ -2,27 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.songheqing.microforum.mapper.UserMapper">
 
-    <select id="login" resultType="com.songheqing.microforum.entity.User">
-        select id, email from user 
-        <where>
-            <if test="email != null and email != ''">
-                and email = #{email}
-            </if>
-            <if test="password != null and password != ''">
-                and password = #{password}
-            </if>
-        </where>
+    <select id="login" resultType="com.songheqing.microforum.entity.UserEntity">
+        select id, email from user where email = #{email} and password = #{password}
     </select>
 
-    <select id="findByNickname" resultType="com.songheqing.microforum.entity.User">
+    <select id="findByNickname" resultType="com.songheqing.microforum.entity.UserEntity">
         select 1 from user where nickname = #{nickname} limit 1
     </select>
 
-    <select id="findByEmail" resultType="com.songheqing.microforum.entity.User">
+    <select id="findByEmail" resultType="com.songheqing.microforum.entity.UserEntity">
         select 1 from user where email = #{email} limit 1
     </select>
 
-    <insert id="insert" parameterType="com.songheqing.microforum.entity.User">
+    <insert id="insert" parameterType="com.songheqing.microforum.entity.UserEntity">
         insert into user (email, password, nickname) values (#{email}, #{password}, #{nickname})
     </insert>
 </mapper>
