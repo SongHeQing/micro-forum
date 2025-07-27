@@ -79,6 +79,7 @@ public class CommentServiceImpl implements CommentService {
     private static final Integer COMMENT_LIMIT = 15;
     private static final Integer REPLIES_PREVIEW_LIMIT = 4;
 
+    @Transactional(readOnly = true)
     public List<CommentVO> queryTopLevelComments(Long articleId, Integer pageNum) {
         Integer offset = (pageNum - 1) * COMMENT_LIMIT;
 
@@ -108,6 +109,7 @@ public class CommentServiceImpl implements CommentService {
     /*
      * 查询子评论
      */
+    @Transactional(readOnly = true)
     public List<CommentReplyVO> queryReplies(Long parentId, Integer pageNum) {
         Integer offset = (pageNum - 1) * COMMENT_LIMIT;
         return commentMapper.selectCommentReplyVOs(parentId, COMMENT_LIMIT, offset);

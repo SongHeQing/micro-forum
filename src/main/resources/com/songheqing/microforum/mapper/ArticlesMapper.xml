@@ -34,6 +34,7 @@
         <result property="contentPreview" column="content_preview"/>
         <result property="likeCount" column="like_count"/>
         <result property="commentCount" column="comment_count"/>
+        <result property="isLiked" column="is_liked_status"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
         <association property="channelCard" javaType="com.songheqing.microforum.vo.ChannelCardVO">
@@ -51,30 +52,34 @@
 
     <!-- 文章列表 -->
     <select id="selectAll" resultMap="ArticleListMap">
-        SELECT 
-            a.id,
-            a.channel_id,
-            a.title,
-            a.content_preview,
-            a.like_count,
-            a.comment_count,
-            a.create_time,
-            a.update_time,
-            i.image_url,
-            i.order_num,
-            c.channelname,
-            c.image,
-            c.user_count,
-            c.article_count
+        SELECT a.id,
+               a.channel_id,
+               a.title,
+               a.content_preview,
+               a.like_count,
+               a.comment_count,
+               a.create_time,
+               a.update_time,
+               i.image_url,
+               i.order_num,
+               c.channelname,
+               c.image,
+               c.user_count,
+               c.article_count,
+               -- 独立子查询判断点赞状态
+               (
+                (SELECT 1
+                              FROM article_likes al_sub
+                              WHERE al_sub.article_id = a.id
+                                AND al_sub.user_id = #{userId})) AS is_liked_status
+
         FROM article a
-        INNER JOIN (
-            SELECT id
-            FROM article
-            ORDER BY create_time DESC
-            LIMIT #{offset}, #{pageSize}
-        ) AS page_ids ON a.id = page_ids.id
-        LEFT JOIN images i ON i.entity_type = 'ARTICLE' AND a.id = i.entity_id
-        LEFT JOIN channel c ON a.channel_id = c.id
+                 INNER JOIN (SELECT id
+                             FROM article
+                             ORDER BY create_time DESC
+                             LIMIT #{offset}, #{pageSize}) AS page_ids ON a.id = page_ids.id
+                 LEFT JOIN channel c ON a.channel_id = c.id
+                 LEFT JOIN images i ON i.entity_type = 'ARTICLE' AND a.id = i.entity_id
         ORDER BY a.create_time DESC, i.order_num ASC
     </select>
 
@@ -123,5 +128,4 @@
         WHERE a.id = #{id}
         ORDER BY i.order_num ASC
     </select>
-
 </mapper> 

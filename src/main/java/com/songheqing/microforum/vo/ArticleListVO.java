@@ -28,6 +28,9 @@ public class ArticleListVO {
     @Schema(description = "回复（评论）量")
     private Integer commentCount;
 
+    @Schema(description = "是否点赞")
+    private Boolean isLiked;
+
     @Schema(description = "创建时间")
     private LocalDateTime createTime;
 

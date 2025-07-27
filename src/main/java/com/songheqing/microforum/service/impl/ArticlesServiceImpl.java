@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
@@ -36,11 +37,14 @@ public class ArticlesServiceImpl implements ArticlesService {
      * @param pageNumber 页码
      * @return 文章列表
      */
+    @Transactional(readOnly = true)
     @Override
     public List<ArticleListVO> list(Integer pageNumber) {
         int pageSize = 14;
         int offset = (pageNumber - 1) * pageSize;
-        return articlesMapper.selectAll(offset, pageSize);
+        Long userId = CurrentHolder.getCurrentId();
+        log.info("userId:{}", userId);
+        return articlesMapper.selectAll(offset, pageSize, userId);
     }
 
     /**

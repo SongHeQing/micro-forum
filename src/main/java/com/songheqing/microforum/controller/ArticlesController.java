@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.io.IOException;
 import java.util.List;
 
+@Tag(name = "文章", description = "处理文章的新增、查询等操作")
 @Slf4j
 @RestController
 @RequestMapping("/articles")
@@ -29,6 +31,7 @@ public class ArticlesController {
     @GetMapping
     public Result<List<ArticleListVO>> list(@RequestParam Integer pageNumber) {
         List<ArticleListVO> articles = articlesService.list(pageNumber);
+        log.info("文章列表：{}", articles);
         return Result.success(articles);
     }
 
