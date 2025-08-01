@@ -1,0 +1,115 @@
+# ./src/main/resources/application-docker-dev.yml
+
+# 数据源配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 容器内通过服务名访问MySQL，端口是MySQL容器内部的3306
+    url: jdbc:mysql://mysql-dev:3306/micro-forum?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: ${MYSQL_ROOT_PASSWORD} # 开发环境通过环境变量配置
+    # 连接池配置
+    hikari:
+      maximum-pool-size: 5          # 开发环境降低连接数
+      minimum-idle: 1               # 最小空闲连接数
+      idle-timeout: 30000           # 空闲连接最大存活时间（毫秒）
+      max-lifetime: 1800000         # 连接最大生命周期（毫秒）
+      connection-timeout: 5000      # 获取连接超时时间
+      validation-timeout: 3000      # 验证连接有效性的最大时间
+      leak-detection-threshold: 15000 # 连接泄露检测阈值（毫秒）
+
+  # Redis 配置
+  data:
+    redis:
+      # 容器内通过服务名访问Redis
+      host: redis-dev
+      port: 6379
+      password: ${REDIS_PASSWORD} # 开发环境通过环境变量配置
+      database: 0
+      timeout: 3000 # 连接/命令执行超时时间
+      lettuce:
+        pool:
+          max-active: 5             # 开发环境降低连接数
+          max-wait: 1000ms          # 最大等待时间
+          max-idle: 5
+          min-idle: 1
+        shutdown-timeout: 100       # 客户端关闭连接等待时间
+
+  # 邮箱配置
+  mail:
+    host: ${EMAIL_HOST}
+    port: 465  # 推荐使用SSL端口465，或者TLS端口587
+    username: ${EMAIL_USERNAME} # 开发环境通过环境变量配置
+    password: ${EMAIL_PASSWORD}   # 开发环境通过环境变量配置
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true # 启用SSL加密
+          timeout: 10000 # 连接超时时间 (毫秒)
+          connectiontimeout: 10000 # 连接超时时间 (毫秒)
+          writetimeout: 10000 # 写入超时时间 (毫秒)
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 5MB      # 单个文件最大5MB
+      max-request-size: 10MB   # 单次请求最大10MB
+
+  # 开发环境启用Swagger
+  springdoc:
+    api-docs:
+      enabled: true
+    swagger-ui:
+      enabled: true
+
+# 服务器配置
+server:
+  address: 0.0.0.0 # 监听容器内所有网络接口
+  port: 8080 # 确保监听8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+# Mybatis的相关配置
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 开发环境显示SQL
+    map-underscore-to-camel-case: true
+    default-statement-timeout: 30 # 设置默认语句超时时间
+
+# 日志配置
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+  # 日志文件路径指向容器内需要映射的目录
+  file:
+    name: /app/logs/micro-forum.log
+  level:
+    '[com.songheqing.microforum]': DEBUG # 开发环境使用DEBUG级别
+    '[org.springframework.web]': DEBUG
+    '[org.springframework.security]': DEBUG
+  charset:
+    console: UTF-8
+    file: UTF-8
+
+# JWT 配置
+jwt:
+  secret: ${JWT_SECRET_KEY} # 开发环境通过环境变量配置
+  expiration: ${JWT_EXPIRATION} # 单位：毫秒
+
+# 文件上传目录（容器内路径）
+app:
+  upload-dir: /opt/app-data/micro-forum/uploads/
+
+# 开发环境特殊配置
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: static/**,public/**,templates/**
+  jmx:
+    enabled: false 

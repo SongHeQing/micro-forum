@@ -1,0 +1,11 @@
+# ./mysql/conf/logging.cnf
+[mysqld]
+# 启用通用查询日志（记录所有SQL语句，慎用，会影响性能）
+# general_log = 1
+# general_log_file = /var/lib/mysql/mysql.log
+
+# 启用慢查询日志（记录执行时间超过 long_query_time 的SQL语句）
+slow_query_log = 1
+slow_query_log_file = /var/lib/mysql/mysql-slow.log
+long_query_time = 1 # 记录执行时间超过 1 秒的查询
+log_queries_not_using_indexes = 1 # 记录不使用索引的查询

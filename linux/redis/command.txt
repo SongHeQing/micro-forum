@@ -1,0 +1,35 @@
+安装命令之前，您可以先查看 yum 仓库中可用的 Redis 版本：
+sudo yum info redis
+
+安装 Redis：
+sudo yum install redis -y
+
+配置 Redis（内存限制）：
+sudo vi /etc/redis/redis.conf
+
+找到并修改 maxmemory：
+在文件中搜索 maxmemory <bytes>。这一行通常是被注释掉的（前面有 #）。
+删除 # 号。
+将 <bytes> 替换为 64mb。
+修改后应该是这样：
+# maxmemory <bytes>
+maxmemory 64mb
+
+找到并修改 maxmemory-policy：
+在文件中搜索 maxmemory-policy noeviction。这一行通常也是被注释掉的。
+删除 # 号。
+将 noeviction 替换为 allkeys-lru。
+修改后应该是这样：
+# The default is:
+#
+# maxmemory-policy noeviction
+maxmemory-policy allkeys-lru
+
+启动 Redis 服务：
+sudo systemctl start redis
+
+设置 Redis 开机自启：
+sudo systemctl enable redis
+
+检查 Redis 服务状态：
+sudo systemctl status redis

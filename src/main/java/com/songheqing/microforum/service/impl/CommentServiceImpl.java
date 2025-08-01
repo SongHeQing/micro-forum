@@ -47,7 +47,8 @@ public class CommentServiceImpl implements CommentService {
 
         // 插入评论
         commentMapper.insertComment(comment);
-
+        // 文章评论数+1
+        articlesMapper.incrementCommentCount(request.getArticleId());
         // 更新文章楼层计数
         articlesMapper.incrementFloorCount(request.getArticleId());
     }
@@ -69,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
         // 更新父评论的子评论数reply_count
         commentMapper.incrementReplyCount(request.getParentId());
 
-        // 更新文章评论总数
+        // 文章评论数+1
         articlesMapper.incrementCommentCount(request.getArticleId());
     }
 

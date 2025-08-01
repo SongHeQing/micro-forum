@@ -1,0 +1,9 @@
+# 密码
+.env
+micro-forum.jar
+
+# mysql
+mysql/init/
+
+# nginx
+nginx/html/

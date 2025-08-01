@@ -1,0 +1,23 @@
+source /etc/profile
+
+mvn clean package -DskipTests
+
+sudo mkdir -p /opt/micro-forum/
+sudo mkdir -p /var/log/micro-forum
+micro-forum.jar
+
+cd /opt/micro-forum/
+
+启动应用：
+nohup java -Xmx256m -Xms128m -jar /opt/micro-forum/micro-forum.jar > /var/log/micro-forum/application.log 2>&1 &
+启动应用：
+nohup java -Xmx256m -Xms128m -Dspring.profiles.active=linux-prod -jar /opt/micro-forum/micro-forum.jar > /var/log/micro-forum/application.log 2>&1 &
+
+查看 Spring Boot 日志：
+tail -f /var/log/micro-forum/application.log
+
+查找进程 PID：
+ps aux | grep java | grep -v grep
+杀死进程：
+sudo kill -9 <PID>
+sudo killall java

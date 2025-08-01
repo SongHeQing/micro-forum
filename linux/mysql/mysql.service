@@ -1,0 +1,22 @@
+# /etc/systemd/system/mysql.service
+[Unit]
+Description=MySQL Server
+After=network.target
+
+[Service]
+User=mysql
+Group=mysql
+Type=forking 
+PIDFile=/usr/local/mysql-5.7.44/data/mysqld.pid 
+PermissionsStartOnly=true
+ExecStart=/usr/local/mysql-5.7.44/bin/mysqld_safe --defaults-file=/etc/my.cnf --user=mysql
+ExecStop=/usr/local/mysql-5.7.44/bin/mysqladmin -u root -S /tmp/mysql.sock shutdown
+
+# 延长启动超时时间，给予 MySQL 足够的时间启动
+TimeoutStartSec=300
+
+RestartSec=10
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

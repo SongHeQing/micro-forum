@@ -1,3 +1,4 @@
+# ./src/main/resources/application-dev.yml
 # 数据源配置
 spring:
   datasource:
@@ -9,7 +10,7 @@ spring:
   servlet:
     multipart:
       max-file-size: 5MB      # 单个文件最大5MB，默认10MB
-      max-request-size: 10MB   # 单次请求最大10MB
+      max-request-size: 10MB   # 单次请求最大10MB,默认20MB
   # Email Configuration for Netease (163.com)
   mail:
     host: smtp.163.com
@@ -53,7 +54,7 @@ spring:
 
 # 设置全局编码为UTF-8
 server:
-  address: 192.168.101.35
+  address: 0.0.0.0
   servlet:
     encoding:
       charset: UTF-8
@@ -67,7 +68,7 @@ logging:
   file:
     name: logs/micro-forum.log
   level:
-    com.songheqing.microforum: DEBUG
+    '[com.songheqing.microforum]': DEBUG
   charset:
     console: UTF-8
     file: UTF-8

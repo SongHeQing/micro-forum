@@ -1,0 +1,111 @@
+# ./docker/docker-compose.yml
+version: '3.8' # 使用Docker Compose 3.8版本
+
+services:
+  # MySQL 数据库服务
+  mysql:
+    image: mysql:5.7 # 使用MySQL 5.7官方镜像
+    container_name: mysql
+    ports:
+      - "3306:3306" # 将宿主机的3306端口映射到MySQL容器的3306端口，方便宿主机直接访问
+    environment:
+      TZ: Asia/Shanghai # 设置时区
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} #生产环境强烈建议使用.env文件或Docker Secrets。
+    volumes:
+      - "./mysql/conf:/etc/mysql/conf.d" # MySQL配置文件映射，用于自定义配置
+      - mysql_data:/var/lib/mysql # 命名卷，用于MySQL数据持久化
+      - "./mysql/init:/docker-entrypoint-initdb.d" # MySQL初始化脚本目录（可选，用于自动执行.sql/.sh文件）
+    networks:
+      - micro-forum-net # 将MySQL服务加入到自定义网络
+    deploy:
+      resources:
+        limits:
+          # memory: 400M # MySQL，考虑到 innodb_buffer_pool_size=128M，再加上其他开销，350M 可能是最低限度。
+          memory: 256M # MySQL 5.7更节省内存，280M应该足够
+  # Redis 缓存服务
+  redis:
+    image: redis:6.2.19-alpine # 使用轻量级的Redis Alpine镜像
+    container_name: redis
+    # ports: # Redis端口通常不对外开放，仅供内部服务访问。调试时可以临时开放。
+    #   - "6379:6379"
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD} # 从 .env 文件读取 Redis 密码
+    volumes:
+      - redis_data:/data # 命名卷，用于Redis数据持久化
+    networks:
+      - micro-forum-net # 将Redis服务加入到自定义网络
+    command: [ "redis-server", "--maxmemory", "80mb", "--maxmemory-policy", "allkeys-lru" ] # 设置Redis内部内存限制和淘汰策略
+    deploy:
+      resources:
+        limits:
+          memory: 60M # Redis，如果缓存数据量不大，100M-200M 可以。如果缓存数据量大，需要更多。
+
+  # Spring Boot 后端服务 (micro-forum)
+  micro-forum-server:
+    build:
+      context: . # Dockerfile位于docker-compose.yml的同级目录
+      dockerfile: Dockerfile # 指定Dockerfile文件
+    container_name: micro-forum-server
+    # ports: # 后端服务不对外直接暴露端口，由Nginx代理
+    #   - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod # 激活Spring Boot的生产环境配置
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+      EMAIL_HOST: ${EMAIL_HOST}
+      EMAIL_USERNAME: ${EMAIL_USERNAME}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+        # <-- 引用 .env 文件中的变量
+        # <-- 【重要】请务必替换为你的JWT密钥！生产环境强烈建议使用.env文件或Docker Secrets。
+        # 如果你的应用需要从环境变量获取MySQL密码，可以在此取消注释并设置
+        # SPRING_DATASOURCE_PASSWORD: 6C5i#o3R7MyWr1;Ilc![=BUVT24-aq8k 
+        # 将 JAVA_OPTS 作为环境变量传递给容器内的 JVM
+      JAVA_OPTS: "-Xmx350m -Xms256m -XX:MaxMetaspaceSize=128m"
+    volumes:
+      - micro_forum_logs:/app/logs # 命名卷，用于Spring Boot日志持久化
+      - micro_forum_uploads:/opt/app-data/micro-forum/uploads # 命名卷，用于文件上传目录持久化
+    networks:
+      - micro-forum-net # 将后端服务加入到自定义网络
+    depends_on:
+      - mysql # 确保mysql服务在后端服务启动前启动
+      - redis # 确保redis服务在后端服务启动前启动
+    deploy:
+      resources:
+        limits:
+          memory: 300M # Spring Boot，Java 应用通常内存需求较高。如果你的应用较复杂或并发高，可能需要更多。
+
+  # Nginx 反向代理服务
+  nginx:
+    image: nginx:1.28.0-alpine # 使用Nginx官方镜像
+    container_name: nginx
+    ports:
+      - "80:80" # 将宿主机的80端口映射到Nginx容器的80端口，对外提供HTTP访问
+      # - "443:443" # 如果需要HTTPS，请取消注释此行，并配置Nginx的SSL证书
+    volumes:
+      - "./nginx/conf/nginx.conf:/etc/nginx/nginx.conf" # 主Nginx配置文件映射
+      - "./nginx/conf.d:/etc/nginx/conf.d" # Nginx额外配置目录映射（例如反向代理后端服务）
+      - "./nginx/html:/usr/share/nginx/html" # 前端静态文件目录映射
+      # 如果Nginx也要提供上传文件访问，则需要映射上传目录，宿主机路径应与micro-forum-server的上传路径保持一致
+      - micro_forum_uploads:/usr/share/nginx/html/uploads
+    depends_on:
+      - micro-forum-server # 确保后端服务在Nginx启动前启动
+    networks:
+      - micro-forum-net # 将Nginx服务加入到自定义网络
+    deploy:
+      resources:
+        limits:
+          memory: 30M # Nginx 通常内存占用很小，50M 应该足够。
+
+# 自定义网络，用于服务间通信
+networks:
+  micro-forum-net:
+    name: micro-forum-network # 自定义网络名称
+
+# Docker 命名卷定义
+volumes:
+  mysql_data: # MySQL数据卷
+  redis_data: # Redis数据卷
+  micro_forum_logs: # micro-forum后端服务日志卷
+  micro_forum_uploads: # micro-forum后端服务上传文件卷

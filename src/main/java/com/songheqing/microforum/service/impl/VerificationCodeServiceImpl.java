@@ -60,7 +60,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         }
 
         // 4. 发送邮件
-        // emailService.sendSimpleEmail(email, subject, text);
+        emailService.sendSimpleEmail(email, subject, text);
         log.info("发送验证码: email={}, code={}, type={}", email, code, type);
 
         return code;

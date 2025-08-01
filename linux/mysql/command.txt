@@ -1,0 +1,42 @@
+创建 MySQL 数据目录并设置权限：
+sudo mkdir -p /usr/local/mysql-5.7.44/data
+sudo chown -R mysql:mysql /usr/local/mysql-5.7.44/data
+sudo chmod 750 /usr/local/mysql-5.7.44/data
+
+创建 MySQL 配置文件 (my.cnf) 
+sudo vi /etc/my.cnf
+
+初始化 MySQL 数据库：
+sudo /usr/local/mysql-5.7.44/bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql-5.7.44 --datadir=/usr/local/mysql-5.7.44/data
+
+创建 systemd 服务单元文件
+sudo vi /etc/systemd/system/mysql.service
+
+重新加载 systemd 配置，启用并启动 MySQL 服务
+sudo systemctl daemon-reload
+sudo systemctl enable mysql # 设置开机自启动
+sudo systemctl start mysql  # 启动服务
+
+ 检查服务状态
+ sudo systemctl status mysql
+
+ 登录 MySQL 并修改密码、创建远程访问用户
+ /usr/local/mysql-5.7.44/bin/mysql -u root -p
+
+ 输入临时密码。
+在 MySQL 命令行中执行以下 SQL 语句：
+-- 修改 root 用户的密码
+ALTER USER 'root'@'localhost' IDENTIFIED BY '您的新root密码';
+
+-- 创建一个允许远程访问的 root 用户（不推荐生产环境，但方便测试）
+-- 替换 '您的新root密码' 为您设置的密码
+CREATE USER 'root'@'%' IDENTIFIED BY '您的新root密码';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+
+FLUSH PRIVILEGES; -- 刷新权限
+
+MySQL日志文件
+/usr/local/mysql-5.7.44/data/
+
+查看带有完整日期和时间戳的 OOM Killer 记录：
+sudo journalctl -k -o short-iso | grep -i "out of memory"

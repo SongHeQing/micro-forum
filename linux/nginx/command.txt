@@ -1,0 +1,20 @@
+Linux部署Nginx
+安装 Nginx：
+sudo yum install nginx -y # 或者 apt install nginx -y
+
+创建 Nginx 配置文件：
+sudo vi /etc/nginx/conf.d/micro-forum.conf
+
+检查 Nginx 配置语法并重启：
+sudo nginx -t
+sudo systemctl restart nginx
+sudo systemctl enable nginx
+sudo systemctl status nginx
+
+准备上传文件目录：
+sudo mkdir -p /var/www/micro-forum-uploads/
+sudo chown -R nginx:nginx /var/www/micro-forum-uploads/ # 确保Nginx有权限读取
+sudo chmod -R 755 /var/www/micro-forum-uploads/ # 确保Nginx可以读取，其他人可以读取和执行
+
+静态页面
+/usr/share/nginx/html
