@@ -27,8 +27,11 @@ public class ArticleEntity {
     /** 完整的文章内容，最大2000字符 */
     private String content;
 
-    /** 封面类型：0=无；1=图片；2=视频 */
-    private Integer coverType;
+    /** 文章媒体类型：0=无；1=图片；2=视频 */
+    private Integer mediaType;
+
+    /** 媒体URLs */
+    private String mediaUrls;
 
     /** 点赞量 */
     private Integer likeCount;

@@ -1,9 +1,9 @@
 package com.songheqing.microforum.service.impl;
 
-import com.songheqing.microforum.entity.ImageEntity;
-import com.songheqing.microforum.mapper.ImageMapper;
-import com.songheqing.microforum.service.ImageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.songheqing.microforum.service.FileStorageService;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,28 +17,21 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ImageServiceImpl implements ImageService {
-    @Autowired
-    private ImageMapper imageMapper;
+@Slf4j
+public class FileStorageServiceImpl implements FileStorageService {
 
     @Value("${app.upload-dir}")
     private String UPLOAD_DIR;
-
-    @Override
-    public void saveImage(ImageEntity image) {
-        imageMapper.insertImage(image);
-    }
 
     /**
      * 保存图片
      * 
      * @param images     图片列表
      * @param entityType 业务类型（如 "ARTICLE"、"USER" 等）
-     * @param entityId   业务ID
      * @return 图片URL列表
      */
     @Override
-    public List<String> saveImages(List<MultipartFile> images, String entityType, Long entityId) throws IOException {
+    public List<String> saveImages(List<MultipartFile> images, String entityType) throws IOException {
         // 如果图片列表为空，则返回空列表
         List<String> imgUrls = new ArrayList<>();
         if (images == null || images.isEmpty()) {
@@ -72,15 +65,8 @@ public class ImageServiceImpl implements ImageService {
             // 生成图片URL
             String imgUrl = "/uploads/" + subDir + "/" + uniqueFileName;
             imgUrls.add(imgUrl);
-
-            // 插入图片表
-            ImageEntity img = new ImageEntity();
-            img.setImageUrl(imgUrl);
-            img.setEntityType(entityType);
-            img.setEntityId(entityId);
-            img.setOrderNum((short) i);
-            imageMapper.insertImage(img);
         }
+        log.info("保存图片成功，图片URL：{}", imgUrls);
         return imgUrls;
     }
 }

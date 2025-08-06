@@ -2,6 +2,7 @@ package com.songheqing.microforum.utils;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -79,6 +80,49 @@ public class JwtUtil {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    /**
+     * 检查令牌是否即将过期（在24小时内过期）
+     * 
+     * @param token JWT 令牌字符串
+     * @return 是否即将过期
+     */
+    public boolean isTokenExpiringSoon(String token) {
+        try {
+            Claims claims = parseToken(token);
+            long expirationTime = claims.getExpiration().getTime();
+            long currentTime = System.currentTimeMillis();
+            long timeUntilExpiration = expirationTime - currentTime;
+            // 如果令牌在24小时内过期，则认为即将过期
+            return timeUntilExpiration < 24 * 60 * 60 * 1000;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 刷新令牌（使用相同的载荷数据生成新令牌）
+     * 
+     * @param token 原始令牌
+     * @return 新的令牌，如果原始令牌无效则返回null
+     */
+    public String refreshToken(String token) {
+        try {
+            Claims claims = parseToken(token);
+            // 创建新的Claims对象，不包含过期时间
+            Map<String, Object> newClaims = new HashMap<>();
+            for (Map.Entry<String, Object> entry : claims.entrySet()) {
+                String key = entry.getKey();
+                // 跳过过期时间字段
+                if (!"exp".equals(key) && !"iat".equals(key)) {
+                    newClaims.put(key, entry.getValue());
+                }
+            }
+            return generateToken(newClaims);
+        } catch (Exception e) {
+            return null;
         }
     }
 }

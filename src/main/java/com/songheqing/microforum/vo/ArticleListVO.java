@@ -19,8 +19,11 @@ public class ArticleListVO {
     @Schema(description = "正文预览")
     private String contentPreview;
 
-    @Schema(description = "文章封面图片URL")
-    private List<ImageVO> coverImageUrl;
+    @Schema(description = "媒体类型：NULL=无；1=图片；2=视频")
+    private Integer mediaType;
+
+    @Schema(description = "媒体URLs")
+    private List<String> mediaUrls;
 
     @Schema(description = "点赞量")
     private Integer likeCount;

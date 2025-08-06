@@ -7,7 +7,7 @@ import com.songheqing.microforum.utils.CurrentHolder;
 import com.songheqing.microforum.vo.ArticleDetailVO;
 import com.songheqing.microforum.vo.ArticleListVO;
 import com.songheqing.microforum.request.ArticlePublishRequest;
-import com.songheqing.microforum.service.ImageService;
+import com.songheqing.microforum.service.FileStorageService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +29,7 @@ public class ArticlesServiceImpl implements ArticlesService {
     private ArticlesMapper articlesMapper;
 
     @Autowired
-    private ImageService imageService;
+    private FileStorageService imageService;
 
     /**
      * 查询文章列表
@@ -44,7 +44,10 @@ public class ArticlesServiceImpl implements ArticlesService {
         int offset = (pageNumber - 1) * pageSize;
         Long userId = CurrentHolder.getCurrentId();
         log.info("userId:{}", userId);
-        return articlesMapper.selectAll(offset, pageSize, userId);
+
+        // 现在TypeHandler会自动处理mediaUrls的转换，无需手动处理
+        List<ArticleListVO> articleList = articlesMapper.selectAll(offset, pageSize, userId);
+        return articleList;
     }
 
     /**
@@ -83,18 +86,23 @@ public class ArticlesServiceImpl implements ArticlesService {
             }
         }
 
+        // 判断是否上传了图片
+        if (images != null && !images.isEmpty()) {
+            // 图片相关操作交给 ImageService
+            article.setMediaType(1);
+            List<String> mediaUrls = imageService.saveImages(images, "ARTICLE");
+            // 转换mediaUrls为空格分割的字符串
+            String mediaUrlsStr = String.join(" ", mediaUrls);
+            article.setMediaUrls(mediaUrlsStr);
+        }
+
         // 插入文章，主键回填
         articlesMapper.insert(article);
-        Long articleId = article.getId();
-
-        // 图片相关操作交给 ImageService
-        article.setCoverType(1);
-        imageService.saveImages(images, "ARTICLE", articleId);
-
     }
 
     @Override
     public ArticleDetailVO getDetail(Long id) {
-        return articlesMapper.selectDetailById(id);
+        Long userId = CurrentHolder.getCurrentId();
+        return articlesMapper.selectDetailById(id, userId);
     }
 }

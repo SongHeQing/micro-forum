@@ -15,6 +15,12 @@
             <if test="content != null and content != ''">
                 , content
             </if>
+            <if test="mediaType != null">
+                , media_type
+            </if>
+            <if test="mediaUrls != null and mediaUrls != ''">
+                , media_urls
+            </if>
         ) VALUES (
             #{userId},
             #{channelId},
@@ -24,6 +30,12 @@
             </if>
             <if test="content != null and content != ''">
                 , #{content}
+            </if>
+            <if test="mediaType != null">
+                , #{mediaType}
+            </if>
+            <if test="mediaUrls != null and mediaUrls != ''">
+                , #{mediaUrls}
             </if>
         )
     </insert>
@@ -37,6 +49,10 @@
         <result property="isLiked" column="is_liked_status"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
+        <result property="mediaType" column="media_type"/>
+        <!-- 使用TypeHandler自动转换mediaUrls -->
+        <result property="mediaUrls" column="media_urls" 
+                typeHandler="com.songheqing.microforum.handler.StringToListHandler"/>
         <association property="channelCard" javaType="com.songheqing.microforum.vo.ChannelCardVO">
             <result property="id" column="channel_id"/>
             <result property="channelName" column="channelname"/>
@@ -44,10 +60,6 @@
             <result property="articleCount" column="article_count"/>
             <result property="image" column="image"/>
         </association>
-        <collection property="coverImageUrl" ofType="com.songheqing.microforum.vo.ImageVO">
-            <result property="imageUrl" column="image_url"/>
-            <result property="orderNum" column="order_num"/>
-        </collection>
     </resultMap>
 
     <!-- 文章列表 -->
@@ -60,27 +72,34 @@
                a.comment_count,
                a.create_time,
                a.update_time,
-               i.image_url,
-               i.order_num,
+               a.media_type,
+               a.media_urls,
                c.channelname,
                c.image,
                c.user_count,
-               c.article_count,
-               -- 独立子查询判断点赞状态
-               (
-                (SELECT 1
-                              FROM article_likes al_sub
-                              WHERE al_sub.article_id = a.id
-                                AND al_sub.user_id = #{userId})) AS is_liked_status
-
+               c.article_count
+               -- 独立子查询判断点赞状态，当userId为0时（未登录用户）返回null
+               <!-- (
+                CASE 
+                    WHEN #{userId} IS NULL THEN NULL
+                    ELSE (SELECT 1
+                          FROM article_likes al_sub
+                          WHERE al_sub.article_id = a.id
+                            AND al_sub.user_id = #{userId})
+                END) AS is_liked_status -->
+               <if test="userId != null">
+                   , al.id as is_liked_status
+               </if>
         FROM article a
                  INNER JOIN (SELECT id
                              FROM article
                              ORDER BY create_time DESC
                              LIMIT #{offset}, #{pageSize}) AS page_ids ON a.id = page_ids.id
                  LEFT JOIN channel c ON a.channel_id = c.id
-                 LEFT JOIN images i ON i.entity_type = 'ARTICLE' AND a.id = i.entity_id
-        ORDER BY a.create_time DESC, i.order_num ASC
+                 <if test="userId != null">
+                     LEFT JOIN article_likes al ON a.id = al.article_id AND al.user_id = #{userId}
+                 </if>
+        ORDER BY a.create_time DESC
     </select>
 
     <!-- 文章详情 -->
@@ -88,13 +107,17 @@
         <id property="id" column="id"/>
         <result property="title" column="title"/>
         <result property="content" column="content"/>
-        <result property="coverType" column="cover_type"/>
+        <result property="mediaType" column="media_type"/>
         <result property="likeCount" column="like_count"/>
         <result property="collectCount" column="collect_count"/>
         <result property="commentCount" column="comment_count"/>
         <result property="viewCount" column="view_count"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
+        <result property="isLiked" column="is_liked_status"/>
+        <!-- 使用TypeHandler自动转换mediaUrls -->
+        <result property="mediaUrls" column="media_urls" 
+                typeHandler="com.songheqing.microforum.handler.StringToListHandler"/>
         <association property="user" javaType="com.songheqing.microforum.vo.UserSimpleVO">
             <id property="id" column="user_id"/>
             <result property="nickname" column="nickname"/>
@@ -104,28 +127,27 @@
             <id property="id" column="channel_id"/>
             <result property="channelname" column="channelname"/>
         </association>
-        <collection property="coverImageUrl" ofType="com.songheqing.microforum.vo.ImageVO">
-            <result property="imageUrl" column="image_url"/>
-            <result property="orderNum" column="order_num"/>
-        </collection>
     </resultMap>
 
     <select id="selectDetailById" resultMap="ArticleDetailMap">
         SELECT
-            a.id, a.user_id, a.channel_id, a.title, a.content, a.cover_type,
+            a.id, a.user_id, a.channel_id, a.title, a.content,
+            a.media_type, a.media_urls,
             a.like_count, a.collect_count, a.comment_count, a.view_count,
             a.create_time, a.update_time,
             u.nickname, u.image,
-            i.image_url, i.order_num,
             c.id, c.channelname
+            <if test="userId != null">
+                , al.id as is_liked_status
+            </if>
         FROM article a
         LEFT JOIN user u 
                 ON a.user_id = u.id
-        LEFT JOIN images i
-                ON i.entity_type = 'ARTICLE' AND a.id = i.entity_id
         LEFT JOIN channel c
                 ON a.channel_id = c.id
+                <if test="userId != null">
+                    LEFT JOIN article_likes al ON a.id = al.article_id AND al.user_id = #{userId}
+                </if>
         WHERE a.id = #{id}
-        ORDER BY i.order_num ASC
     </select>
 </mapper> 

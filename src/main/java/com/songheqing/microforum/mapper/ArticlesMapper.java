@@ -24,7 +24,7 @@ public interface ArticlesMapper {
     void insert(ArticleEntity article);
 
     // 查询文章详情
-    ArticleDetailVO selectDetailById(@Param("id") Long id);
+    ArticleDetailVO selectDetailById(@Param("id") Long id, @Param("userId") Long userId);
 
     // 查询当前楼层并加排他锁
     @Select("SELECT floor_count FROM article WHERE id = #{articleId} FOR UPDATE")
@@ -45,4 +45,8 @@ public interface ArticlesMapper {
     // 取消点赞文章
     @Update("UPDATE article SET like_count = like_count - 1 WHERE id = #{id}")
     void decrementLikeCount(@Param("id") Long id);
+
+    // 更新文章的媒体URLs
+    @Update("UPDATE article SET media_urls = #{mediaUrlsStr} WHERE id = #{articleId}")
+    void updateMediaUrls(Long articleId, String mediaUrlsStr);
 }

@@ -2,13 +2,16 @@
 package com.songheqing.microforum.service.impl;
 
 import com.songheqing.microforum.entity.ArticleLikeEntity;
+import com.songheqing.microforum.exception.BusinessException;
 import com.songheqing.microforum.mapper.ArticlesMapper;
 import com.songheqing.microforum.mapper.ArticleLikesMapper;
 import com.songheqing.microforum.utils.CurrentHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class ArticleLikeService {
 
@@ -23,11 +26,19 @@ public class ArticleLikeService {
      * 
      * @param articleId 文章ID
      * @return true表示点赞成功，false表示取消点赞成功
+     * @throws BusinessException 当用户未登录时抛出异常
      */
     @Transactional // 保证点赞记录和文章点赞计数更新的原子性
     public boolean toggleLike(Long articleId) {
         // 从 CurrentHolder 获取当前用户ID
         Long userId = CurrentHolder.getCurrentId();
+
+        // 检查用户是否已登录
+        if (userId == null) {
+            throw new BusinessException("请先登录后再进行点赞操作");
+        }
+
+        log.info("用户 {} 尝试切换文章 {} 的点赞状态", userId, articleId);
 
         // 1. 查询是否已点赞
         boolean exists = articleLikesMapper.existsByArticleIdAndUserId(articleId, userId);
@@ -37,7 +48,7 @@ public class ArticleLikeService {
             int deletedRows = articleLikesMapper.deleteByArticleIdAndUserId(articleId, userId);
             if (deletedRows > 0) {
                 articlesMapper.decrementLikeCount(articleId); // 文章点赞量-1
-                System.out.println("用户 " + userId + " 取消点赞文章 " + articleId);
+                log.info("用户 {} 成功取消点赞文章 {}", userId, articleId);
                 return false; // 返回false表示已取消点赞
             }
             return true; // 如果删除失败（理论上不应发生），保持原状态
@@ -49,7 +60,7 @@ public class ArticleLikeService {
             int insertedRows = articleLikesMapper.insert(articleLike);
             if (insertedRows > 0) {
                 articlesMapper.incrementLikeCount(articleId); // 文章点赞量+1
-                System.out.println("用户 " + userId + " 点赞文章 " + articleId);
+                log.info("用户 {} 成功点赞文章 {}", userId, articleId);
                 return true; // 返回true表示已点赞
             }
             return false; // 如果插入失败（理论上不应发生），保持原状态

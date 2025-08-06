@@ -27,7 +27,12 @@ public class ArticlesController {
     @Autowired
     private ArticlesService articlesService;
 
-    // 查询文章列表
+    /**
+     * 获取文章列表
+     * 
+     * @param pageNumber 页码
+     * @return 文章列表
+     */
     @GetMapping
     public Result<List<ArticleListVO>> list(@RequestParam Integer pageNumber) {
         List<ArticleListVO> articles = articlesService.list(pageNumber);
@@ -51,13 +56,15 @@ public class ArticlesController {
         return Result.success();
     }
 
-    // 获取文章详情
+    /**
+     * 获取文章详情
+     * 
+     * @param id 文章ID
+     * @return 文章详情
+     */
     @GetMapping("/{id}")
     public Result<ArticleDetailVO> detail(@PathVariable Long id) {
-        ArticleDetailVO detail = articlesService.getDetail(id);
-        if (detail == null) {
-            return Result.error("文章不存在");
-        }
-        return Result.success(detail);
+        ArticleDetailVO articleDetail = articlesService.getDetail(id);
+        return Result.success(articleDetail);
     }
 }

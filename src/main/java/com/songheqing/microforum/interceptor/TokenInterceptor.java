@@ -44,11 +44,17 @@ public class TokenInterceptor implements HandlerInterceptor {
                 Claims claims = jwtUtil.parseToken(jwt);
                 Long userId = Long.valueOf(claims.get("id").toString());
                 CurrentHolder.setCurrentId(userId);
+                log.debug("成功设置用户ID: {}", userId);
             } catch (Exception e) {
                 e.printStackTrace();
                 log.info("解析令牌失败, 返回错误结果");
                 isJwtValid = false;
+                // 只有在解析失败时才清空用户ID
+                CurrentHolder.remove();
             }
+        } else {
+            // 如果JWT无效，清空用户ID
+            CurrentHolder.remove();
         }
 
         // 0. 放行所有OPTIONS预检请求（必须放在最前面！）
@@ -64,9 +70,9 @@ public class TokenInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        // 放行GET /articles/{id}（文章详情查询）
+        // 放行GET /articles/{id}（文章详情查询）- 精确匹配，避免误放行点赞等操作
         if ("GET".equalsIgnoreCase(request.getMethod()) &&
-                request.getRequestURI().matches("/articles/\\d+")) {
+                request.getRequestURI().matches("^/articles/\\d+$")) {
             log.info("放行文章详情查询: {}", request.getRequestURI());
             return true;
         }
