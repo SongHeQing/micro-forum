@@ -78,7 +78,7 @@ public class CommentServiceImpl implements CommentService {
      * 查询一级评论
      */
     private static final Integer COMMENT_LIMIT = 15;
-    private static final Integer REPLIES_PREVIEW_LIMIT = 4;
+    private static final Integer REPLIES_PREVIEW_LIMIT = 5;
 
     @Transactional(readOnly = true)
     public List<CommentVO> queryTopLevelComments(Long articleId, Integer pageNum) {

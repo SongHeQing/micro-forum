@@ -3,7 +3,7 @@
 <mapper namespace="com.songheqing.microforum.mapper.UserMapper">
 
     <select id="login" resultType="com.songheqing.microforum.entity.UserEntity">
-        select id, email from user where email = #{email} and password = #{password}
+        select id, email, nickname, image from user where email = #{email} and password = #{password}
     </select>
 
     <select id="findByNickname" resultType="com.songheqing.microforum.entity.UserEntity">

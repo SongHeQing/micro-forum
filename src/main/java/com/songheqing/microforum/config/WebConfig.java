@@ -1,8 +1,11 @@
 package com.songheqing.microforum.config;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -39,7 +42,13 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 静态资源映射：/uploads/** 映射到本地文件夹
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:" + uploadDir + "/");
+                .addResourceLocations("file:" + uploadDir + "/")
+                // 1. 设置Cache-Control响应头，实现强缓存
+                // Cache-Control: public, max-age=31536000
+                // max-age=31536000：设置了缓存的有效期为 31536000 秒，也就是一年。
+                // public：表示该缓存可以被客户端浏览器和任何中间代理服务器（如 CDN）缓存
+                .setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS).cachePublic());
+
     }
 
     @Override

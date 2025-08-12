@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 public class UserEntity {
-    private Integer id;
+    private Long id;
     private String phone;
-    private String password;
     private String email;
+    private String password;
     private String nickname;
     private String image;
     private LocalDateTime createTime;
