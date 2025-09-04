@@ -36,9 +36,9 @@ public class CommentController {
 
     @Operation(summary = "提交一级评论", description = "向指定文章提交一级评论，支持富文本或纯文本内容，内容限制为2000字以内")
     @PostMapping("/add")
-    public Result<Void> addComment(@Valid @RequestBody CommentAddRequest request) {
-        commentService.addComment(request);
-        return Result.success();
+    public Result<Long> addComment(@Valid @RequestBody CommentAddRequest request) {
+        Long commentId = commentService.addComment(request);
+        return Result.success(commentId);
     }
 
     @Operation(summary = "回复评论", description = "对某一级评论进行回复，支持@目标用户展示，内容限制为500字以内")
@@ -66,5 +66,14 @@ public class CommentController {
             @Parameter(description = "页码", example = "1") @Min(1) Integer page) {
         List<CommentReplyVO> replies = commentService.queryReplies(parentId, page);
         return Result.success(replies);
+    }
+
+    @Operation(summary = "切换评论点赞状态", description = "如果已点赞则取消点赞，如果未点赞则点赞")
+    @PostMapping("/{commentId}/like")
+    public Result<Boolean> toggleCommentLike(
+            @Parameter(description = "评论ID", example = "1") @PathVariable @NotNull Long commentId,
+            @Parameter(description = "文章ID", example = "101") @RequestParam @NotNull Long articleId) {
+        boolean isLiked = commentService.toggleCommentLike(commentId, articleId);
+        return Result.success(isLiked);
     }
 }

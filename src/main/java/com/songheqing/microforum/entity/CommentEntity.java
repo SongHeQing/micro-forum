@@ -24,6 +24,9 @@ public class CommentEntity {
     /** 二级评论数 */
     private Integer replyCount;
 
+    /** 点赞数 */
+    private Integer likeCount;
+
     /** 回复目标用户 ID（用于 UI 展示） */
     private Long replyToUserId;
 

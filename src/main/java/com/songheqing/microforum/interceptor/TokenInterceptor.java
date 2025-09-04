@@ -77,6 +77,20 @@ public class TokenInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        // 放行GET /comment/list（评论列表查询）
+        if ("GET".equalsIgnoreCase(request.getMethod()) &&
+                "/comment/list".equals(request.getRequestURI())) {
+            log.info("放行评论列表查询: {}", request.getRequestURI());
+            return true;
+        }
+
+        // 放行GET /comment/replies（评论回复查询）
+        if ("GET".equalsIgnoreCase(request.getMethod()) &&
+                "/comment/replies".equals(request.getRequestURI())) {
+            log.info("放行评论回复查询: {}", request.getRequestURI());
+            return true;
+        }
+
         // 3. 获取请求头中的令牌（token）。
         // String jwt = request.getHeader("Authorization");
 

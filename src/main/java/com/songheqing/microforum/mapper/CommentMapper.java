@@ -18,9 +18,15 @@ public interface CommentMapper {
     @Update("UPDATE comment SET reply_count = reply_count + 1 WHERE id = #{parentId}")
     void incrementReplyCount(@Param("parentId") Long parentId);
 
+    @Update("UPDATE comment SET like_count = like_count + 1 WHERE id = #{commentId}")
+    void incrementLikeCount(@Param("commentId") Long commentId);
+
+    @Update("UPDATE comment SET like_count = like_count - 1 WHERE id = #{commentId}")
+    void decrementLikeCount(@Param("commentId") Long commentId);
+
     List<CommentVO> selectTopLevelCommentVOs(@Param("articleId") Long articleId, @Param("limit") int limit,
-            @Param("offset") int offset);
+            @Param("offset") int offset, @Param("currentUserId") Long currentUserId);
 
     List<CommentReplyVO> selectCommentReplyVOs(@Param("parentId") Long parentId, @Param("limit") int limit,
-            @Param("offset") int offset);
+            @Param("offset") int offset, @Param("currentUserId") Long currentUserId);
 }

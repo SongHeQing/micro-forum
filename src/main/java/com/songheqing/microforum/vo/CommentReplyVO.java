@@ -19,6 +19,12 @@ public class CommentReplyVO {
     @Schema(description = "评论内容")
     private String content;
 
+    @Schema(description = "点赞数")
+    private Integer likeCount;
+
+    @Schema(description = "当前用户是否已点赞")
+    private Boolean isLiked;
+
     @Schema(description = "创建时间")
     private LocalDateTime createTime;
 }

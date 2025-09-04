@@ -3,6 +3,7 @@ package com.songheqing.microforum.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
 import com.songheqing.microforum.entity.ArticleLikeEntity;
@@ -15,6 +16,7 @@ public interface ArticleLikesMapper {
      * @param articleLike 点赞实体
      * @return 影响的行数
      */
+    @Insert("INSERT INTO article_likes (user_id, article_id) VALUES (#{userId}, #{articleId})")
     int insert(ArticleLikeEntity articleLike);
 
     /**

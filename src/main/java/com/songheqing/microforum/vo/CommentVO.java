@@ -23,6 +23,12 @@ public class CommentVO {
     @Schema(description = "该评论下的子评论总数")
     private Integer replyCount;
 
+    @Schema(description = "点赞数")
+    private Integer likeCount;
+
+    @Schema(description = "当前用户是否已点赞")
+    private Boolean isLiked;
+
     @Schema(description = "前 4 条子评论预览")
     private List<CommentReplyVO> previewReplies;
 

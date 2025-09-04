@@ -4,8 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.songheqing.microforum.mapper.CommentMapper">
-    <!-- 新增评论 -->
-    <insert id="insertComment" parameterType="com.songheqing.microforum.entity.CommentEntity">
+    <!-- 新增评论，回显id -->
+    <insert id="insertComment" parameterType="com.songheqing.microforum.entity.CommentEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO comment (article_id, parent_id, floor, user_id, reply_to_user_id, content)
         VALUES (#{articleId}, #{parentId}, #{floor}, #{userId}, #{replyToUserId}, #{content})
     </insert>
@@ -16,8 +16,10 @@
         <result property="content" column="content"/>
         <result property="createTime" column="create_time"/>
         <result property="replyCount" column="reply_count"/>
+        <result property="likeCount" column="like_count"/>
+        <result property="isLiked" column="is_liked"/>
         <result property="floor" column="floor"/>
-        
+
         <association property="user" javaType="com.songheqing.microforum.vo.UserSimpleVO">
             <id property="id" column="user_id"/>
             <result property="nickname" column="user_nickname"/>
@@ -27,11 +29,17 @@
 
     <!-- 查询一级评论 -->
     <select id="selectTopLevelCommentVOs" resultMap="CommentMap">
-        SELECT 
-        c.id, c.content, c.create_time, c.reply_count, c.floor, 
+        SELECT
+        c.id, c.content, c.create_time, c.reply_count, c.like_count, c.floor,
         u.id AS user_id, u.nickname AS user_nickname, u.image AS user_image
+        <if test="currentUserId != null">   
+            ,CASE WHEN cl.id IS NOT NULL THEN 1 ELSE 0 END AS is_liked   
+        </if>   
         FROM comment c
         LEFT JOIN user u ON c.user_id = u.id
+        <if test="currentUserId != null">   
+            LEFT JOIN comment_likes cl ON c.id = cl.comment_id AND cl.user_id = #{currentUserId}
+        </if>
         WHERE c.article_id = #{articleId} AND c.parent_id IS NULL
         ORDER BY c.create_time ASC
         LIMIT #{limit} OFFSET #{offset}
@@ -42,6 +50,8 @@
         <id property="id" column="id"/>
         <result property="content" column="content"/>
         <result property="createTime" column="create_time"/>
+        <result property="likeCount" column="like_count"/>
+        <result property="isLiked" column="is_liked"/>
 
         <association property="user" javaType="com.songheqing.microforum.vo.UserSimpleVO">
             <id property="id" column="user_id"/>
@@ -58,13 +68,20 @@
 
     <!-- 查询某条评论的所有子评论分页 -->
     <select id="selectCommentReplyVOs" resultMap="CommentReplyMap">
-        SELECT 
-        c.id, c.content, c.create_time, 
+        SELECT
+        c.id, c.content, c.create_time, c.like_count,
         u.id AS user_id, u.nickname AS user_nickname, u.image AS user_image,
         r.id AS reply_user_id, r.nickname AS reply_user_nickname
+        <if test="currentUserId != null">   
+            ,CASE WHEN cl.id IS NOT NULL THEN 1 ELSE 0 END AS is_liked   
+        </if>   
         FROM comment c
         LEFT JOIN user u ON c.user_id = u.id
         LEFT JOIN user r ON c.reply_to_user_id = r.id
+        <if test="currentUserId != null">   
+            LEFT JOIN comment_likes cl ON c.id = cl.comment_id AND cl.user_id = #{currentUserId}
+        </if>
+
         WHERE c.parent_id = #{parentId}
         ORDER BY c.create_time ASC
         LIMIT #{limit} OFFSET #{offset}

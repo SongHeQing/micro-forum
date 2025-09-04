@@ -60,8 +60,6 @@ public class WebConfig implements WebMvcConfigurer {
                         "/user/login", // 排除登录请求
                         "/user/register", // 排除注册请求
                         "/user/verifyRegisterCode", // 排除校验注册验证码请求
-                        "/comment/list", // 排除评论列表请求
-                        "/comment/replies", // 排除评论回复请求
                         "/swagger-ui/**", // 排除Swagger请求
                         "/v3/api-docs/**", // 排除Swagger请求
                         // "/swagger-resources/**", // 排除Swagger请求
