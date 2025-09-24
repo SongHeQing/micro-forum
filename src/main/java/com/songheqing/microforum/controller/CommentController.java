@@ -43,9 +43,9 @@ public class CommentController {
 
     @Operation(summary = "回复评论", description = "对某一级评论进行回复，支持@目标用户展示，内容限制为500字以内")
     @PostMapping("/reply")
-    public Result<Void> replyToComment(@Valid @RequestBody CommentReplyAddRequest request) {
-        commentService.replyToComment(request);
-        return Result.success();
+    public Result<Long> replyToComment(@Valid @RequestBody CommentReplyAddRequest request) {
+        Long replyId = commentService.replyToComment(request);
+        return Result.success(replyId);
     }
 
     @Operation(summary = "分页查询一级评论（附带前5条回复预览）")

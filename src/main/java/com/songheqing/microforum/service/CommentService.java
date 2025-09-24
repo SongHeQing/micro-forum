@@ -10,7 +10,7 @@ import java.util.List;
 public interface CommentService {
     Long addComment(CommentAddRequest request);
 
-    void replyToComment(CommentReplyAddRequest request);
+    Long replyToComment(CommentReplyAddRequest request);
 
     List<CommentVO> queryTopLevelComments(Long articleId, Integer page);
 

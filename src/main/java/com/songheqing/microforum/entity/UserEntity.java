@@ -1,7 +1,7 @@
 package com.songheqing.microforum.entity;
 
-import java.time.LocalDateTime;
 import lombok.Data;
+import java.time.LocalDateTime;
 
 @Data
 public class UserEntity {
@@ -11,6 +11,12 @@ public class UserEntity {
     private String password;
     private String nickname;
     private String image;
+    private Integer articleSendCount;
+    private Integer commentSendCount;
+    private Integer channelFollowCount;
+    private Integer followCount;
+    private Integer fansCount;
+    private Integer likeCount;
+    private String introduction;
     private LocalDateTime createTime;
-    private LocalDateTime updateTime;
 }

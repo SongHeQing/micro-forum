@@ -6,12 +6,15 @@ import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Data
-public class ArticleListVO {
+public class ArticleUserCardVO {
     @Schema(description = "ID,主键")
     private Long id;
 
-    @Schema(description = "频道卡片")
-    private ChannelCardVO channelCard;
+    @Schema(description = "频道")
+    private ChannelSimpleVO channel;
+
+    @Schema(description = "用户")
+    private UserSimpleVO user;
 
     @Schema(description = "标题")
     private String title;

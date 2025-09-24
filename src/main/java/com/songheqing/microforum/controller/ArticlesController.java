@@ -3,7 +3,8 @@ package com.songheqing.microforum.controller;
 import com.songheqing.microforum.request.ArticlePublishRequest;
 import com.songheqing.microforum.service.ArticlesService;
 import com.songheqing.microforum.vo.ArticleDetailVO;
-import com.songheqing.microforum.vo.ArticleListVO;
+import com.songheqing.microforum.vo.ArticleCardVO;
+import com.songheqing.microforum.vo.ArticleUserCardVO;
 import com.songheqing.microforum.vo.Result;
 
 import jakarta.validation.Valid;
@@ -34,9 +35,23 @@ public class ArticlesController {
      * @return 文章列表
      */
     @GetMapping
-    public Result<List<ArticleListVO>> list(@RequestParam Integer pageNumber) {
-        List<ArticleListVO> articles = articlesService.list(pageNumber);
+    public Result<List<ArticleCardVO>> list(@RequestParam Integer pageNumber) {
+        List<ArticleCardVO> articles = articlesService.list(pageNumber);
         log.info("文章列表：{}", articles);
+        return Result.success(articles);
+    }
+
+    /**
+     * 根据用户ID获取文章列表
+     * 
+     * @param userId     用户ID
+     * @param pageNumber 页码
+     * @return 用户文章列表
+     */
+    @GetMapping("/user/{userId}")
+    public Result<List<ArticleUserCardVO>> listByUserId(@PathVariable Long userId, @RequestParam Integer pageNumber) {
+        List<ArticleUserCardVO> articles = articlesService.listByUserId(userId, pageNumber);
+        log.info("用户文章列表：{}", articles);
         return Result.success(articles);
     }
 

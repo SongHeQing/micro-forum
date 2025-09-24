@@ -6,6 +6,7 @@ import com.songheqing.microforum.exception.BusinessException;
 import com.songheqing.microforum.mapper.ArticlesMapper;
 import com.songheqing.microforum.mapper.CommentMapper;
 import com.songheqing.microforum.mapper.CommentLikesMapper;
+import com.songheqing.microforum.mapper.UserMapper;
 import com.songheqing.microforum.request.CommentAddRequest;
 import com.songheqing.microforum.request.CommentReplyAddRequest;
 import com.songheqing.microforum.service.CommentService;
@@ -35,6 +36,9 @@ public class CommentServiceImpl implements CommentService {
     private ArticlesMapper articlesMapper;
     @Autowired
     private CommentLikesMapper commentLikesMapper;
+    
+    @Autowired
+    private UserMapper userMapper;
 
     /*
      * 添加评论
@@ -58,6 +62,8 @@ public class CommentServiceImpl implements CommentService {
         articlesMapper.incrementCommentCount(request.getArticleId());
         // 更新文章楼层计数
         articlesMapper.incrementFloorCount(request.getArticleId());
+        // 更新用户的评论发送量
+        userMapper.incrementUserCommentCount(CurrentHolder.getCurrentId());
         
         // 返回新创建评论的ID
         return comment.getId();
@@ -67,14 +73,14 @@ public class CommentServiceImpl implements CommentService {
      * 回复评论
      */
     @Transactional
-    public void replyToComment(CommentReplyAddRequest request) {
+    public Long replyToComment(CommentReplyAddRequest request) {
         // 构造回复评论实体
         CommentEntity comment = new CommentEntity();
         BeanUtils.copyProperties(request, comment);
         comment.setUserId(CurrentHolder.getCurrentId());
         // 设置 userId、createdAt 等其他字段
 
-        // 插入评论（无需楼层）
+        // 插入评论（无需楼层）,返回id
         commentMapper.insertComment(comment);
 
         // 更新父评论的子评论数reply_count
@@ -82,6 +88,11 @@ public class CommentServiceImpl implements CommentService {
 
         // 文章评论数+1
         articlesMapper.incrementCommentCount(request.getArticleId());
+        // 更新用户的评论发送量
+        userMapper.incrementUserCommentCount(CurrentHolder.getCurrentId());
+        
+        // 返回新创建评论的ID
+        return comment.getId();
     }
 
     /*

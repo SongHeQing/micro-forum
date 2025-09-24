@@ -1,13 +1,13 @@
 package com.songheqing.microforum.mapper;
 
+import com.songheqing.microforum.entity.ArticleEntity;
+import com.songheqing.microforum.vo.ArticleDetailVO;
+import com.songheqing.microforum.vo.ArticleCardVO;
+import com.songheqing.microforum.vo.ArticleUserCardVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-
-import com.songheqing.microforum.entity.ArticleEntity;
-import com.songheqing.microforum.vo.ArticleDetailVO;
-import com.songheqing.microforum.vo.ArticleListVO;
 
 import java.util.List;
 
@@ -15,10 +15,17 @@ import java.util.List;
 public interface ArticlesMapper {
 
     // 查询所有文章，按更新时间降序排序，由新到旧
-    List<ArticleListVO> selectAll(
+    List<ArticleCardVO> selectAll(
             @Param("offset") Integer offset,
             @Param("pageSize") Integer pageSize,
             @Param("userId") Long userId);
+
+    // 根据用户ID查询文章列表
+    List<ArticleUserCardVO> selectByUserId(
+            @Param("userId") Long userId,
+            @Param("offset") Integer offset,
+            @Param("pageSize") Integer pageSize,
+            @Param("currentUserId") Long currentUserId);
 
     // 插入文章
     void insert(ArticleEntity article);
@@ -49,4 +56,5 @@ public interface ArticlesMapper {
     // 更新文章的媒体URLs
     @Update("UPDATE article SET media_urls = #{mediaUrlsStr} WHERE id = #{articleId}")
     void updateMediaUrls(Long articleId, String mediaUrlsStr);
+
 }

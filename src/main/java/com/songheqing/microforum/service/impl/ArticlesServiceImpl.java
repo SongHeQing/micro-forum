@@ -2,19 +2,22 @@ package com.songheqing.microforum.service.impl;
 
 import com.songheqing.microforum.entity.ArticleEntity;
 import com.songheqing.microforum.mapper.ArticlesMapper;
+import com.songheqing.microforum.mapper.UserMapper;
+import com.songheqing.microforum.request.ArticlePublishRequest;
 import com.songheqing.microforum.service.ArticlesService;
+import com.songheqing.microforum.service.FileStorageService;
 import com.songheqing.microforum.utils.CurrentHolder;
 import com.songheqing.microforum.vo.ArticleDetailVO;
-import com.songheqing.microforum.vo.ArticleListVO;
-import com.songheqing.microforum.request.ArticlePublishRequest;
-import com.songheqing.microforum.service.FileStorageService;
+import com.songheqing.microforum.vo.ArticleCardVO;
+import com.songheqing.microforum.vo.ArticleUserCardVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -28,6 +31,12 @@ public class ArticlesServiceImpl implements ArticlesService {
     @Autowired
     private ArticlesMapper articlesMapper;
 
+    /**
+     * 用户Mapper
+     */
+    @Autowired
+    private UserMapper userMapper;
+
     @Autowired
     private FileStorageService imageService;
 
@@ -39,14 +48,14 @@ public class ArticlesServiceImpl implements ArticlesService {
      */
     @Transactional(readOnly = true)
     @Override
-    public List<ArticleListVO> list(Integer pageNumber) {
+    public List<ArticleCardVO> list(Integer pageNumber) {
         int pageSize = 14;
         int offset = (pageNumber - 1) * pageSize;
         Long userId = CurrentHolder.getCurrentId();
         log.info("userId:{}", userId);
 
         // 现在TypeHandler会自动处理mediaUrls的转换，无需手动处理
-        List<ArticleListVO> articleList = articlesMapper.selectAll(offset, pageSize, userId);
+        List<ArticleCardVO> articleList = articlesMapper.selectAll(offset, pageSize, userId);
         return articleList;
     }
 
@@ -55,6 +64,26 @@ public class ArticlesServiceImpl implements ArticlesService {
      */
     @Value("${app.upload-dir}")
     private String UPLOAD_DIR;
+
+    /**
+     * 根据用户ID获取文章列表
+     * 
+     * @param userId     用户ID
+     * @param pageNumber 页码
+     * @return 用户文章列表
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<ArticleUserCardVO> listByUserId(Long userId, Integer pageNumber) {
+        int pageSize = 14;
+        int offset = (pageNumber - 1) * pageSize;
+        Long currentUserId = CurrentHolder.getCurrentId();
+        log.info("userId:{}, currentUserId:{}", userId, currentUserId);
+
+        // 查询用户文章列表
+        List<ArticleUserCardVO> articleList = articlesMapper.selectByUserId(userId, offset, pageSize, currentUserId);
+        return articleList;
+    }
 
     /**
      * 发布文章
@@ -98,6 +127,9 @@ public class ArticlesServiceImpl implements ArticlesService {
 
         // 插入文章，主键回填
         articlesMapper.insert(article);
+
+        // 更新用户的文章发送量
+        userMapper.incrementUserArticleCount(userId);
     }
 
     @Override

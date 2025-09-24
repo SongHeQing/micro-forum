@@ -91,6 +91,13 @@ public class TokenInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        // 放行GET /user/{userId}/home（用户主页查询）
+        if ("GET".equalsIgnoreCase(request.getMethod()) &&
+                request.getRequestURI().matches("^/user/\\d+/home$")) {
+            log.info("放行用户主页查询: {}", request.getRequestURI());
+            return true;
+        }
+
         // 3. 获取请求头中的令牌（token）。
         // String jwt = request.getHeader("Authorization");
 

@@ -1,23 +1,26 @@
 package com.songheqing.microforum.service.impl;
 
 import com.songheqing.microforum.entity.UserEntity;
-import com.songheqing.microforum.mapper.UserMapper;
+import com.songheqing.microforum.exception.BusinessException;
 import com.songheqing.microforum.exception.UserException;
+import com.songheqing.microforum.mapper.UserMapper;
 import com.songheqing.microforum.request.UserRegisterRequest;
 import com.songheqing.microforum.service.UserService;
 import com.songheqing.microforum.service.VerificationCodeService;
+import com.songheqing.microforum.utils.CurrentHolder;
 import com.songheqing.microforum.utils.JwtUtil;
 import com.songheqing.microforum.vo.LoginInfo;
+import com.songheqing.microforum.vo.UserHomeVO;
+import com.songheqing.microforum.vo.UserProfileVO;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -46,7 +49,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userLogin = userMapper.login(user);
         if (userLogin == null) {
             log.error("用户名或密码错误:{}", user);
-            return null;
+            throw new BusinessException("用户名或密码错误");
         }
         // 1. 生成JWT令牌
         Map<String, Object> dataMap = new HashMap<>();
@@ -108,5 +111,26 @@ public class UserServiceImpl implements UserService {
         String emailPrefix = userRegisterRequest.getEmail().split("@")[0];
         user.setNickname(emailPrefix);
         userMapper.insert(user);
+    }
+
+    /**
+     * 获取当前登录用户的统计数据
+     * 
+     * @return 当前用户统计数据
+     */
+    public UserProfileVO getUserProfileById() {
+        Long userId = CurrentHolder.getCurrentId();
+        return userMapper.selectProfileById(userId);
+    }
+
+    /**
+     * 根据用户ID获取用户主页信息
+     * 
+     * @param userId 用户ID
+     * @return 用户主页信息
+     */
+    @Override
+    public UserHomeVO getUserHomeById(Long userId) {
+        return userMapper.selectHomeById(userId);
     }
 }
