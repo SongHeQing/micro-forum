@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     public LoginInfo login(UserEntity user) {
         UserEntity userLogin = userMapper.login(user);
         if (userLogin == null) {
-            log.error("用户名或密码错误:{}", user);
+            log.warn("用户名或密码错误:{}", user);
             throw new BusinessException("用户名或密码错误");
         }
         // 1. 生成JWT令牌
@@ -58,6 +58,8 @@ public class UserServiceImpl implements UserService {
 
         String jwt = jwtUtil.generateToken(dataMap);
         LoginInfo loginInfo = new LoginInfo(userLogin.getId(), userLogin.getNickname(), userLogin.getEmail(), jwt);
+        // **INFO 级别**：记录核心业务事件（成功登录）
+        log.info("用户登录成功. UserID: {}, Nickname: {}", userLogin.getId(), userLogin.getNickname());
         return loginInfo;
     }
 
@@ -68,22 +70,27 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void register(UserRegisterRequest userRegisterRequest) {
+        String email = userRegisterRequest.getEmail();
         // 1校验是否获取过验证码
-        String redisKey = "email_verify_code:register:" + userRegisterRequest.getEmail();
+        String redisKey = "email_verify_code:register:" + email;
         String redisValue = stringRedisTemplate.opsForValue().get(redisKey);
         if (redisValue != null) {
+            // **WARN 级别**：用户操作错误/重复请求
+            log.warn("验证码重复获取请求被阻止. Email: {}", email);
             throw new UserException("请勿重复获取验证码");
         }
 
         // 2. 检查邮箱是否存在
-        Integer userCheckEmail = userMapper.findByEmail(userRegisterRequest.getEmail());
+        Integer userCheckEmail = userMapper.findByEmail(email);
         if (userCheckEmail != null) {
+            log.info("邮箱已存在. Email: {}", email);
             throw UserException.emailAlreadyExists();
         }
 
         // 3. 发送验证码
         try {
-            verificationCodeService.sendVerificationCode(userRegisterRequest.getEmail(), "register");
+            verificationCodeService.sendVerificationCode(email, "register");
+            log.info("验证码发送成功. Email: {}", email);
         } catch (Exception e) {
             log.error("验证码发送失败：{}", e.getMessage(), e);
             throw UserException.verificationCodeSendFailed(e);

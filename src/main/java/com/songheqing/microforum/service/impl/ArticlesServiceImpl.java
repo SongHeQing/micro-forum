@@ -52,7 +52,7 @@ public class ArticlesServiceImpl implements ArticlesService {
         int pageSize = 14;
         int offset = (pageNumber - 1) * pageSize;
         Long userId = CurrentHolder.getCurrentId();
-        log.info("userId:{}", userId);
+        log.debug("userId:{}", userId);
 
         // 现在TypeHandler会自动处理mediaUrls的转换，无需手动处理
         List<ArticleCardVO> articleList = articlesMapper.selectAll(offset, pageSize, userId);
@@ -78,7 +78,7 @@ public class ArticlesServiceImpl implements ArticlesService {
         int pageSize = 14;
         int offset = (pageNumber - 1) * pageSize;
         Long currentUserId = CurrentHolder.getCurrentId();
-        log.info("userId:{}, currentUserId:{}", userId, currentUserId);
+        log.debug("userId:{}, currentUserId:{}", userId, currentUserId);
 
         // 查询用户文章列表
         List<ArticleUserCardVO> articleList = articlesMapper.selectByUserId(userId, offset, pageSize, currentUserId);

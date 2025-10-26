@@ -1,0 +1,128 @@
+# ./src/main/resources/application-docker-local-prod.yml
+
+# 数据源配置 - 为16GB本地服务器优化
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 容器内通过服务名访问MySQL，端口是MySQL容器内部的3306
+    url: jdbc:mysql://mysql:3306/micro-forum?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: ${MYSQL_ROOT_PASSWORD} # 生产环境应通过环境变量或Docker Secrets配置
+    # 连接池配置 - 优化以适应更大内存
+    hikari:
+      maximum-pool-size: 20         # 最大连接数 20（原10）
+      minimum-idle: 5               # 最小空闲连接数 5（原2）
+      idle-timeout: 30000           # 空闲连接最大存活时间（毫秒） 默认60000ms
+      max-lifetime: 1800000         # 连接最大生命周期（毫秒）当前30分钟 默认1800000ms
+      connection-timeout: 10000      # 获取连接超时时间 10000ms（原5000ms）
+      validation-timeout: 3000      # 验证连接有效性的最大时间 默认2000ms
+      leak-detection-threshold: 15000 # 连接泄露检测阈值（毫秒） 默认15000ms
+  # flyway配置
+  flyway:
+    clean-disabled: true   # ← 显式启用保护！禁用./mvnw flyway:clean，默认值为false
+    validate-on-migrate: true # Flyway checksum 验证，默认值为true开启
+    baseline-on-migrate: false # Flyway 基线，默认值为false关闭
+
+  # Redis 配置 - 优化连接池
+  data:
+    redis:
+      # 容器内通过服务名访问Redis
+      host: redis
+      port: 6379
+      password: ${REDIS_PASSWORD} # 如果Redis容器设置了密码
+      database: 0
+      timeout: 3000 # 连接/命令执行超时时间，单位毫秒，默认2000ms
+      lettuce:
+        pool:
+          max-active: 16            # 最大活跃连接数 16（原8）
+          max-wait: 1000ms          # 最大等待时间
+          max-idle: 16              # 最大空闲连接数 16（原8）
+          min-idle: 4               # 最小空闲连接数 4（原2）
+        shutdown-timeout: 100 # 客户端关闭连接等待时间（默认是100ms，可略调大）
+
+  # 邮箱配置
+  mail:
+    host: ${EMAIL_HOST}
+    port: 465  # 推荐使用SSL端口465，或者TLS端口587
+    username: ${EMAIL_USERNAME} # 例如：yourname@163.com
+    password: ${EMAIL_PASSWORD}   # 这里填写你上面获取到的授权码，不是你的邮箱登录密码
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true # 启用SSL加密
+          timeout: 10000 # 连接超时时间 (毫秒)
+          connectiontimeout: 10000 # 连接超时时间 (毫秒)
+          writetimeout: 10000 # 写入超时时间 (毫秒)
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 10MB      # 单个文件最大原5MB
+      max-request-size: 20MB   # 单次请求最大10MB
+
+  # 禁用Swagger，生产环境不使用Swagger
+  springdoc:
+    api-docs:
+      enabled: false
+    swagger-ui:
+      enabled: false
+
+# 服务器配置
+server:
+  address: 0.0.0.0 # 监听容器内所有网络接口
+  port: 8080 # 确保监听8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+#Mybatis的相关配置
+mybatis:
+  configuration:
+    #开启驼峰命名映射开关
+    map-underscore-to-camel-case: true
+    default-statement-timeout: 30 # 设置默认语句超时时间
+
+# 日志配置
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+  # 日志文件路径指向容器内需要映射的目录
+  file:
+    name: /app/logs/micro-forum.log
+  level:
+  # 1. 设置全局根级别为 INFO (这是推荐的默认值)
+    '[root]': INFO
+
+    # 2. 你的业务包级别 (建议 INFO，以便在生产环境追踪业务流程)
+    #    你设置为 WARN 也可以，但会丢失业务执行信息，只保留警告和错误
+    '[com.songheqing.microforum]': INFO # 生产环境通常设置为INFO或WARN，避免DEBUG级别日志过多
+
+    # 3. 压制“噪音大”的框架日志，只看它们的警告和错误
+    '[org.springframework]': WARN
+    '[org.apache.tomcat]': WARN
+    '[org.mybatis]': WARN   
+    '[com.zaxxer.hikari]': WARN 
+  charset:
+    console: UTF-8
+    file: UTF-8
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
+      total-size-cap: 1GB
+      clean-history-on-start: true
+      file-name-pattern: /app/logs/micro-forum.log.%d{yyyy-MM-dd}.%i.gz
+
+# JWT 配置
+jwt:
+  # 从环境变量读取JWT密钥，提供一个默认值（不推荐生产环境用默认值，但为了避免启动失败）
+  secret: ${JWT_SECRET_KEY} # 生产环境应通过环境变量或Docker Secrets配置
+  expiration: ${JWT_EXPIRATION} # 单位：毫秒
+
+# 文件上传目录（容器内路径）
+app:
+  upload-dir: /opt/app-data/micro-forum/uploads/

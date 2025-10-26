@@ -38,7 +38,7 @@ public class ArticleLikeService {
             throw new BusinessException("请先登录后再进行点赞操作");
         }
 
-        log.info("用户 {} 尝试切换文章 {} 的点赞状态", userId, articleId);
+        log.debug("用户 {} 尝试切换文章 {} 的点赞状态", userId, articleId);
 
         // 1. 查询是否已点赞
         boolean exists = articleLikesMapper.existsByArticleIdAndUserId(articleId, userId);
@@ -48,7 +48,7 @@ public class ArticleLikeService {
             int deletedRows = articleLikesMapper.deleteByArticleIdAndUserId(articleId, userId);
             if (deletedRows > 0) {
                 articlesMapper.decrementLikeCount(articleId); // 文章点赞量-1
-                log.info("用户 {} 成功取消点赞文章 {}", userId, articleId);
+                log.debug("用户 {} 成功取消点赞文章 {}", userId, articleId);
                 return false; // 返回false表示已取消点赞
             }
             return true; // 如果删除失败（理论上不应发生），保持原状态
@@ -60,7 +60,7 @@ public class ArticleLikeService {
             int insertedRows = articleLikesMapper.insert(articleLike);
             if (insertedRows > 0) {
                 articlesMapper.incrementLikeCount(articleId); // 文章点赞量+1
-                log.info("用户 {} 成功点赞文章 {}", userId, articleId);
+                log.debug("用户 {} 成功点赞文章 {}", userId, articleId);
                 return true; // 返回true表示已点赞
             }
             return false; // 如果插入失败（理论上不应发生），保持原状态

@@ -24,7 +24,7 @@ public class TokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         // 添加调试日志
-        log.info("拦截器处理请求: {} {}", request.getMethod(), request.getRequestURI());
+        log.debug("拦截器处理请求: {} {}", request.getMethod(), request.getRequestURI());
 
         // 请求头jwt是否合法
         boolean isJwtValid = true;
@@ -32,13 +32,13 @@ public class TokenInterceptor implements HandlerInterceptor {
         // 3. 获取请求头中的令牌（token）。
         String jwt = request.getHeader("Authorization");
 
-        // 4. 判断令牌是否存在，如果不存在，返回错误结果（未登录）。
+        // 4. 判断令牌是否存在，如果不存在，设置不合法标识（未登录）。
         if (!StringUtils.hasLength(jwt)) { // jwt为空
             isJwtValid = false;
-            log.info("获取到jwt令牌为空, 返回错误结果");
+            log.info("获取到jwt令牌为空, 设置不合法标识");
         }
 
-        // 5. 解析token，如果解析失败，返回错误结果（未登录）。
+        // 5. 解析token，如果解析失败，设置不合法标识（未登录）。
         if (isJwtValid) {
             try {
                 Claims claims = jwtUtil.parseToken(jwt);
@@ -47,7 +47,7 @@ public class TokenInterceptor implements HandlerInterceptor {
                 log.debug("成功设置用户ID: {}", userId);
             } catch (Exception e) {
                 e.printStackTrace();
-                log.info("解析令牌失败, 返回错误结果");
+                log.warn("解析令牌失败, 设置不合法标识");
                 isJwtValid = false;
                 // 只有在解析失败时才清空用户ID
                 CurrentHolder.remove();
@@ -66,35 +66,35 @@ public class TokenInterceptor implements HandlerInterceptor {
         // 放行GET /articles（文章列表查询）
         if ("GET".equalsIgnoreCase(request.getMethod()) &&
                 "/articles".equals(request.getRequestURI())) {
-            log.info("放行文章列表查询: {}", request.getRequestURI());
+            log.debug("放行文章列表查询: {}", request.getRequestURI());
             return true;
         }
 
         // 放行GET /articles/{id}（文章详情查询）- 精确匹配，避免误放行点赞等操作
         if ("GET".equalsIgnoreCase(request.getMethod()) &&
                 request.getRequestURI().matches("^/articles/\\d+$")) {
-            log.info("放行文章详情查询: {}", request.getRequestURI());
+            log.debug("放行文章详情查询: {}", request.getRequestURI());
             return true;
         }
 
         // 放行GET /comment/list（评论列表查询）
         if ("GET".equalsIgnoreCase(request.getMethod()) &&
                 "/comment/list".equals(request.getRequestURI())) {
-            log.info("放行评论列表查询: {}", request.getRequestURI());
+            log.debug("放行评论列表查询: {}", request.getRequestURI());
             return true;
         }
 
         // 放行GET /comment/replies（评论回复查询）
         if ("GET".equalsIgnoreCase(request.getMethod()) &&
                 "/comment/replies".equals(request.getRequestURI())) {
-            log.info("放行评论回复查询: {}", request.getRequestURI());
+            log.debug("放行评论回复查询: {}", request.getRequestURI());
             return true;
         }
 
         // 放行GET /user/{userId}/home（用户主页查询）
         if ("GET".equalsIgnoreCase(request.getMethod()) &&
                 request.getRequestURI().matches("^/user/\\d+/home$")) {
-            log.info("放行用户主页查询: {}", request.getRequestURI());
+            log.debug("放行用户主页查询: {}", request.getRequestURI());
             return true;
         }
 
@@ -125,10 +125,10 @@ public class TokenInterceptor implements HandlerInterceptor {
         // return true;
 
         if (isJwtValid) {
-            log.info("令牌合法, 放行");
+            log.debug("令牌合法, 放行");
             return true;
         } else {
-            log.info("令牌不合法, 返回错误结果");
+            log.warn("令牌不合法, 返回错误结果");
             response.setStatus(401);
             return false;
         }

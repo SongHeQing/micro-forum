@@ -2,6 +2,7 @@ package com.songheqing.microforum.controller;
 
 import com.songheqing.microforum.request.ArticlePublishRequest;
 import com.songheqing.microforum.service.ArticlesService;
+import com.songheqing.microforum.utils.CurrentHolder;
 import com.songheqing.microforum.vo.ArticleDetailVO;
 import com.songheqing.microforum.vo.ArticleCardVO;
 import com.songheqing.microforum.vo.ArticleUserCardVO;
@@ -37,7 +38,7 @@ public class ArticlesController {
     @GetMapping
     public Result<List<ArticleCardVO>> list(@RequestParam Integer pageNumber) {
         List<ArticleCardVO> articles = articlesService.list(pageNumber);
-        log.info("文章列表：{}", articles);
+        log.debug("文章列表查询成功，共{}篇文章", articles.size());
         return Result.success(articles);
     }
 
@@ -51,7 +52,7 @@ public class ArticlesController {
     @GetMapping("/user/{userId}")
     public Result<List<ArticleUserCardVO>> listByUserId(@PathVariable Long userId, @RequestParam Integer pageNumber) {
         List<ArticleUserCardVO> articles = articlesService.listByUserId(userId, pageNumber);
-        log.info("用户文章列表：{}", articles);
+        log.debug("用户{}文章列表查询成功，共{}篇文章", articles, articles.size());
         return Result.success(articles);
     }
 
@@ -64,9 +65,12 @@ public class ArticlesController {
         log.info("发布文章：{}，图片：{}", publishArticleRequest, (images != null ? images.size() : 0));
         try {
             articlesService.publish(publishArticleRequest, images);
+            log.info("文章发布成功. UserID: {}, Title: {}, Images: {}",
+                    CurrentHolder.getCurrentId(), publishArticleRequest.getTitle(),
+                    (images != null ? images.size() : 0));
         } catch (IOException e) {
-            log.error("发布文章失败，文件上传失败：{}", e.getMessage());
-            return Result.error("发布文章失败，文件上传失败");
+            log.error("发布文章失败，{}", e.getMessage());
+            return Result.error("发布文章失败");
         }
         return Result.success();
     }

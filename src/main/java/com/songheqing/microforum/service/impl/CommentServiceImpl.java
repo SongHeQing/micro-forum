@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
     private ArticlesMapper articlesMapper;
     @Autowired
     private CommentLikesMapper commentLikesMapper;
-    
+
     @Autowired
     private UserMapper userMapper;
 
@@ -64,7 +64,7 @@ public class CommentServiceImpl implements CommentService {
         articlesMapper.incrementFloorCount(request.getArticleId());
         // 更新用户的评论发送量
         userMapper.incrementUserCommentCount(CurrentHolder.getCurrentId());
-        
+
         // 返回新创建评论的ID
         return comment.getId();
     }
@@ -90,7 +90,7 @@ public class CommentServiceImpl implements CommentService {
         articlesMapper.incrementCommentCount(request.getArticleId());
         // 更新用户的评论发送量
         userMapper.incrementUserCommentCount(CurrentHolder.getCurrentId());
-        
+
         // 返回新创建评论的ID
         return comment.getId();
     }
@@ -105,7 +105,7 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentVO> queryTopLevelComments(Long articleId, Integer pageNum) {
         Integer offset = (pageNum - 1) * COMMENT_LIMIT;
         Long currentUserId = CurrentHolder.getCurrentId(); // 获取当前用户ID，可能为null
-        log.info("查询一级评论 currentUserId: {}", currentUserId);
+        log.debug("查询一级评论 currentUserId: {}", currentUserId);
         // 1. 查询一级评论（带 user 信息）
         List<CommentVO> topComments = commentMapper.selectTopLevelCommentVOs(articleId, COMMENT_LIMIT, offset,
                 currentUserId);

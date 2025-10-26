@@ -1,0 +1,38 @@
+# FRP服务端配置文件 (TOML格式)
+
+[common]
+# 服务端监听的端口，客户端需要连接这个端口
+bindPort = %s(BIND_PORT)
+
+# HTTP访问的端口（用于Web服务）
+vhostHttpPort = 8080
+
+# HTTPS访问的端口（如果需要HTTPS）
+# vhostHttpsPort = 443
+
+# 仪表盘端口，用于查看FRP状态
+dashboardPort = %s(DASHBOARD_PORT)
+
+# 仪表盘绑定地址，默认为127.0.0.1，需要改为0.0.0.0才能外部访问
+dashboardAddr = "0.0.0.0"
+
+# 仪表盘用户名和密码
+dashboardUser = %s(DASHBOARD_USER)
+dashboardPwd = %s(DASHBOARD_PWD)
+
+# 启用详细的日志记录
+logFile = "./frps.log"
+logLevel = "info"
+logMaxDays = 3
+
+# 客户端连接认证token（需要与客户端配置一致）
+token = %s(FRP_TOKEN)
+
+# 允许客户端使用自定义域名
+allowUserDefinedDomains = true
+
+# 最大连接池数量
+maxPoolCount = 100
+
+# TCP流多路复用
+tcpMux = true

@@ -17,6 +17,13 @@ services:
       - "./mysql/init:/docker-entrypoint-initdb.d" # MySQL初始化脚本目录（可选，用于自动执行.sql/.sh文件）
     networks:
       - micro-forum-net # 将MySQL服务加入到自定义网络
+     # 添加健康检查
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s # 每 5s 执行一次 healthcheck.test
+      timeout: 10s # mysqladmin ping 10 秒内没返回结果，就算失败
+      retries: 12 # 在 start_period 结束后，如果连续 12 次 healthcheck 失败，才标记为 (unhealthy)
+      start_period: 30s  # 在容器启动后的前 30s 内，即使 healthcheck 失败，也不算“不健康”
     deploy:
       resources:
         limits:
@@ -69,8 +76,14 @@ services:
     networks:
       - micro-forum-net # 将后端服务加入到自定义网络
     depends_on:
-      - mysql # 确保mysql服务在后端服务启动前启动
+      # - mysql # 确保mysql服务在后端服务启动前启动
       - redis # 确保redis服务在后端服务启动前启动
+          # 👇 关键：
+    depends_on:
+      mysql:
+        condition: service_healthy # 等待 mysql 真正 ready
+      redis:
+        condition: service_started # 确保redis服务在后端服务启动前启动
     deploy:
       resources:
         limits:

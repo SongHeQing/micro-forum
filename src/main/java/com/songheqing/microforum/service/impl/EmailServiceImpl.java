@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
-@Profile({ "linux-prod", "prod" })
+@Profile({ "linux-prod", "prod", "docker-local-prod" })
 public class EmailServiceImpl implements EmailService {
 
     // 注入邮件发送器

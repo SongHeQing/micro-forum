@@ -1,16 +1,40 @@
 # ./src/main/resources/application-dev.yml
-# 数据源配置
+
 spring:
+  # 数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3307/micro-forum
     username: root
     password: 123456
+
+  # flyway配置
+  flyway:
+    clean-disabled: false   # 禁用./mvnw flyway:clean，默认值为false
+    validate-on-migrate: true # Flyway checksum 验证，默认值为true开启
+    baseline-on-migrate: true # Flyway 基线，默认值为false关闭
+    baseline-version: 1
+
+  # Redis 配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      # password: 123456 # 移除密码配置，因为本地Redis未设置密码
+      database: 0 # 数据库索引，默认为0
+      lettuce:
+        pool:
+          max-active: 8 # 最大连接数
+          max-wait: -1ms # 最大等待时间
+          max-idle: 8 # 最大空闲连接数
+          min-idle: 0 # 最小空闲连接数
+
   # 文件上传配置
   servlet:
     multipart:
       max-file-size: 5MB      # 单个文件最大5MB，默认10MB
       max-request-size: 10MB   # 单次请求最大10MB,默认20MB
+
   # Email Configuration for Netease (163.com)
   mail:
     host: smtp.163.com
@@ -26,19 +50,6 @@ spring:
           timeout: 10000 # 连接超时时间 (毫秒)
           connectiontimeout: 10000 # 连接超时时间 (毫秒)
           writetimeout: 10000 # 写入超时时间 (毫秒)
-  # Redis 配置
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      # password: 123456 # 移除密码配置，因为本地Redis未设置密码
-      database: 0 # 数据库索引，默认为0
-      lettuce:
-        pool:
-          max-active: 8 # 最大连接数
-          max-wait: -1ms # 最大等待时间
-          max-idle: 8 # 最大空闲连接数
-          min-idle: 0 # 最小空闲连接数
 
 # 如果你使用的是 587 端口 (STARTTLS)，配置略有不同
 # spring.mail.host=smtp.163.com
@@ -69,9 +80,21 @@ logging:
     name: logs/micro-forum.log
   level:
     '[com.songheqing.microforum]': DEBUG
+    # 添加一些常用的框架日志配置，便于调试
+    '[org.springframework.web]': DEBUG
+    '[org.springframework.security]': DEBUG
+    '[org.mybatis]': DEBUG
+    '[com.zaxxer.hikari]': DEBUG
   charset:
     console: UTF-8
     file: UTF-8
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 10
+      total-size-cap: 100MB
+      clean-history-on-start: true
+      file-name-pattern: logs/micro-forum.log.%d{yyyy-MM-dd}.%i.gz
 
 #Mybatis的相关配置
 mybatis:
