@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -43,6 +45,23 @@ public class ArticlesController {
     }
 
     /**
+     * 根据频道ID获取文章列表
+     * 
+     * @param channelId  频道ID
+     * @param pageNumber 页码
+     * @param sort       排序方式 (create_time 或 last_reply_time)
+     * @return 频道文章列表
+     */
+    @GetMapping("/channel/{channelId}")
+    public Result<List<ArticleUserCardVO>> listByChannelId(@PathVariable Integer channelId,
+            @RequestParam Integer pageNumber,
+            @RequestParam(required = false) String sort) {
+        List<ArticleUserCardVO> articles = articlesService.listByChannelId(channelId, pageNumber, sort);
+        log.debug("频道{}文章列表查询成功，共{}篇文章", channelId, articles.size());
+        return Result.success(articles);
+    }
+
+    /**
      * 根据用户ID获取文章列表
      * 
      * @param userId     用户ID
@@ -57,11 +76,14 @@ public class ArticlesController {
     }
 
     // 添加文章
-    @PostMapping
+    @PostMapping(consumes = "multipart/form-data")
+    @Operation(summary = "发布文章")
     // 现在使用 @ModelAttribute 来绑定表单字段到一个 DTO，并配合 @Valid
     // 注意：@ModelAttribute 默认也会绑定 @RequestParam 的字段
-    public Result<Void> publish(@Valid @ModelAttribute ArticlePublishRequest publishArticleRequest,
-            @RequestPart(value = "images", required = false) List<MultipartFile> images) {
+    // 对于 MultipartFile 类型的文件参数，使用 @RequestParam 是 Spring MVC 的标准做法
+    public Result<Void> publish(
+            @Parameter(description = "文章信息") @Valid @ModelAttribute ArticlePublishRequest publishArticleRequest,
+            @Parameter(description = "文章图片") @RequestParam(value = "images", required = false) List<MultipartFile> images) {
         log.info("发布文章：{}，图片：{}", publishArticleRequest, (images != null ? images.size() : 0));
         try {
             articlesService.publish(publishArticleRequest, images);

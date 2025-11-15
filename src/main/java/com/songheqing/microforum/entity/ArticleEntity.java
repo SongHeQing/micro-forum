@@ -30,8 +30,8 @@ public class ArticleEntity {
     /** 文章媒体类型：0=无；1=图片；2=视频 */
     private Integer mediaType;
 
-    /** 媒体URLs */
-    private String mediaUrls;
+    /** 媒体 */
+    private String media;
 
     /** 点赞量 */
     private Integer likeCount;
@@ -48,9 +48,9 @@ public class ArticleEntity {
     /** 文章的一级评论楼层计数 */
     private Integer floorCount;
 
+    /** 最后回复时间 */
+    private LocalDateTime lastReplyTime;
+
     /** 创建时间（数据库自动填充） */
     private LocalDateTime createTime;
-
-    /** 修改时间（数据库自动填充） */
-    private LocalDateTime updateTime;
 }

@@ -108,11 +108,25 @@ jwt:
   secret: your-256-bit-secret-key-here-make-it-long-enough-for-security
   expiration: 2592000000  # 30天，单位：毫秒
 
-##Swagger和
-#springdoc:
-#  packages-to-scan: com.songheqing.microforum.controller  # 关键：只扫描控制器
+# Swagger和SpringDoc配置
 # 配置Swagger的请求头
+springdoc:
+  swagger-ui:
+    # 确保显示文件上传控件
+    show-common-extensions: true
+    try-it-out-enabled: true
+  packages-to-scan: com.songheqing.microforum.controller  # 关键：只扫描控制器
 
+# MinIO 配置
+minio:
+  endpoint: http://169.254.207.194:9000 # 内部访问地址
+  public-url: http://169.254.207.194:9000   # 外部访问地址（可选）
+  access-key: minioadmin
+  secret-key: minioadmin
+  buckets:
+    public: micro-forum-public
+    private: micro-forum-private
+    temp: micro-forum-temp
 
 app:
   upload-dir: D:\huang\huang-installation\programming-aids\java\Java-workspae\SongHeQing_Projects\micro-forum\uploads

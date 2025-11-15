@@ -5,7 +5,9 @@ import com.songheqing.microforum.mapper.ArticlesMapper;
 import com.songheqing.microforum.mapper.UserMapper;
 import com.songheqing.microforum.request.ArticlePublishRequest;
 import com.songheqing.microforum.service.ArticlesService;
-import com.songheqing.microforum.service.FileStorageService;
+import com.songheqing.microforum.constant.MinioConstants;
+import com.songheqing.microforum.converter.MinioUrlConverter;
+import com.songheqing.microforum.service.MinioService;
 import com.songheqing.microforum.utils.CurrentHolder;
 import com.songheqing.microforum.vo.ArticleDetailVO;
 import com.songheqing.microforum.vo.ArticleCardVO;
@@ -13,7 +15,6 @@ import com.songheqing.microforum.vo.ArticleUserCardVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,7 +39,10 @@ public class ArticlesServiceImpl implements ArticlesService {
     private UserMapper userMapper;
 
     @Autowired
-    private FileStorageService imageService;
+    private MinioService minioService;
+
+    @Autowired
+    private MinioUrlConverter minioUrlConverter;
 
     /**
      * 查询文章列表
@@ -56,14 +60,30 @@ public class ArticlesServiceImpl implements ArticlesService {
 
         // 现在TypeHandler会自动处理mediaUrls的转换，无需手动处理
         List<ArticleCardVO> articleList = articlesMapper.selectAll(offset, pageSize, userId);
-        return articleList;
+        return minioUrlConverter.updateArticleCardVOs(articleList);
     }
 
     /**
-     * 上传文件的目录
+     * 根据频道ID获取文章列表
+     * 
+     * @param channelId  频道ID
+     * @param pageNumber 页码
+     * @param sort       排序方式 (create_time 或 last_reply_time)
+     * @return 频道文章列表
      */
-    @Value("${app.upload-dir}")
-    private String UPLOAD_DIR;
+    @Transactional(readOnly = true)
+    @Override
+    public List<ArticleUserCardVO> listByChannelId(Integer channelId, Integer pageNumber, String sort) {
+        int pageSize = 14;
+        int offset = (pageNumber - 1) * pageSize;
+        Long userId = CurrentHolder.getCurrentId();
+        log.debug("channelId:{}, userId:{}", channelId, userId);
+
+        // 查询频道文章列表
+        List<ArticleUserCardVO> articleList = articlesMapper.selectByChannelId(channelId, offset, pageSize, userId,
+                sort);
+        return minioUrlConverter.updateArticleUserCardVOs(articleList);
+    }
 
     /**
      * 根据用户ID获取文章列表
@@ -82,6 +102,8 @@ public class ArticlesServiceImpl implements ArticlesService {
 
         // 查询用户文章列表
         List<ArticleUserCardVO> articleList = articlesMapper.selectByUserId(userId, offset, pageSize, currentUserId);
+        // 使用MinioUrlConverter将对象名称转换为公共URL
+        articleList = minioUrlConverter.updateArticleUserCardVOs(articleList);
         return articleList;
     }
 
@@ -117,12 +139,12 @@ public class ArticlesServiceImpl implements ArticlesService {
 
         // 判断是否上传了图片
         if (images != null && !images.isEmpty()) {
-            // 图片相关操作交给 ImageService
+            // 图片相关操作交给 MinioService
             article.setMediaType(1);
-            List<String> mediaUrls = imageService.saveImages(images, "ARTICLE");
+            List<String> mediaUrls = minioService.uploadFilesToPublicBucket(images, MinioConstants.EntityType.ARTICLE);
             // 转换mediaUrls为空格分割的字符串
-            String mediaUrlsStr = String.join(" ", mediaUrls);
-            article.setMediaUrls(mediaUrlsStr);
+            String mediaStr = String.join(" ", mediaUrls);
+            article.setMedia(mediaStr);
         }
 
         // 插入文章，主键回填
@@ -135,6 +157,7 @@ public class ArticlesServiceImpl implements ArticlesService {
     @Override
     public ArticleDetailVO getDetail(Long id) {
         Long userId = CurrentHolder.getCurrentId();
-        return articlesMapper.selectDetailById(id, userId);
+        ArticleDetailVO articleDetail = articlesMapper.selectDetailById(id, userId);
+        return minioUrlConverter.updateArticleDetailVO(articleDetail);
     }
 }

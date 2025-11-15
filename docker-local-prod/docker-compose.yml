@@ -42,6 +42,27 @@ services:
     #     limits:
     #       memory: 60M # Redis，如果缓存数据量不大，100M-200M 可以。如果缓存数据量大，需要更多。
 
+  # MinIO 对象存储服务
+  minio:
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    container_name: minio
+    ports:
+      - "9000:9000" # API端口
+      - "9001:9001" # 控制台端口
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
+    volumes:
+      - minio_data:/data # MinIO数据持久化
+    networks:
+      - micro-forum-net
+    command: server /data --console-address ":9001"
+    # 为本地16GB服务器优化，取消资源限制以充分利用资源
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 200M
+
   # FRP 客户端服务
   frpc:
     build: ./frpc-client
@@ -73,6 +94,8 @@ services:
       EMAIL_HOST: ${EMAIL_HOST}
       EMAIL_USERNAME: ${EMAIL_USERNAME}
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
         # <-- 引用 .env 文件中的变量
         # <-- 【重要】请务必替换为你的JWT密钥！生产环境强烈建议使用.env文件或Docker Secrets。
         # 如果你的应用需要从环境变量获取MySQL密码，可以在此取消注释并设置
@@ -81,12 +104,13 @@ services:
       JAVA_OPTS: "-Xmx2048m -Xms1024m -XX:MaxMetaspaceSize=256m"
     volumes:
       - micro_forum_logs:/app/logs # 命名卷，用于Spring Boot日志持久化
-      - micro_forum_uploads:/opt/app-data/micro-forum/uploads # 命名卷，用于文件上传目录持久化
+      # - micro_forum_uploads:/opt/app-data/micro-forum/uploads # 命名卷，用于文件上传目录持久化
     networks:
       - micro-forum-net # 将后端服务加入到自定义网络
     depends_on:
       - mysql # 确保mysql服务在后端服务启动前启动
       - redis # 确保redis服务在后端服务启动前启动
+      - minio # 确保minio服务在后端服务启动前启动
     # 为本地16GB服务器优化，取消资源限制以充分利用资源
     # deploy:
     #   resources:
@@ -125,5 +149,6 @@ networks:
 volumes:
   mysql_data: # MySQL数据卷
   redis_data: # Redis数据卷
+  minio_data: # MinIO数据卷
   micro_forum_logs: # micro-forum后端服务日志卷
-  micro_forum_uploads: # micro-forum后端服务上传文件卷
+  # micro_forum_uploads: # micro-forum后端服务上传文件卷

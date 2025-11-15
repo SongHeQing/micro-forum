@@ -70,10 +70,24 @@ public class TokenInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        // 放行GET /articles/channel/{channelId}（频道文章列表查询）
+        if ("GET".equalsIgnoreCase(request.getMethod()) &&
+                request.getRequestURI().matches("^/articles/channel/\\d+$")) {
+            log.debug("放行频道文章列表查询: {}", request.getRequestURI());
+            return true;
+        }
+
         // 放行GET /articles/{id}（文章详情查询）- 精确匹配，避免误放行点赞等操作
         if ("GET".equalsIgnoreCase(request.getMethod()) &&
                 request.getRequestURI().matches("^/articles/\\d+$")) {
             log.debug("放行文章详情查询: {}", request.getRequestURI());
+            return true;
+        }
+
+        // 放行GET /channels/{id}（频道信息查询）
+        if ("GET".equalsIgnoreCase(request.getMethod()) &&
+                request.getRequestURI().matches("^/channels/\\d+$")) {
+            log.debug("放行频道信息查询: {}", request.getRequestURI());
             return true;
         }
 

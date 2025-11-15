@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.songheqing.microforum.mapper.ArticleCollectionPreviewMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="ArticleCollectionPreviewMap" type="com.songheqing.microforum.entity.ArticleCollectionPreviewEntity">
+        <id property="id" column="id"/>
+        <result property="authorUserId" column="author_user_id"/>
+        <result property="title" column="title"/>
+        <result property="firstImage" column="first_image"/>
+        <result property="articleId" column="article_id"/>
+        <result property="collectedCount" column="collected_count"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <!-- 插入文章收藏预览记录 -->
+    <insert id="insert" parameterType="com.songheqing.microforum.entity.ArticleCollectionPreviewEntity">
+        INSERT INTO article_collection_previews (
+            id,
+            author_user_id,
+            title,
+            first_image,
+            article_id,
+            collected_count,
+            create_time
+        ) VALUES (
+            #{id},
+            #{authorUserId},
+            #{title},
+            #{firstImage},
+            #{articleId},
+            #{collectedCount},
+            #{createTime}
+        )
+    </insert>
+
+    <!-- 根据ID查询文章收藏预览记录 -->
+    <select id="selectById" resultMap="ArticleCollectionPreviewMap">
+        SELECT 
+            id,
+            author_user_id,
+            title,
+            first_image,
+            article_id,
+            collected_count,
+            create_time
+        FROM article_collection_previews
+        WHERE id = #{id}
+    </select>
+
+    <!-- 根据作者用户ID查询文章收藏预览列表 -->
+    <select id="selectByAuthorUserId" resultMap="ArticleCollectionPreviewMap">
+        SELECT 
+            id,
+            author_user_id,
+            title,
+            first_image,
+            article_id,
+            collected_count,
+            create_time
+        FROM article_collection_previews
+        WHERE author_user_id = #{authorUserId}
+        ORDER BY create_time DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <!-- 更新收藏数量 -->
+    <update id="updateCollectedCount">
+        UPDATE article_collection_previews 
+        SET collected_count = #{collectedCount}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除文章收藏预览记录 -->
+    <delete id="deleteById">
+        DELETE FROM article_collection_previews
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 根据文章ID查询 -->
+    <select id="selectByArticleId" resultMap="ArticleCollectionPreviewMap">
+        SELECT 
+            id,
+            author_user_id,
+            title,
+            first_image,
+            article_id,
+            collected_count,
+            create_time
+        FROM article_collection_previews
+        WHERE article_id = #{articleId}
+    </select>
+
+</mapper>

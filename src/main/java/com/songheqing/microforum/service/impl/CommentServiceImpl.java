@@ -62,6 +62,8 @@ public class CommentServiceImpl implements CommentService {
         articlesMapper.incrementCommentCount(request.getArticleId());
         // 更新文章楼层计数
         articlesMapper.incrementFloorCount(request.getArticleId());
+        // 更新文章最后回复时间
+        articlesMapper.updateLastReplyTime(request.getArticleId());
         // 更新用户的评论发送量
         userMapper.incrementUserCommentCount(CurrentHolder.getCurrentId());
 
@@ -88,6 +90,8 @@ public class CommentServiceImpl implements CommentService {
 
         // 文章评论数+1
         articlesMapper.incrementCommentCount(request.getArticleId());
+        // 更新文章最后回复时间
+        articlesMapper.updateLastReplyTime(request.getArticleId());
         // 更新用户的评论发送量
         userMapper.incrementUserCommentCount(CurrentHolder.getCurrentId());
 

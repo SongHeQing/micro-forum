@@ -18,8 +18,8 @@
             <if test="mediaType != null">
                 , media_type
             </if>
-            <if test="mediaUrls != null and mediaUrls != ''">
-                , media_urls
+            <if test="media != null and media != ''">
+                , media
             </if>
         ) VALUES (
             #{userId},
@@ -34,8 +34,8 @@
             <if test="mediaType != null">
                 , #{mediaType}
             </if>
-            <if test="mediaUrls != null and mediaUrls != ''">
-                , #{mediaUrls}
+            <if test="media != null and media != ''">
+                , #{media}
             </if>
         )
     </insert>
@@ -48,10 +48,9 @@
         <result property="commentCount" column="comment_count"/>
         <result property="isLiked" column="is_liked_status"/>
         <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
         <result property="mediaType" column="media_type"/>
         <!-- 使用TypeHandler自动转换mediaUrls -->
-        <result property="mediaUrls" column="media_urls" 
+        <result property="mediaUrls" column="media" 
                 typeHandler="com.songheqing.microforum.handler.StringToListHandler"/>
         <association property="channelCard" javaType="com.songheqing.microforum.vo.ChannelCardVO">
             <result property="id" column="channel_id"/>
@@ -71,9 +70,8 @@
                a.like_count,
                a.comment_count,
                a.create_time,
-               a.update_time,
                a.media_type,
-               a.media_urls,
+               a.media,
                c.channelname,
                c.image,
                c.user_count,
@@ -99,7 +97,72 @@
                  <if test="userId != null">
                      LEFT JOIN article_likes al ON a.id = al.article_id AND al.user_id = #{userId}
                  </if>
-        ORDER BY a.create_time DESC
+    </select>
+
+    <!-- 根据频道ID查询文章列表 -->
+    <resultMap id="ArticleUserCardMap" type="com.songheqing.microforum.vo.ArticleUserCardVO">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="contentPreview" column="content_preview"/>
+        <result property="mediaType" column="media_type"/>
+        <result property="likeCount" column="like_count"/>
+        <result property="commentCount" column="comment_count"/>
+        <result property="lastReplyTime" column="last_reply_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="isLiked" column="is_liked_status"/>
+        <!-- 使用TypeHandler自动转换mediaUrls -->
+        <result property="mediaUrls" column="media" 
+                typeHandler="com.songheqing.microforum.handler.StringToListHandler"/>
+        <association property="channel" javaType="com.songheqing.microforum.vo.ChannelSimpleVO">
+            <result property="id" column="channel_id"/>
+            <result property="channelname" column="channelname"/>
+            <result property="imageUrl" column="channel_image"/>
+        </association>
+        <association property="user" javaType="com.songheqing.microforum.vo.UserSimpleVO">
+            <result property="id" column="user_id"/>
+            <result property="nickname" column="user_nickname"/>
+            <result property="image" column="user_image"/>
+        </association>
+    </resultMap>
+
+    <!-- 根据频道ID查询文章列表 -->
+    <select id="selectByChannelId" resultMap="ArticleUserCardMap">
+        SELECT a.id,
+               a.title,
+               a.content_preview,
+               a.like_count,
+               a.comment_count,
+               a.last_reply_time,
+               a.create_time,
+               a.media_type,
+               a.media,
+               c.id as channel_id,
+               c.channelname,
+               u.id as user_id,
+               u.nickname as user_nickname,
+               u.image as user_image
+               <if test="userId != null">
+                   , al.id as is_liked_status
+               </if>
+        FROM article a
+                 INNER JOIN (SELECT id
+                             FROM article
+                             WHERE channel_id = #{channelId}
+                             <choose>
+                                <!-- 按回复时间排序 -->
+                                 <when test="sort != null and sort == 'create_time'">
+                                     ORDER BY create_time DESC
+                                 </when>
+                                 <otherwise>
+                                     ORDER BY last_reply_time DESC
+                                 </otherwise>
+                             </choose>
+                             LIMIT #{offset}, #{pageSize}) AS page_ids ON a.id = page_ids.id
+                 LEFT JOIN channel c ON a.channel_id = c.id
+                 LEFT JOIN user u ON a.user_id = u.id
+                 <if test="userId != null">
+                     LEFT JOIN article_likes al ON a.id = al.article_id AND al.user_id = #{userId}
+                 </if>
     </select>
 
     <!-- 文章详情 -->
@@ -113,10 +176,9 @@
         <result property="commentCount" column="comment_count"/>
         <result property="viewCount" column="view_count"/>
         <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
         <result property="isLiked" column="is_liked_status"/>
         <!-- 使用TypeHandler自动转换mediaUrls -->
-        <result property="mediaUrls" column="media_urls" 
+        <result property="mediaUrls" column="media" 
                 typeHandler="com.songheqing.microforum.handler.StringToListHandler"/>
         <association property="user" javaType="com.songheqing.microforum.vo.UserSimpleVO">
             <id property="id" column="user_id"/>
@@ -126,18 +188,20 @@
         <association property="channel" javaType="com.songheqing.microforum.vo.ChannelSimpleVO">
             <id property="id" column="channel_id"/>
             <result property="channelname" column="channelname"/>
-            <result property="image" column="channel_image"/>
+            <result property="imageUrl" column="channel_image"/>
         </association>
     </resultMap>
 
     <select id="selectDetailById" resultMap="ArticleDetailMap">
         SELECT
             a.id, a.user_id, a.channel_id, a.title, a.content,
-            a.media_type, a.media_urls,
+            a.media_type, a.media,
             a.like_count, a.collect_count, a.comment_count, a.view_count,
-            a.create_time, a.update_time,
+            a.create_time,
             u.nickname, u.image,
-            c.id, c.channelname,c.image
+            c.id as channel_id, 
+            c.channelname,
+            c.image as channel_image
             <if test="userId != null">
                 , al.id as is_liked_status
             </if>
@@ -152,32 +216,6 @@
         WHERE a.id = #{id}
     </select>
 
-        
-    <!-- 用户文章列表映射 -->
-    <resultMap id="ArticleUserCardMap" type="com.songheqing.microforum.vo.ArticleUserCardVO">
-        <id property="id" column="id"/>
-        <result property="title" column="title"/>
-        <result property="contentPreview" column="content_preview"/>
-        <result property="mediaType" column="media_type"/>
-        <result property="likeCount" column="like_count"/>
-        <result property="commentCount" column="comment_count"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="isLiked" column="is_liked_status"/>
-        <!-- 使用TypeHandler自动转换mediaUrls -->
-        <result property="mediaUrls" column="media_urls" 
-                typeHandler="com.songheqing.microforum.handler.StringToListHandler"/>
-        <association property="channel" javaType="com.songheqing.microforum.vo.ChannelSimpleVO">
-            <result property="id" column="channel_id"/>
-            <result property="channelname" column="channelname"/>
-        </association>
-        <association property="user" javaType="com.songheqing.microforum.vo.UserSimpleVO">
-            <result property="id" column="user_id"/>
-            <result property="nickname" column="user_nickname"/>
-            <result property="image" column="user_image"/>
-        </association>
-    </resultMap>
-
     <!-- 根据用户ID查询文章列表 -->
     <select id="selectByUserId" resultMap="ArticleUserCardMap">
         SELECT a.id,
@@ -186,9 +224,8 @@
                a.like_count,
                a.comment_count,
                a.create_time,
-               a.update_time,
                a.media_type,
-               a.media_urls,
+               a.media,
                c.id as channel_id,
                c.channelname,
                u.id as user_id,
@@ -211,4 +248,4 @@
                  </if>
         ORDER BY a.create_time DESC
     </select>
-</mapper> 
+</mapper>

@@ -1,30 +1,48 @@
-Linux部署Nginx
-安装 Nginx：
+# Linux部署Nginx
+
+## 安装 Nginx：
+```bash
 sudo yum install nginx -y # 或者 apt install nginx -y
+```
 
 创建 Nginx 配置文件：
+```bash
 sudo vi /etc/nginx/conf.d/micro-forum.conf
+```
 
 检查 Nginx 配置语法并重启：
+```bash
 sudo nginx -t
 sudo systemctl restart nginx
 sudo systemctl enable nginx
 sudo systemctl status nginx
+```
 
 准备上传文件目录：
+```bash
 sudo mkdir -p /var/www/micro-forum-uploads/
 sudo chown -R nginx:nginx /var/www/micro-forum-uploads/ # 确保Nginx有权限读取
 sudo chmod -R 755 /var/www/micro-forum-uploads/ # 确保Nginx可以读取，其他人可以读取和执行
+```
 
 静态页面
 /usr/share/nginx/html
 
-# 修改配置文件：
-# 检查 Nginx 配置语法并重启：
+## 修改配置文件：
+ 检查 Nginx 配置语法并重启：
+```bash
 sudo nginx -t
-sudo systemctl restart nginx # restart：完全停止然后启动服务，会中断现有连接
-# 重新加载配置（不中断现有连接）
+```
+
+### 重新加载配置（不中断现有连接）
+```bash
 sudo nginx -s reload
-# 重新加载服务配置
+
 sudo systemctl reload nginx # reload：重新加载配置文件，不中断现有连接，更加平滑
-# 所以在生产环境中，如果只是修改配置文件，建议使用 reload 而不是 restart，以避免服务中断
+```
+ 所以在生产环境中，如果只是修改配置文件，建议使用 reload 而不是 restart，以避免服务中断
+
+> **不建议使用**：
+> ```bash
+> sudo systemctl restart nginx # restart：完全停止然后启动服务，会中断现有连接
+> ```

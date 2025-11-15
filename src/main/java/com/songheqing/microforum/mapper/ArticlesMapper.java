@@ -27,6 +27,14 @@ public interface ArticlesMapper {
             @Param("pageSize") Integer pageSize,
             @Param("currentUserId") Long currentUserId);
 
+    // 根据频道ID查询文章列表
+    List<ArticleUserCardVO> selectByChannelId(
+            @Param("channelId") Integer channelId,
+            @Param("offset") Integer offset,
+            @Param("pageSize") Integer pageSize,
+            @Param("userId") Long userId,
+            @Param("sort") String sort);
+
     // 插入文章
     void insert(ArticleEntity article);
 
@@ -45,6 +53,10 @@ public interface ArticlesMapper {
     @Update("UPDATE article SET comment_count = comment_count + 1 WHERE id = #{articleId}")
     void incrementCommentCount(@Param("articleId") Long articleId);
 
+    // 更新文章最后回复时间
+    @Update("UPDATE article SET last_reply_time = NOW() WHERE id = #{articleId}")
+    void updateLastReplyTime(@Param("articleId") Long articleId);
+
     // 点赞文章
     @Update("UPDATE article SET like_count = like_count + 1 WHERE id = #{id}")
     void incrementLikeCount(@Param("id") Long id);
@@ -53,8 +65,8 @@ public interface ArticlesMapper {
     @Update("UPDATE article SET like_count = like_count - 1 WHERE id = #{id}")
     void decrementLikeCount(@Param("id") Long id);
 
-    // 更新文章的媒体URLs
-    @Update("UPDATE article SET media_urls = #{mediaUrlsStr} WHERE id = #{articleId}")
-    void updateMediaUrls(Long articleId, String mediaUrlsStr);
+    // 更新文章的媒体
+    @Update("UPDATE article SET media = #{mediaStr} WHERE id = #{articleId}")
+    void updateMedia(Long articleId, String mediaStr);
 
 }

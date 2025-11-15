@@ -126,3 +126,14 @@ jwt:
 # 文件上传目录（容器内路径）
 app:
   upload-dir: /opt/app-data/micro-forum/uploads/
+
+# MinIO 配置
+minio:
+  endpoint: http://minio:9000 # 容器内通过服务名访问MinIO
+  public-url: http://songheqing.top/storage # 外部访问地址
+  access-key: ${MINIO_ACCESS_KEY} # 从环境变量读取
+  secret-key: ${MINIO_SECRET_KEY} # 从环境变量读取
+  buckets:
+    public: micro-forum-public
+    private: micro-forum-private
+    temp: micro-forum-temp

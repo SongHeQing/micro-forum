@@ -6,5 +6,5 @@ import lombok.Data;
 public class ChannelSimpleVO {
     private Integer id;
     private String channelname;
-    private String image;
+    private String imageUrl;
 }

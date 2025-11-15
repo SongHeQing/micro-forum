@@ -43,3 +43,6 @@ src/main/resources/application-linux-prod.yml
 
 # 排除日志文件
 logs/
+
+# 排除 Git 提交信息临时文件
+git-commit-message.txt
