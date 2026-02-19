@@ -51,7 +51,7 @@
         <result property="mediaType" column="media_type"/>
         <!-- 使用TypeHandler自动转换mediaUrls -->
         <result property="mediaUrls" column="media" 
-                typeHandler="com.songheqing.microforum.handler.StringToListHandler"/>
+                typeHandler="com.songheqing.microforum.handler.JsonToListHandler"/>
         <association property="channelCard" javaType="com.songheqing.microforum.vo.ChannelCardVO">
             <result property="id" column="channel_id"/>
             <result property="channelName" column="channelname"/>
@@ -112,7 +112,7 @@
         <result property="isLiked" column="is_liked_status"/>
         <!-- 使用TypeHandler自动转换mediaUrls -->
         <result property="mediaUrls" column="media" 
-                typeHandler="com.songheqing.microforum.handler.StringToListHandler"/>
+                typeHandler="com.songheqing.microforum.handler.JsonToListHandler"/>
         <association property="channel" javaType="com.songheqing.microforum.vo.ChannelSimpleVO">
             <result property="id" column="channel_id"/>
             <result property="channelname" column="channelname"/>
@@ -179,7 +179,7 @@
         <result property="isLiked" column="is_liked_status"/>
         <!-- 使用TypeHandler自动转换mediaUrls -->
         <result property="mediaUrls" column="media" 
-                typeHandler="com.songheqing.microforum.handler.StringToListHandler"/>
+                typeHandler="com.songheqing.microforum.handler.JsonToListHandler"/>
         <association property="user" javaType="com.songheqing.microforum.vo.UserSimpleVO">
             <id property="id" column="user_id"/>
             <result property="nickname" column="nickname"/>

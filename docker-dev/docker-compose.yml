@@ -7,6 +7,7 @@ services:
   mysql-dev:
     image: mysql:8
     container_name: mysql-dev
+    restart: unless-stopped
     ports:
       - "3306:3306" # 开发环境使用3307端口，避免与本地MySQL冲突
     environment:
@@ -27,6 +28,7 @@ services:
   redis-dev:
     image: redis:6.2.19-alpine
     container_name: redis-dev
+    restart: unless-stopped
     ports:
       - "6379:6379" # 开发环境开放Redis端口，方便调试
     environment:
@@ -47,6 +49,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: micro-forum-server-dev
+    restart: unless-stopped
     ports:
       - "8080:8080" # 开发环境直接暴露端口，方便调试
     environment:
@@ -83,6 +86,7 @@ services:
   nginx-dev:
     image: nginx:1.28.0-alpine
     container_name: nginx-dev
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443" # 开发环境也可以配置HTTPS

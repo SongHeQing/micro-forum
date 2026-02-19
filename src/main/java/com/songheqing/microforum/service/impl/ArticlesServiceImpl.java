@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -142,8 +143,8 @@ public class ArticlesServiceImpl implements ArticlesService {
             // 图片相关操作交给 MinioService
             article.setMediaType(1);
             List<String> mediaUrls = minioService.uploadFilesToPublicBucket(images, MinioConstants.EntityType.ARTICLE);
-            // 转换mediaUrls为空格分割的字符串
-            String mediaStr = String.join(" ", mediaUrls);
+            // 转换mediaUrls为JSON格式字符串
+            String mediaStr = new ObjectMapper().writeValueAsString(mediaUrls);
             article.setMedia(mediaStr);
         }
 

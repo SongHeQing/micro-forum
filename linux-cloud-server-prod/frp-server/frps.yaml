@@ -1,0 +1,71 @@
+# frps.yaml - frp 服务端配置 (YAML 格式)
+# 支持环境变量：使用 {{ .Envs.VAR_NAME }} 语法
+
+# 服务端监听地址（默认 0.0.0.0）
+bindAddr: "0.0.0.0"
+
+# 服务端监听端口（客户端连接此端口）
+bindPort: {{ .Envs.BIND_PORT }}
+
+# KCP 协议端口（可选）
+# kcpBindPort: {{ .Envs.KCP_BIND_PORT }}
+
+# HTTP 类型代理监听端口（启用后支持自定义域名 Web 服务） 监听端口，接受web请求
+vhostHttpPort: {{ .Envs.VHOST_HTTP_PORT }}
+
+# HTTPS 类型代理监听端口（可选）
+# vhostHttpsPort: {{ .Envs.VHOST_HTTPS_PORT }}
+
+# Dashboard（Web 管理界面）配置
+webServer:
+  # 监听地址 - 限制为本地访问
+  addr: "127.0.0.1"
+  # 监听端口
+  port: {{ .Envs.DASHBOARD_PORT }}
+  # 用户名
+  user: "{{ .Envs.DASHBOARD_USER }}"
+  # 密码（注意：字段名为 password，不是 pwd）
+  password: "{{ .Envs.DASHBOARD_PWD }}"
+
+# 认证配置
+auth:
+  # 鉴权方式，可选值为 token 或 oidc，默认为 token
+  method: "token"
+  # 鉴权信息附加范围，可选值为 HeartBeats 和 NewWorkConns
+  additionalScopes: []
+  # 在 method 为 token 时生效，客户端需要设置一样的值才能鉴权通过
+  token: "{{ .Envs.FRP_TOKEN }}"
+  # oidc 鉴权配置（可选）
+  # oidc: {}
+
+# 日志配置
+log:
+  # 日志文件路径（留空表示输出到 stdout）
+  to: "./log/frps.log"
+  # 日志级别: trace, debug, info, warn, error
+  level: "info"
+  # 日志保留天数
+  maxDays: 3
+
+# 允许客户端使用自定义二级域名
+# subDomainHost: "{{ .Envs.SUB_DOMAIN_HOST }}"
+
+# 单个客户端最大代理数限制（0 = 无限制）
+maxPortsPerClient: 0
+
+# UDP 包最大大小（单位：字节）
+udpPacketSize: 1500
+
+# 网络传输配置
+transport:
+  # 心跳超时时间（秒）
+  heartbeatTimeout: 90
+  # TCP keepalive 间隔（秒，-1 = 禁用）
+  tcpKeepalive: 7200
+  # TLS 配置（可选）
+  tls:
+    # 是否强制客户端使用 TLS
+    force: false
+
+# 自定义 404 页面（可选）
+# custom404Page: "/path/to/404.html"

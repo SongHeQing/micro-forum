@@ -6,6 +6,7 @@ services:
   mysql:
     image: mysql:5.7 # 使用MySQL 5.7官方镜像
     container_name: mysql
+    restart: unless-stopped
     ports:
       - "3306:3306" # 将宿主机的3306端口映射到MySQL容器的3306端口，方便宿主机直接访问
     environment:
@@ -33,6 +34,7 @@ services:
   redis:
     image: redis:6.2.19-alpine # 使用轻量级的Redis Alpine镜像
     container_name: redis
+    restart: unless-stopped
     # ports: # Redis端口通常不对外开放，仅供内部服务访问。调试时可以临时开放。
     #   - "6379:6379"
     environment:
@@ -53,6 +55,7 @@ services:
       context: . # Dockerfile位于docker-compose.yml的同级目录
       dockerfile: Dockerfile # 指定Dockerfile文件
     container_name: micro-forum-server
+    restart: unless-stopped
     # ports: # 后端服务不对外直接暴露端口，由Nginx代理
     #   - "8080:8080"
     environment:
@@ -93,6 +96,7 @@ services:
   nginx:
     image: nginx:1.28.0-alpine # 使用Nginx官方镜像
     container_name: nginx
+    restart: unless-stopped
     ports:
       - "80:80" # 将宿主机的80端口映射到Nginx容器的80端口，对外提供HTTP访问
       # - "443:443" # 如果需要HTTPS，请取消注释此行，并配置Nginx的SSL证书

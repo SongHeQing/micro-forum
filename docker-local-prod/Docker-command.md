@@ -12,6 +12,40 @@ docker compose build --no-cache
 docker compose up -d
 ```
 
+## 构建并启动服务
+如果你想在一个命令中完成构建和启动，可以使用：
+```bash
+# 先构建镜像，然后启动服务
+docker compose up --build
+
+# 强制重建镜像后再启动服务
+docker compose up --build --force-recreate
+```
+
+### 使用 `docker-compose up --build` 的注意事项
+
+如果你已经运行了 `docker-compose up -d`，之后再执行 `docker-compose up --build`，Docker Compose 会：
+1. 重新构建镜像（基于最新的 Dockerfile）
+2. 停止并删除旧容器
+3. 用新镜像启动新容器
+
+也就是说：会执行"停止 → 构建 → 启动"整个流程，服务会有短暂中断。
+
+在生产环境中使用此命令时需要注意：
+- **服务中断**：在容器替换期间，服务将不可用，直到新容器完全启动
+- **数据持久性**：只要卷（volumes）正确配置，数据不会丢失
+- **健康检查**：新容器启动后，可能需要一些时间来达到健康状态
+- **依赖服务**：如果其他服务依赖于正在更新的服务，可能会受到影响
+
+### 零停机时间部署选项
+对于生产环境，如果需要零停机时间部署，可以考虑使用滚动更新策略：
+```bash
+# 使用Swarm模式实现滚动更新
+docker stack deploy --compose-file docker-compose.yml my-app --with-registry-auth
+
+# 或者使用支持蓝绿部署的工具
+```
+
 查看构建过程（使用详细输出）：
 ```bash
 docker compose build --no-cache --progress=plain

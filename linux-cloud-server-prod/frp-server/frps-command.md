@@ -8,16 +8,18 @@ sudo mkdir -p /opt/frp
 ### 2. 下载FRP服务端
 ```bash
 wget https://github.com/fatedier/frp/releases/download/v0.58.0/frp_0.58.0_linux_amd64.tar.gz
-```
+wget https://github.com/fatedier/frp/releases/download/v0.67.0/frp_0.67.0_linux_amd64.tar.gz
 
+```
 ### 3. 解压FRP到指定目录
 ```bash
-sudo tar -zxvf frp_0.58.0_linux_amd64.tar.gz -C /opt/frp
+sudo tar -zxvf frp_0.58.0_linux_amd64.tar.gz -C /opt/frp --strip-components=1
+sudo tar -zxvf frp_0.67.0_linux_amd64.tar.gz -C /opt/frp --strip-components=1
 ```
 
 ### 4. 进入FRP目录
 ```bash
-cd /opt/frp/frp_0.58.0_linux_amd64
+cd /opt/frp/
 ```
 
 ### 5. 配置文件准备
@@ -59,12 +61,14 @@ sudo pkill -f frps
 
 ### 11. 以后台模式启动FRP服务端
 ```bash
-nohup ./frps -c ./frps.toml > /var/log/frp/frps.log 2>&1 &
+nohup ./frps -c ./frps.yaml
 
-nohup ./frps -c ./frps.toml
+nohup ./frps -c ./frps.toml > /var/log/frp/frps.log 2>&1 &
 ```
 
 ### 12. 查看FRP日志
 ```bash
+more /opt/frp/frps.log
+
 tail -f /var/log/frp/frps.log
 ```

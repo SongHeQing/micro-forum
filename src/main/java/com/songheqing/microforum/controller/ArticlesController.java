@@ -83,7 +83,7 @@ public class ArticlesController {
     // 对于 MultipartFile 类型的文件参数，使用 @RequestParam 是 Spring MVC 的标准做法
     public Result<Void> publish(
             @Parameter(description = "文章信息") @Valid @ModelAttribute ArticlePublishRequest publishArticleRequest,
-            @Parameter(description = "文章图片") @RequestParam(value = "images", required = false) List<MultipartFile> images) {
+            @Parameter(description = "文章图片") @RequestParam(required = false) List<MultipartFile> images) {
         log.info("发布文章：{}，图片：{}", publishArticleRequest, (images != null ? images.size() : 0));
         try {
             articlesService.publish(publishArticleRequest, images);

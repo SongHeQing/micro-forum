@@ -1,7 +1,6 @@
 package com.songheqing.microforum.service.impl;
 
 import com.songheqing.microforum.config.MinioConfig;
-import com.songheqing.microforum.constant.MinioConstants;
 import com.songheqing.microforum.exception.BusinessException;
 import com.songheqing.microforum.service.MinioService;
 import io.minio.*;
@@ -56,6 +55,7 @@ public class MinioServiceImpl implements MinioService {
     @Override
     public void createBucket(String bucketName) {
         try {
+            // 检查存储桶是否存在
             if (!bucketExists(bucketName)) {
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
                 log.debug("MinIO 存储桶 {} 创建成功", bucketName);

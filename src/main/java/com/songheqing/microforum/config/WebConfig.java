@@ -30,7 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://localhost:*", // 本地开发
                         "http://192.168.101.35:*", // 你的实际IP地址
                         "http://192.168.0.29:*",
-                        "http://www.songheping.top", // 域名
+                        "http://www.songheqing.top", // 域名
                         "http://songheqing.top" // 域名
                 ) // 明确允许的域名
                 .allowedMethods("*") // 允许所有HTTP方法

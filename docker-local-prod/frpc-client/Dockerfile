@@ -17,10 +17,10 @@ RUN tar -zxvf /tmp/frp_0.65.0_linux_amd64.tar.gz -C /tmp/ \
 RUN mkdir -p /etc/frp
 
 # 复制配置文件
-COPY frpc.ini /etc/frp/frpc.ini
+COPY frpc.yaml /etc/frp/frpc.yaml
 
 # 设置工作目录
 WORKDIR /etc/frp
 
 # 启动FRP客户端
-CMD ["frpc", "-c", "/etc/frp/frpc.ini"]
+CMD ["frpc", "-c", "/etc/frp/frpc.yaml"]
