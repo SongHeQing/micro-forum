@@ -18,6 +18,8 @@ docker compose up -d
 # 先构建镜像，然后启动服务
 docker compose up --build
 
+docker compose up --build -d
+
 # 强制重建镜像后再启动服务
 docker compose up --build --force-recreate
 ```

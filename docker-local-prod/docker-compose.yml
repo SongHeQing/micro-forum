@@ -76,6 +76,7 @@ services:
       BIND_PORT: ${BIND_PORT} # 从 .env 文件读取服务端端口
     volumes:
       - ./frpc-client/frpc.yaml:/etc/frp/frpc.yaml
+      - frpc_logs:/var/log/frp  # 使用命名卷挂载日志目录
     networks:
       - micro-forum-net
     depends_on:
@@ -157,4 +158,5 @@ volumes:
   redis_data: # Redis数据卷
   minio_data: # MinIO数据卷
   micro_forum_logs: # micro-forum后端服务日志卷
+  frpc_logs: # FRP客户端日志卷
   # micro_forum_uploads: # micro-forum后端服务上传文件卷

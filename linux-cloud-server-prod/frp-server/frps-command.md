@@ -61,7 +61,7 @@ sudo pkill -f frps
 
 ### 11. 以后台模式启动FRP服务端
 ```bash
-nohup ./frps -c ./frps.yaml
+nohup ./frps -c ./frps.yaml &
 
 nohup ./frps -c ./frps.toml > /var/log/frp/frps.log 2>&1 &
 ```

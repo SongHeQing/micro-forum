@@ -58,8 +58,8 @@ udpPacketSize: 1500
 
 # 网络传输配置
 transport:
-  # 心跳超时时间（秒）
-  heartbeatTimeout: 90
+  # 心跳超时时间（秒）- 从默认值90秒增加到180秒，适应网络波动
+  heartbeatTimeout: 180
   # TCP keepalive 间隔（秒，-1 = 禁用）
   tcpKeepalive: 7200
   # TLS 配置（可选）

@@ -13,8 +13,8 @@ RUN tar -zxvf /tmp/frp_0.65.0_linux_amd64.tar.gz -C /tmp/ \
     && cd / \
     && rm -rf /tmp/frp*
 
-# 创建FRP配置目录
-RUN mkdir -p /etc/frp
+# 创建FRP配置目录和日志目录
+RUN mkdir -p /etc/frp && mkdir -p /var/log/frp
 
 # 复制配置文件
 COPY frpc.yaml /etc/frp/frpc.yaml
