@@ -119,8 +119,8 @@ springdoc:
 
 # MinIO 配置
 minio:
-  endpoint: http://169.254.207.194:9000 # 内部访问地址
-  public-url: http://169.254.207.194:9000   # 外部访问地址（可选）
+  endpoint: http://localhost:9000 # 内部访问地址
+  public-url: http://localhost:9000   # 外部访问地址（可选）
   access-key: minioadmin
   secret-key: minioadmin
   buckets:
